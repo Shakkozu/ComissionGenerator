@@ -1,0 +1,67 @@
+﻿<Page
+    x:Class="ComissionGeneratorUWP.ClientPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ComissionGeneratorUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+
+      
+ 
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Dane Klienta"
+                   Style="{StaticResource HeaderTextBlockStyle}" Margin="0,0,0,40"/>
+
+        <StackPanel Margin="0,0,120,0" Orientation="Vertical" Grid.Row="2" Grid.Column="1">
+            <TextBlock Margin="5,0" Text="Imie i Nazwisko"/>
+            <TextBox Margin="0,10" PlaceholderText="Jan Iksiński"></TextBox>
+
+            <TextBlock Margin="5,0" Text="Nr Telefonu"/>
+            <TextBox Margin="0,10" PlaceholderText="XXX-XXX-XX-XX"></TextBox>
+
+
+            <TextBlock Margin="5,120,0,10">Dane Adresowe</TextBlock>
+            <TextBox Margin="0,10" PlaceholderText="Ulica"></TextBox>
+            <TextBox Margin="0,10" PlaceholderText="Miasto"></TextBox>
+            <TextBox Margin="0,10" Width="200" HorizontalAlignment="Left" PlaceholderText="Kod Pocztowy [xx-xxx]"></TextBox>
+
+        </StackPanel>
+
+
+        
+
+
+        
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+    </Grid>
+</Page>

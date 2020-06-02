@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="ComissionGeneratorUWP.CommissionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ComissionGeneratorUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="14*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <!--<NavigationView Name="NavigationViewControl" 
+                        SelectionChanged="NavigationViewControl_SelectionChanged" 
+                        PaneDisplayMode="Top" Grid.RowSpan="2"
+                        BackRequested="NavigationViewControl_BackRequested" Grid.ColumnSpan="2">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Dane Firmy" Name="CompanyDetails" Tag="CompanyDetails"  />
+                <NavigationViewItem Content="Dane klienta" Name="ClientDetails" />
+                <NavigationViewItem Content="Zlecenie" Name="Commission"/>
+            </NavigationView.MenuItems>
+        </NavigationView>
+            -->
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Zlecenie"
+                   Style="{StaticResource HeaderTextBlockStyle}" Margin="0,0,0,40"/>
+
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Grid.Column="1"
+                      Name="itemViewer" Grid.Row="2">
+            <ListView x:Name="itemsList">
+                
+            </ListView>
+        </ScrollViewer>
+
+
+
+    </Grid>
+</Page>
