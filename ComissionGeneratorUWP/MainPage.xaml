@@ -24,9 +24,10 @@
                         SelectionChanged="NavigationViewControl_SelectionChanged" 
                         PaneDisplayMode="Top" Grid.RowSpan="3"
                         BackRequested="NavigationViewControl_BackRequested" Grid.ColumnSpan="4"
-                        Loaded="NavigationViewControl_Loaded">
+                        Loaded="NavigationViewControl_Loaded" IsSettingsVisible="False"
+                        IsBackEnabled="False">
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Dane Firmy" Name="CompanyDetails" Tag="company" />
+                <NavigationViewItem  Content="Dane Firmy" Name="CompanyDetails" Tag="company" />
                 <NavigationViewItem Content="Dane klienta" Name="ClientDetails" Tag="client" />
                 <NavigationViewItem Content="Zlecenie" Name="Commission" Tag="commission"/>
             </NavigationView.MenuItems>
@@ -34,7 +35,8 @@
         </NavigationView>
 
         <Button Width="100" Height="40" Grid.Column="2" Grid.Row="1"
-                     VerticalAlignment="Bottom"  HorizontalAlignment="Right" Click="Button_Click">
+                x:Name="forwardButton"  VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right" Click="Button_Click">
 
             <SymbolIcon Symbol="Forward"/>
 
