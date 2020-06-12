@@ -26,11 +26,12 @@ namespace ComissionGeneratorUWP
         {
             this.InitializeComponent();
             AddItemControls();
+            
         }
 
         private void AddItemControls()
         {
-            for(int i=0; i<10; i++)
+            for(int i=0; i<20; i++)
             {
                 itemsList.Items.Add(new ItemControl(i+1));
                 //ItemControl itemControl = new ItemControl();

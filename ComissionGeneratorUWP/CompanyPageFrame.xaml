@@ -6,28 +6,37 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Windows.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
 
-    <Grid>
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="15*"/>
+            
+        
         </Grid.RowDefinitions>
 
 
 
         <TextBlock   Text="Dane Firmy"
-                   Style="{StaticResource HeaderTextBlockStyle}" Margin="0,0,0,40" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
-        
-        <StackPanel Margin="0,0,120,0" Orientation="Vertical" Grid.Row="2" Grid.Column="1">
+                   Style="{StaticResource HeaderTextBlockStyle}" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="1"/>
+
+
+
+       
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1">
             
             <TextBlock Margin="5,0" Text="Nazwa Firmy"/>
             <TextBox Margin="0,10" PlaceholderText="F.H.U Apple"></TextBox>
@@ -38,37 +47,36 @@
             <TextBlock Margin="5,0" Text="REGON"/>
             <TextBox Margin="0,10" PlaceholderText="610999649"></TextBox>
 
-            <TextBlock Margin="5,120,0,10">Dane Adresowe</TextBlock>
+        </StackPanel>
+        
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="1">
+            <TextBlock>Dane Adresowe</TextBlock>
             <TextBox Margin="0,10" PlaceholderText="Ulica"></TextBox>
             <TextBox Margin="0,10" PlaceholderText="Miasto"></TextBox>
-            <TextBox Margin="0,10" Width="200" HorizontalAlignment="Left"  PlaceholderText="Kod Pocztowy [xx-xxx]"></TextBox>
-
+            <TextBox Margin="0,10" HorizontalAlignment="Left" MaxWidth="100"  PlaceholderText="Kod Pocztowy [xx-xxx]"></TextBox>
         </StackPanel>
 
-        <StackPanel  Margin="60,0,120,0" Orientation="Vertical" Grid.Row="2" Grid.Column="2">
+        <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="3">
             <TextBlock Margin="5,0" Text="Email"/>
             <TextBox Margin="0,10" PlaceholderText="example@example.com"></TextBox>
 
             <TextBlock Margin="5,0" Text="Nr telefonu"/>
             <TextBox Margin="0,10" PlaceholderText="XXX-XXX-XXX"></TextBox>
-
-           
-
-            <TextBlock Margin="5,190,0,10">Wygenerował Zlecenie</TextBlock>
+        </StackPanel>
+        
+        
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="3">
+            <TextBlock >Wygenerował Zlecenie</TextBlock>
             <TextBox Margin="0,10" PlaceholderText="Imie Nazwisko"></TextBox>
             <TextBox Margin="0,10" PlaceholderText="Nr telefonu"></TextBox>
 
-
-            
-            
-            
         </StackPanel>
-
        
 
-        
-        
-        
+
+
+
+
 
 
 

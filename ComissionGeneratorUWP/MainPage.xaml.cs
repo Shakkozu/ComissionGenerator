@@ -16,6 +16,9 @@ using Windows.UI;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Documents;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Appointments.DataProvider;
+using System.ComponentModel;
+using Windows.UI.ViewManagement;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,10 +31,13 @@ namespace ComissionGeneratorUWP
     {
         public MainPage()
         {
-            this.InitializeComponent();
-           // this.NavigationViewControl.IsBackEnabled = true;
             
+            this.InitializeComponent();
+            var view = ApplicationView.GetForCurrentView();
+            view.SetPreferredMinSize(new Size(500, 600));
         }
+
+        public string WindowSize22  { get; set; } = "blablabla";
 
         private readonly List<_NavigationItem> _navigationPages = new List<_NavigationItem>()
         {
@@ -139,19 +145,32 @@ namespace ComissionGeneratorUWP
             {
                 NavigationViewControl.IsBackEnabled = false;
                 forwardButton.IsEnabled = true;
+                forwardButton.Visibility = Visibility.Visible;
             }
+
             //If it's last page disable forwardButton
             else if (item.Tag == _navigationPages[2].Tag)
             {
                 NavigationViewControl.IsBackEnabled = true;
                 forwardButton.IsEnabled = false;
+                forwardButton.Visibility = Visibility.Collapsed;
             }
             //enable buttons otherwise
             else
             {
                 forwardButton.IsEnabled = true;
                 NavigationViewControl.IsBackEnabled = true;
+                forwardButton.Visibility = Visibility.Visible;
+            
             }
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+            
+            
+            
         }
     }
 }

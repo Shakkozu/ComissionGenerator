@@ -15,32 +15,33 @@
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="14*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <!--<NavigationView Name="NavigationViewControl" 
-                        SelectionChanged="NavigationViewControl_SelectionChanged" 
-                        PaneDisplayMode="Top" Grid.RowSpan="2"
-                        BackRequested="NavigationViewControl_BackRequested" Grid.ColumnSpan="2">
-            <NavigationView.MenuItems>
-                <NavigationViewItem Content="Dane Firmy" Name="CompanyDetails" Tag="CompanyDetails"  />
-                <NavigationViewItem Content="Dane klienta" Name="ClientDetails" />
-                <NavigationViewItem Content="Zlecenie" Name="Commission"/>
-            </NavigationView.MenuItems>
-        </NavigationView>
-            -->
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Zlecenie"
+       
+        
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Zlecenie" 
                    Style="{StaticResource HeaderTextBlockStyle}"/>
 
+        <Button Grid.Row="1" Grid.Column="1" Content="Generuj Zlecenie!" 
+                HorizontalAlignment="Right" FontSize="20" 
+                 Style="{StaticResource ButtonRevealStyle}"/>
+
+
         
-        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Grid.Column="1"
-                      Name="itemViewer" Grid.Row="2">
-            <ListView x:Name="itemsList">
-                
-            </ListView>
-        </ScrollViewer>
+        <ListView x:Name="itemsList" HorizontalContentAlignment="Stretch" Grid.Column="1" Grid.Row="3"
+                      VerticalAlignment="Stretch">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+        </ListView>
+       
 
 
 

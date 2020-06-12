@@ -6,7 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    SizeChanged="Page_SizeChanged"
+    >
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,13 +18,13 @@
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="91*"/>
-            <RowDefinition Height="872*"/>
-            <RowDefinition Height="37*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <NavigationView Name="NavigationViewControl" 
+        <NavigationView Name="NavigationViewControl" Grid.Column="0" Grid.Row="1" 
                         SelectionChanged="NavigationViewControl_SelectionChanged" 
-                        PaneDisplayMode="Top" Grid.RowSpan="3"
+                        PaneDisplayMode="Top"
                         BackRequested="NavigationViewControl_BackRequested" Grid.ColumnSpan="4"
                         Loaded="NavigationViewControl_Loaded" IsSettingsVisible="False"
                         IsBackEnabled="False">
@@ -30,6 +32,9 @@
                 <NavigationViewItem  Content="Dane Firmy" Name="CompanyDetails" Tag="company" />
                 <NavigationViewItem Content="Dane klienta" Name="ClientDetails" Tag="client" />
                 <NavigationViewItem Content="Zlecenie" Name="Commission" Tag="commission"/>
+                <TextBlock x:Name="windowSize" Text="{Binding WindowSize22}">
+                    blabl
+                </TextBlock>
             </NavigationView.MenuItems>
             <Frame x:FieldModifier="public" x:Name="contentFrame"/>
         </NavigationView>

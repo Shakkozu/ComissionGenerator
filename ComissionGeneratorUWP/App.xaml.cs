@@ -30,6 +30,7 @@ namespace ComissionGeneratorUWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            
         }
 
         /// <summary>
