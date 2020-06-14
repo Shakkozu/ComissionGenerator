@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 
 namespace ClassLibrary
 {
-    public class PostalCodeModel : BindableBase
+    public class REGON :BindableBase
     {
+
         #region Properties
+
+        private string _number;
 
         public string Number
         {
-            get
-            {
-                return _number;
-            }
-
+            get => _number;
             set
             {
                 _number = value;
-                if (Validate(value) == true)
+                if (Validate(value))
                 {
                     IsValid = true;
                 }
@@ -31,9 +27,10 @@ namespace ClassLibrary
                     IsValid = false;
                 }
                 OnPropertyChanged("IsValid");
+
             }
         }
-        private string _number;
+
         public bool IsValid { get; private set; } = true;
 
 
@@ -53,21 +50,21 @@ namespace ClassLibrary
 
         /// <summary>
         /// Regex Validator,
-        /// valid formats: {xx-xxx; xx xxx; xxxxx}
+        /// valid formats: {xxxxxxxxx;xxx xxx xxx; xxx-xxx-xxx}
+        /// '-' and spaces can be swapped
         /// </summary>
-        /// <returns>true if number is valid postal-code format, false otherwise</returns>
+        /// <returns>true if number is valid REGON format, false otherwise</returns>
         public static bool Validate(string number)
         {
-            Regex rx = new Regex(@"^\d{2}[\-\s]?\d{3}$");
-            return rx.Match(number).Success;
+            Regex rx_ = new Regex(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            return (rx_.Match(number).Success);
         }
         public override string ToString()
         {
-            return this.Number;
+            return $"REGON: {Number}";
         }
 
         #endregion
-
 
 
     }

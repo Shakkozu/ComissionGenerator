@@ -20,8 +20,18 @@ namespace ComissionGeneratorUWP
     /// <summary>
     /// Pusta strona, która może być używana samodzielnie lub do której można nawigować wewnątrz ramki.
     /// </summary>
-    public sealed partial class CommissionPage : Page
+    public sealed partial class CommissionPage : Page, IValidator
     {
+        #region Properties
+
+        public bool DataValidated => throw new NotImplementedException();
+
+        #endregion
+
+        //*********************************
+
+        #region Constructors
+
         public CommissionPage()
         {
             this.InitializeComponent();
@@ -29,15 +39,24 @@ namespace ComissionGeneratorUWP
             
         }
 
+        #endregion
+
+        //*********************************
+
+        #region Methods
+
+        /// <summary>
+        /// Add 20 ItemControls to UI
+        /// </summary>
         private void AddItemControls()
         {
             for(int i=0; i<20; i++)
             {
                 itemsList.Items.Add(new ItemControl(i+1));
-                //ItemControl itemControl = new ItemControl();
-               // itemControl.Margin = new Thickness(0, 30, 0, 0);
-
+               
             }
         }
+
+        #endregion
     }
 }

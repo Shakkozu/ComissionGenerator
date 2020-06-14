@@ -43,6 +43,7 @@ namespace XUnitTest
         [InlineData("111 111 111")]
         [InlineData("111-111-111")]
         [InlineData("+00 665 971 122")]
+        [InlineData("123 123 123")]
         void TestPhoneNumberValidRegex(string number)
         {
             Assert.True(PhoneNumberModel.ValidateNumber(number));
@@ -53,21 +54,65 @@ namespace XUnitTest
         [Theory]
         [InlineData("9-311")]
         [InlineData("199-310")]
-        [InlineData("99311")]
-        [InlineData("11 311")]
         [InlineData("99--111")]
         [InlineData("99-3111")]
+        [InlineData("10-0 01")]
+        [InlineData("x99-311x")]
         void TestPostalCodeInvalidRegex(string postalCode)
         {
             Assert.False(PostalCodeModel.Validate(postalCode));
-        }
-        
+        }      
 
         [Theory]
         [InlineData("10-100")]
+        [InlineData("10100")]
+        [InlineData("10 100")]
         void TestPostalCodeValidRegex(string postalCode)
         {
             Assert.True(PostalCodeModel.Validate(postalCode));
+        }
+
+        [Theory]
+        [InlineData("123 123 123 123")]
+        [InlineData("x7751251674x")]
+        [InlineData("775y927y78y21")]
+        [InlineData("444 444 55 22 2")]
+        void TestNIPInvalidRegex(string NIPnumber)
+        {
+            Assert.False(NIPModel.Validate(NIPnumber));
+        }
+
+        [Theory]
+        [InlineData("775 115 1661")]
+        [InlineData("7751251677")]
+        [InlineData("775-125-16-77")]
+        [InlineData("775 105 16 77")]
+        [InlineData("775105 16 77")]
+        void TestNIPValidRegex(string NIPnumber)
+        {
+            Assert.True(NIPModel.Validate(NIPnumber));
+        }
+
+
+        [Theory]
+        [InlineData("11111111")]
+        [InlineData("1111111111")]
+        [InlineData("11 11 11 11 11")]
+        [InlineData("x111111111x")]
+        [InlineData("111x111x111")]
+        [InlineData("!@111!111!111!")]
+        void TestREGONInValidRegex(string regonNumber)
+        {
+            Assert.False(REGON.Validate(regonNumber));
+        }
+
+
+        [Theory]
+        [InlineData("111111111")]
+        [InlineData("111 111 111")]
+        void TestREGONValidRegex(string regonNumber)
+        {
+            Assert.True(REGON.Validate(regonNumber));
         }
 
     }

@@ -1,0 +1,106 @@
+﻿<Page
+    x:Class="ComissionGeneratorUWP.CompanyPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ComissionGeneratorUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Windows.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    xmlns:viewmodel="using:ComissionGeneratorUWP"
+    xmlns:vm="using:ComissionGeneratorUWP.ViewModel"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
+    <Page.Resources>
+        <viewmodel:CompanyViewModel x:Name="viewModel"/>
+        <x:String x:Key="AppName">Generator Zleceń</x:String>
+    </Page.Resources>
+    
+    <Grid DataContext="{StaticResource viewModel}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="15*"/>
+            
+        
+        </Grid.RowDefinitions>
+
+
+
+        <TextBlock   Text="Dane Firmy" 
+                   Style="{StaticResource HeaderTextBlockStyle}" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="1"/>
+
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1">
+            
+            <TextBlock Margin="5,0" Text="Nazwa Firmy"/>
+            <TextBox Margin="0,10"  Text="{x:Bind viewModel.CompanyName,Mode=TwoWay}" PlaceholderText="F.H.U Apple"></TextBox>
+
+            <TextBlock Margin="5,0" Text="NIP" Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.NIP.IsValid),Mode=OneWay}"/>
+            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer NIP" Foreground="Red" Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.NIP.IsValid),Mode=OneWay}"/>
+            
+            <TextBox Margin="0,10" Text="{x:Bind viewModel.NIP.Number,Mode=TwoWay}" PlaceholderText="XXX-XXX-XX-XX"></TextBox>
+
+            <TextBlock Margin="5,0" Text="REGON" Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.REGON.IsValid),Mode=OneWay}"/>
+            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer REGON" Foreground="Red" 
+                       Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.REGON.IsValid),Mode= OneWay}"/>
+            
+            <TextBox Margin="0,10" Text="{x:Bind viewModel.REGON.Number,Mode=TwoWay}" PlaceholderText="XXXXXXXXX"></TextBox>
+
+        </StackPanel>
+        
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="1">
+            <TextBlock>Dane Adresowe</TextBlock>
+            <TextBox Margin="0,10" PlaceholderText="Ulica i numer domu" Text="{x:Bind viewModel.Address.Street, Mode=TwoWay}"></TextBox>
+            <TextBox Margin="0,10" PlaceholderText="Miasto" Text="{x:Bind viewModel.Address.City, Mode=TwoWay}"></TextBox>
+            <TextBlock Foreground="Red" Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.Address.PostalCode.IsValid), Mode=OneWay}">Nieprawidłowy kod pocztowy</TextBlock>
+            <TextBox Margin="0,10" HorizontalAlignment="Left" MaxWidth="100"  
+                   Text="{x:Bind viewModel.Address.PostalCode.Number,Mode=TwoWay}"  PlaceholderText="Kod Pocztowy [xx-xxx]"></TextBox>
+        </StackPanel>
+
+        <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="3">
+            <TextBlock Margin="5,0" Text="Email"/>
+            <TextBox Margin="0,10" PlaceholderText="example@example.com"></TextBox>
+            <TextBlock Margin="5,0" Text="Nr telefonu" Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.PhoneNumber.IsValid),Mode=OneWay}" />
+            <TextBlock Margin="5,0" Text="Nieprawidłowy numer telefonu!" Foreground="Red" Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.PhoneNumber.IsValid), Mode=OneWay}"/>
+            <TextBox Margin="0,10" Text="{x:Bind viewModel.PhoneNumber.Number,Mode=TwoWay}"  
+                     PlaceholderText="XXX-XXX-XXX"></TextBox>
+        </StackPanel>
+        
+        
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="3">
+            <TextBlock >Wygenerował Zlecenie</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Margin="0,10" MinWidth="100" PlaceholderText="Imie" Text="{x:Bind viewModel.Creator.Name, Mode=TwoWay}"></TextBox>
+
+                <TextBox Margin="30,10" MinWidth="150" PlaceholderText="Nazwisko" Text="{x:Bind viewModel.Creator.LastName, Mode=TwoWay}"/>
+
+          </StackPanel>
+            <TextBlock Margin="5,0" Text="Nieprawidłowy numer telefonu!" Foreground="Red" Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.Creator.PhoneNumber.IsValid), Mode=OneWay}"/>
+
+            <TextBox Margin="0,10" PlaceholderText="XXX-XXX-XXX" Text="{x:Bind viewModel.Creator.PhoneNumber.Number, Mode=TwoWay}"></TextBox>
+
+        </StackPanel>
+       
+
+
+
+
+
+
+
+
+
+
+
+
+    </Grid>
+</Page>

@@ -19,6 +19,10 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Appointments.DataProvider;
 using System.ComponentModel;
 using Windows.UI.ViewManagement;
+using ComissionGeneratorUWP.View;
+using System.ServiceModel.Channels;
+using System.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -29,16 +33,12 @@ namespace ComissionGeneratorUWP
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPage()
-        {
-            
-            this.InitializeComponent();
-            var view = ApplicationView.GetForCurrentView();
-            view.SetPreferredMinSize(new Size(500, 600));
-        }
 
-        public string WindowSize22  { get; set; } = "blablabla";
+        #region Properties
 
+        /// <summary>
+        /// This list contains all NavigationPages, in case new Page is added that list needs to be modified!
+        /// </summary>
         private readonly List<_NavigationItem> _navigationPages = new List<_NavigationItem>()
         {
             new _NavigationItem(0,typeof(CompanyPage),"company"),
@@ -46,9 +46,25 @@ namespace ComissionGeneratorUWP
             new _NavigationItem(2,typeof(CommissionPage),"commission"),
         };
 
-       
+        #endregion
 
+        //****************
 
+        #region Constructors
+
+        public MainPage()
+        {
+
+            this.InitializeComponent();
+            var view = ApplicationView.GetForCurrentView();
+            view.SetPreferredMinSize(new Size(500, 600));
+        }
+
+        #endregion
+
+        //****************
+
+        #region Methods
 
         /// <summary>
         /// If Other frame is selected, navigate to it
@@ -66,9 +82,9 @@ namespace ComissionGeneratorUWP
         /// If selectedItemTag is valid _NavigationItem Tag, and if it points to diffrent frame than current,
         /// navigate to it
         /// </summary>
-        private void NavigationViewControl_Navigate(string selectedItemTag, NavigationTransitionInfo recommendedNavigationTransitionInfo)
+        private void NavigationViewControl_Navigate(string selectedItemTag, NavigationTransitionInfo recommendedNavigationTransitionInfo = null)
         {
-            
+
             var item = _navigationPages.FirstOrDefault(p => p.Tag.Equals(selectedItemTag));
 
             if (item != null)
@@ -78,6 +94,7 @@ namespace ComissionGeneratorUWP
                 //select current frame Type
                 var preNavPageType = Frame.CurrentSourcePageType;
 
+                //if selected page is different than current
                 if (!(_page is null) && !Type.Equals(preNavPageType, _page))
                 {
                     SetButtonsEnabledState(item);
@@ -85,7 +102,7 @@ namespace ComissionGeneratorUWP
                 }
             }
 
-           
+
         }
 
         /// <summary>
@@ -95,33 +112,34 @@ namespace ComissionGeneratorUWP
         {
             Type actualFrameType = contentFrame.SourcePageType;
             var item = _navigationPages.FirstOrDefault(p => p.PageType == actualFrameType);
-            if(item!= null)
+            if (item != null)
             {
                 int index = item.Id - 1;
-                if(index >= 0)
+                if (index >= 0)
                 {
                     NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems[index];
-                    contentFrame.Navigate(_navigationPages[index].PageType);
-                }    
-                    
+                }
+
             }
         }
         /// <summary>
-        /// If it's not last frame, moves forwards
+        /// Check if all data is correct, if so, move to the next page
+        /// otherwise show to the user dialog
         /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //search pages by 'PageType'
             Type actualFrameType = contentFrame.SourcePageType;
+            //select _NavigationItem with specified PageType
             var item = _navigationPages.FirstOrDefault(p => p.PageType == actualFrameType);
+
             if (item != null)
             {
-                int index = item.Id + 1;
-                if (index < 3)
+                if (item.Id < 2)
                 {
-                    NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems[index];
-                    contentFrame.Navigate(_navigationPages[index].PageType);
+                    //Changes Selected item and navigates to it
+                    NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems[item.Id + 1];
                 }
-
             }
         }
 
@@ -132,9 +150,9 @@ namespace ComissionGeneratorUWP
         {
             //set selection bar to first page
             NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems[0];
-
-            contentFrame.Navigate(_navigationPages[0].PageType);
         }
+
+
         /// <summary>
         /// Sets buttons enabled state for NavigationItem passed in parameter
         /// </summary>
@@ -161,16 +179,25 @@ namespace ComissionGeneratorUWP
                 forwardButton.IsEnabled = true;
                 NavigationViewControl.IsBackEnabled = true;
                 forwardButton.Visibility = Visibility.Visible;
-            
+
             }
         }
 
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
+        #endregion
 
-            
-            
-            
-        }
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

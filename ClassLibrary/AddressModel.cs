@@ -8,20 +8,42 @@ namespace ClassLibrary
 {
     public class AddressModel
     {
-        public PostalCodeModel PostalCode { get; }
+        #region Properties
+
+        public PostalCodeModel PostalCode { get; set; } = new PostalCodeModel();
         public string Street { get; set; }
         public string City { get; set; }
 
-        public AddressModel(PostalCodeModel postalCode, string street, string city)
-        {
-            PostalCode = postalCode;
-            Street = street;
-            City = city;
-        }
+
+        #endregion
+
+        //***********************
+
+        #region Constructors
 
         public AddressModel()
         {
-            PostalCode = new PostalCodeModel();
+
         }
+
+        #endregion
+
+        //***********************
+
+        #region Methods
+
+
+        public override string ToString()
+        {
+            return $"ul. {Street}" +
+                Environment.NewLine +
+                $"{City}, {PostalCode}";
+        }
+
+        #endregion
+
+
+
+
     }
 }

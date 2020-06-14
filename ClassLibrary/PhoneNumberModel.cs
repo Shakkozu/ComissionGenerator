@@ -1,34 +1,66 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace ClassLibrary
 {
-    public class PhoneNumberModel
+    public class PhoneNumberModel : BindableBase, INotifyPropertyChanged
     {
-        string Number { get { return _number; } 
-            set 
-            { 
-                if(ValidateNumber(value)==true)
+        #region Properties
+
+        public string Number
+        {
+            get { return _number; }
+            set
+            {
+                _number = value;
+                if (ValidateNumber(value) == true)
                 {
-                    _number = value;
+                    IsValid = true;
                 }
                 else
                 {
-                    throw new System.Exception("Invalid phone-number format");
+                    IsValid = false;
                 }
-            } 
+                OnPropertyChanged("IsValid");
+
+            }
         }
+        public bool IsValid { get; private set; } = true;
         string _number;
+
+        #endregion
+
+        //***********************
+
+        #region Constructors
+
+        public PhoneNumberModel(string number)
+        {
+            Number = number;
+        }
+
+        public PhoneNumberModel()
+        {
+
+        }
+
+        #endregion
+
+        //***********************
+
+        #region Methods
 
         /// <summary>
         /// regex validator
         /// valid format - '000-000-000 / 000 000 000'
         /// </summary>
-        /// <param name="number"></param>
-        /// <returns></returns>
+        /// <returns>true if number is valid phone-number format, false otherwise</returns>
         public static bool ValidateNumber(string number)
         {
-            Regex rx_ = new Regex(@"^(\+\d{2}\s)?\d{3}[\-]\d{3}[\-]\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            Regex rx = new Regex(@"^(\+\d{2}\s)?\d{3}[\s]\d{3}[\s]\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex rx_ = new Regex(@"^(\+\d{2}\s)?\d{3}[\-]?\d{3}[\-]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex rx = new Regex(@"^(\+\d{2}\s)?\d{3}[\s]?\d{3}[\s]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             if (rx_.Match(number).Success)
                 return true;
@@ -37,5 +69,16 @@ namespace ClassLibrary
             else return false;
 
         }
+        public override string ToString()
+        {
+            return Number;
+        }
+
+        #endregion
+
+
+
+
     }
+        
 }

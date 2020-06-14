@@ -9,34 +9,35 @@ namespace ClassLibrary
 { 
     public class PersonModel
     {
-        private AddressModel _address = new AddressModel();
-        private PhoneNumberModel _phoneNumber = new PhoneNumberModel();
+        #region Properties
+
 
         public string Name { get; set; }
         public string Surname { get; set; }
 
-        public AddressModel Address
-        {
-            get
-            {
-                return _address;  
-            }
-            set 
-            {
-                _address = value;
-            }
-        }
-        public PhoneNumberModel PhoneNumber
-        { 
-            get 
-            { 
-                return _phoneNumber;
-            }
-            set
-            {
-                _phoneNumber = value; 
-            }
-        }
+        public AddressModel Address { get; set; } = new AddressModel();
+        public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel("");
+
+        #endregion
+
+        //***********************
+
+        #region Constructors
+
+
+
+        #endregion
+
+        //***********************
+
+        #region Methods
+
+
+
+        #endregion
+
+
+
 
 
     }

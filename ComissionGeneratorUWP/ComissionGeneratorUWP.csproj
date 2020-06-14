@@ -119,23 +119,30 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ClientPageFrame.xaml.cs">
+    <Compile Include="ViewModel\BindableBase.cs" />
+    <Compile Include="ViewModel\Converters.cs" />
+    <Compile Include="View\ClientPageFrame.xaml.cs">
       <DependentUpon>ClientPageFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CommissionPageFrame.xaml.cs">
+    <Compile Include="View\CommissionPageFrame.xaml.cs">
       <DependentUpon>CommissionPageFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CompanyPageFrame.xaml.cs">
+    <Compile Include="View\CompanyPageFrame.xaml.cs">
       <DependentUpon>CompanyPageFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ItemControl.xaml.cs">
+    <Compile Include="ViewModel\CompanyViewModel.cs" />
+    <Compile Include="View\IncorrectDataDialog.xaml.cs">
+      <DependentUpon>IncorrectDataDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ItemControl.xaml.cs">
       <DependentUpon>ItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="View\IValidator.cs" />
+    <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_NavigationItem.cs" />
+    <Compile Include="View\_NavigationItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -173,26 +180,35 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ClientPageFrame.xaml">
+    <Page Include="View\ClientPageFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CommissionPageFrame.xaml">
+    <Page Include="View\CommissionPageFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CompanyPageFrame.xaml">
+    <Page Include="View\CompanyPageFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ItemControl.xaml">
+    <Page Include="View\IncorrectDataDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="View\ItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ClassLibrary">
+      <HintPath>..\ClassLibrary\bin\Debug\netstandard2.0\ClassLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
