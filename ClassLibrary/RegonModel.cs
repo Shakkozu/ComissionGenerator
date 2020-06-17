@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace ClassLibrary
 {
-    public class REGON :BindableBase
+    public class RegonModel :BindableBase
     {
 
         #region Properties

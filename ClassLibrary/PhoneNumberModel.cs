@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace ClassLibrary
 {
-    public class PhoneNumberModel : BindableBase, INotifyPropertyChanged
+    public class PhoneNumberModel : BindableBase
     {
         #region Properties
 
@@ -15,7 +15,7 @@ namespace ClassLibrary
             set
             {
                 _number = value;
-                if (ValidateNumber(value) == true)
+                if (Validate(value) == true)
                 {
                     IsValid = true;
                 }
@@ -57,7 +57,7 @@ namespace ClassLibrary
         /// valid format - '000-000-000 / 000 000 000'
         /// </summary>
         /// <returns>true if number is valid phone-number format, false otherwise</returns>
-        public static bool ValidateNumber(string number)
+        public static bool Validate(string number)
         {
             Regex rx_ = new Regex(@"^(\+\d{2}\s)?\d{3}[\-]?\d{3}[\-]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             Regex rx = new Regex(@"^(\+\d{2}\s)?\d{3}[\s]?\d{3}[\s]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);

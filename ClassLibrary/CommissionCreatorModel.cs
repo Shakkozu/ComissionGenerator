@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public class CommissionCreator
+    public class CommissionCreatorModel
     {
 
         #region Properties

@@ -18,11 +18,12 @@ namespace ComissionGeneratorUWP
         public AddressModel Address { get; set; } = new AddressModel();
         public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
         
-        public CommissionCreator Creator { get; set; } = new CommissionCreator();
-        public EmailAddressAttribute EmailAddress = new EmailAddressAttribute();
+        public CommissionCreatorModel Creator { get; set; } = new CommissionCreatorModel();
+        public EmailAddressModel EmailAddress { get; set; } = new EmailAddressModel();
+        
 
         public NIPModel NIP { get; set; } = new NIPModel();
-        public REGON REGON { get; set; } = new REGON();
+        public RegonModel REGON { get; set; } = new RegonModel();
 
         public string CompanyName { get; set; }
         #endregion

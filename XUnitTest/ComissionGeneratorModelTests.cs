@@ -36,7 +36,7 @@ namespace XUnitTest
         [InlineData("xx 123-435 678 xx")]
         void TestPhoneNumberInvalidRegex(string number)
         {
-            Assert.False(PhoneNumberModel.ValidateNumber(number));
+            Assert.False(PhoneNumberModel.Validate(number));
         }
 
         [Theory]
@@ -46,7 +46,7 @@ namespace XUnitTest
         [InlineData("123 123 123")]
         void TestPhoneNumberValidRegex(string number)
         {
-            Assert.True(PhoneNumberModel.ValidateNumber(number));
+            Assert.True(PhoneNumberModel.Validate(number));
         }
 
         //PostalCodeModel
@@ -103,7 +103,7 @@ namespace XUnitTest
         [InlineData("!@111!111!111!")]
         void TestREGONInValidRegex(string regonNumber)
         {
-            Assert.False(REGON.Validate(regonNumber));
+            Assert.False(RegonModel.Validate(regonNumber));
         }
 
 
@@ -112,8 +112,35 @@ namespace XUnitTest
         [InlineData("111 111 111")]
         void TestREGONValidRegex(string regonNumber)
         {
-            Assert.True(REGON.Validate(regonNumber));
+            Assert.True(RegonModel.Validate(regonNumber));
         }
+
+        [Theory]
+        [InlineData("david.jones@proseware.com")]
+        [InlineData("d.j@server1.proseware.com")]
+        [InlineData("jones@ms1.proseware.com")]
+        [InlineData("js@proseware.com9")]
+        [InlineData("js#internal@proseware.com")]
+        [InlineData("\"j\\\"s\\\"\"@proseware.com")]
+        [InlineData("jj.s@server1.wp.pl.com")]
+        [InlineData("qwerty@gmail.com")]
+        void TestEmailAddressValidRegex(string emailAddress)
+        {
+            Assert.True(EmailAddressModel.Validate(emailAddress));
+        }
+
+        [Theory]
+        [InlineData("js@contoso.中国")]
+        [InlineData("b@w.p")]
+        [InlineData("bqw@gog")]
+        [InlineData("@.pl")]
+        [InlineData("askoas@.l")]
+        [InlineData("d@.p")]
+        void TestEmailAddressInvalidRegex(string emailAddress)
+        {
+            Assert.False(EmailAddressModel.Validate(emailAddress));
+        }
+
 
     }
 }

@@ -32,12 +32,7 @@ namespace ComissionGeneratorUWP
 
         #region Properties
 
-        //flag is used to control IncorrectDataDialog
-        private bool navigationFlag = false;
-
-        //for future use
-        private CompanyViewModel _viewModel = new CompanyViewModel();
-
+      
         /// <summary>
         /// Checks if data entered on this page is correct
         /// </summary>
@@ -61,49 +56,8 @@ namespace ComissionGeneratorUWP
 
         #region Methods
 
-        /// <summary>
-        /// If entered data is incorrect prompts the user if he's sure he wants to change page
-        /// </summary>
-        async protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            //if any of data entered by user is invalid
-            if (viewModel.CheckValidation() == false)
-            {
-                if (navigationFlag == false)
-                {
-                    e.Cancel = true;
-                    //Show dialog asking user if he's sure that he wants to continue despite the fact
-                    //that the entered data is incorrect
-                    IncorrectDataDialog incorrectDataDialog = new IncorrectDataDialog();
-                    await incorrectDataDialog.ShowAsync();
-                    IncorrectDataDialogResult result = incorrectDataDialog.Result;
 
-                    switch (result)
-                    {
-                        //navigate to next page
-                        case IncorrectDataDialogResult.AcceptCurrentData:
-                            navigationFlag = true;
-                            this.Frame.Navigate(e.SourcePageType);
-                            break;
-                        //return to current page
-                        case IncorrectDataDialogResult.DontAcceptCurrentData:
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-            base.OnNavigatingFrom(e);
-        }
-
-        /// <summary>
-        /// Renews local flag
-        /// </summary>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            navigationFlag = false;
-            base.OnNavigatedTo(e);
-        }
+        
 
         #endregion
 

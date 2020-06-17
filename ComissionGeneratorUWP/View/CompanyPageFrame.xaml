@@ -39,57 +39,88 @@
         <TextBlock   Text="Dane Firmy" 
                    Style="{StaticResource HeaderTextBlockStyle}" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="1"/>
 
+        
+        <!--#region Company Data -->
         <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1">
-            
+
+            <!-- Company Name -->
             <TextBlock Margin="5,0" Text="Nazwa Firmy"/>
             <TextBox Margin="0,10"  Text="{x:Bind viewModel.CompanyName,Mode=TwoWay}" PlaceholderText="F.H.U Apple"></TextBox>
 
-            <TextBlock Margin="5,0" Text="NIP" Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.NIP.IsValid),Mode=OneWay}"/>
-            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer NIP" Foreground="Red" Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.NIP.IsValid),Mode=OneWay}"/>
-            
+            <!-- NIP -->
+            <TextBlock Margin="5,0" Text="NIP" 
+                       Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.NIP.IsValid),Mode=OneWay}"/>
+            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer NIP" Foreground="Red" 
+                       Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.NIP.IsValid),Mode=OneWay}"/>
             <TextBox Margin="0,10" Text="{x:Bind viewModel.NIP.Number,Mode=TwoWay}" PlaceholderText="XXX-XXX-XX-XX"></TextBox>
 
-            <TextBlock Margin="5,0" Text="REGON" Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.REGON.IsValid),Mode=OneWay}"/>
+            <!-- Regon -->
+            <TextBlock Margin="5,0" Text="REGON" 
+                       Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.REGON.IsValid),Mode=OneWay}"/>
             <TextBlock Margin="5,0" Text="Nieprawidłowy Numer REGON" Foreground="Red" 
                        Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.REGON.IsValid),Mode= OneWay}"/>
-            
             <TextBox Margin="0,10" Text="{x:Bind viewModel.REGON.Number,Mode=TwoWay}" PlaceholderText="XXXXXXXXX"></TextBox>
 
         </StackPanel>
         
         <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="1">
+            <!-- Address data -->
             <TextBlock>Dane Adresowe</TextBlock>
-            <TextBox Margin="0,10" PlaceholderText="Ulica i numer domu" Text="{x:Bind viewModel.Address.Street, Mode=TwoWay}"></TextBox>
-            <TextBox Margin="0,10" PlaceholderText="Miasto" Text="{x:Bind viewModel.Address.City, Mode=TwoWay}"></TextBox>
-            <TextBlock Foreground="Red" Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.Address.PostalCode.IsValid), Mode=OneWay}">Nieprawidłowy kod pocztowy</TextBlock>
+            <TextBox Margin="0,10" PlaceholderText="Ulica i numer domu" Text="{x:Bind viewModel.Address.Street, Mode=TwoWay}"/>
+            <TextBox Margin="0,10" PlaceholderText="Miasto" Text="{x:Bind viewModel.Address.City, Mode=TwoWay}"/>
+
+            <!-- Postal Code -->
+            <TextBlock Foreground="Red" Text="Nieprawidłowy Kod Pocztowy" 
+                       Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.Address.PostalCode.IsValid), Mode=OneWay}"/>
+            
             <TextBox Margin="0,10" HorizontalAlignment="Left" MaxWidth="100"  
-                   Text="{x:Bind viewModel.Address.PostalCode.Number,Mode=TwoWay}"  PlaceholderText="Kod Pocztowy [xx-xxx]"></TextBox>
+                   Text="{x:Bind viewModel.Address.PostalCode.Number,Mode=TwoWay}"  PlaceholderText="Kod Pocztowy [xx-xxx]"/>
         </StackPanel>
 
         <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="3">
-            <TextBlock Margin="5,0" Text="Email"/>
-            <TextBox Margin="0,10" PlaceholderText="example@example.com"></TextBox>
-            <TextBlock Margin="5,0" Text="Nr telefonu" Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.PhoneNumber.IsValid),Mode=OneWay}" />
-            <TextBlock Margin="5,0" Text="Nieprawidłowy numer telefonu!" Foreground="Red" Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.PhoneNumber.IsValid), Mode=OneWay}"/>
+            <!-- Email -->
+            <TextBlock Margin="5,0" Text="Email" 
+                       Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.EmailAddress.IsValid),Mode=OneWay}"/>
+            <TextBlock Margin="5,0" Foreground="Red" Text="Nieprawidłowy Adres Email!"
+                       Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.EmailAddress.IsValid),Mode=OneWay}"/>
+            <TextBox Margin="0,10" PlaceholderText="example@example.com" 
+                     Text="{x:Bind viewModel.EmailAddress.Address, Mode=TwoWay}"/>
+
+            <!-- Phone Number -->
+            <TextBlock Margin="5,0" Text="Nr telefonu"
+                       Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.PhoneNumber.IsValid),Mode=OneWay}" />
+            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer Telefonu!" Foreground="Red"
+                       Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.PhoneNumber.IsValid), Mode=OneWay}"/>
             <TextBox Margin="0,10" Text="{x:Bind viewModel.PhoneNumber.Number,Mode=TwoWay}"  
                      PlaceholderText="XXX-XXX-XXX"></TextBox>
         </StackPanel>
+
+        <!--#endregion-->
+        
+        <!--#region Commission Generator -->
+        
         
         
         <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="3">
             <TextBlock >Wygenerował Zlecenie</TextBlock>
             <StackPanel Orientation="Horizontal">
-                <TextBox Margin="0,10" MinWidth="100" PlaceholderText="Imie" Text="{x:Bind viewModel.Creator.Name, Mode=TwoWay}"></TextBox>
+                <TextBox Margin="0,10" MinWidth="100" PlaceholderText="Imie"
+                         Text="{x:Bind viewModel.Creator.Name, Mode=TwoWay}"/>
 
-                <TextBox Margin="30,10" MinWidth="150" PlaceholderText="Nazwisko" Text="{x:Bind viewModel.Creator.LastName, Mode=TwoWay}"/>
+                <TextBox Margin="30,10" MinWidth="150" PlaceholderText="Nazwisko"
+                         Text="{x:Bind viewModel.Creator.LastName, Mode=TwoWay}"/>
 
           </StackPanel>
-            <TextBlock Margin="5,0" Text="Nieprawidłowy numer telefonu!" Foreground="Red" Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.Creator.PhoneNumber.IsValid), Mode=OneWay}"/>
-
+            
+            <!-- Phone Number -->
+            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer Telefonu!" Foreground="Red" 
+                       Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.Creator.PhoneNumber.IsValid), Mode=OneWay}"/>
             <TextBox Margin="0,10" PlaceholderText="XXX-XXX-XXX" Text="{x:Bind viewModel.Creator.PhoneNumber.Number, Mode=TwoWay}"></TextBox>
 
         </StackPanel>
-       
+
+        <!--#endregion-->
+
 
 
 
