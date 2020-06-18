@@ -55,9 +55,30 @@ namespace ComissionGeneratorUWP
         //****************************
 
         #region Methods
+          
+        /// <summary>
+        /// During frame change saves actual data to .xaml file
+        /// </summary>
+        /// <param name="e"></param>
+        async protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            await viewModel.Save();
+            base.OnNavigatingFrom(e);
+        }
 
+        /// <summary>
+        /// During frame load tries to load data stored in file
+        /// </summary>
+        /// <param name="e"></param>
+        async protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            await viewModel.Load();
+            base.OnNavigatedTo(e);
+        }
 
         
+
+
 
         #endregion
 

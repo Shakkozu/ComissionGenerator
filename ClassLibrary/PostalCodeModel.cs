@@ -43,7 +43,10 @@ namespace ClassLibrary
 
         #region Constructors
 
-
+        public PostalCodeModel()
+        {
+            Number = String.Empty;
+        }
 
         #endregion
 

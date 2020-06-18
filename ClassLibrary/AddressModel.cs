@@ -11,7 +11,7 @@ namespace ClassLibrary
         #region Properties
 
         public PostalCodeModel PostalCode { get; set; } = new PostalCodeModel();
-        public string Street { get; set; }
+        public string Street { get; set; } 
         public string City { get; set; }
 
 
@@ -23,7 +23,14 @@ namespace ClassLibrary
 
         public AddressModel()
         {
+            PostalCode = new PostalCodeModel();
+        }
 
+        public AddressModel(AddressModel model)
+        {
+            PostalCode = model.PostalCode;
+            Street = model.Street;
+            City = model.City;
         }
 
         #endregion
