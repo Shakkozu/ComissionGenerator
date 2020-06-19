@@ -20,7 +20,11 @@ namespace ClassLibrary
 
         #region Constructors
 
-
+        public CommissionCreatorModel()
+        {
+            Name = "";
+            LastName = "";
+        }
 
         #endregion
 

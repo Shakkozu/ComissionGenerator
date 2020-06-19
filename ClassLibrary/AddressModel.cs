@@ -23,7 +23,8 @@ namespace ClassLibrary
 
         public AddressModel()
         {
-            PostalCode = new PostalCodeModel();
+            City = "";
+            Street = "";
         }
 
         public AddressModel(AddressModel model)

@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -88,14 +89,31 @@ namespace ComissionGeneratorUWP
         /// Wywoływane, gdy wykonanie aplikacji jest wstrzymywane. Stan aplikacji jest zapisywany
         /// bez wiedzy o tym, czy aplikacja zostanie zakończona, czy wznowiona z niezmienioną zawartością
         /// pamięci.
+        /// During Application Close 'clientView' files are removed
         /// </summary>
         /// <param name="sender">Źródło żądania wstrzymania.</param>
         /// <param name="e">Szczegóły żądania wstrzymania.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Zapisz stan aplikacji i zatrzymaj wszelkie aktywności w tle
-            deferral.Complete();
+            try
+            {
+                string jsonPath = ApplicationData.Current.LocalCacheFolder.Path + "\\clientView.json";
+                string xmlPath = ApplicationData.Current.LocalCacheFolder.Path + "\\clientView.xml";
+                if (File.Exists(jsonPath)) File.Delete(jsonPath);
+                if (File.Exists(xmlPath)) File.Delete(xmlPath);
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                //TODO: Zapisz stan aplikacji i zatrzymaj wszelkie aktywności w tle
+                deferral.Complete();
+            }
+
+            
         }
     }
 }

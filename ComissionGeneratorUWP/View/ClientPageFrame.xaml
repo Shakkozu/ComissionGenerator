@@ -6,9 +6,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:viewmodel="using:ComissionGeneratorUWP.ViewModel"
+    xmlns:vm="using:ComissionGeneratorUWP.ViewModel"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
+        <viewmodel:ClientViewModel x:Name="viewModel"/>
+
+
+    </Page.Resources>
+    
+    <Grid DataContext="{StaticResource viewModel}">
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="6*"/>
@@ -31,43 +40,43 @@
                    Style="{StaticResource HeaderTextBlockStyle}"/>
 
         <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="1">
+            <!--Name and LastName-->
+            
             <TextBlock Margin="5,0" Text="Imie i Nazwisko"/>
-            <TextBox Margin="0,10" PlaceholderText="Jan Iksiński"></TextBox>
+            <StackPanel Orientation="Horizontal">
+                
+                <TextBox Margin="0,10" MinWidth="100" PlaceholderText="Imie"
+                         Text="{x:Bind viewModel.Name, Mode=TwoWay}"/>
 
-            <TextBlock Margin="5,0" Text="Nr Telefonu"/>
-            <TextBox Margin="0,10" PlaceholderText="XXX-XXX-XX-XX"></TextBox>
+                <TextBox Margin="30,10" MinWidth="150" PlaceholderText="Nazwisko"
+                         Text="{x:Bind viewModel.LastName, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <!--Phone number -->
+            <TextBlock Margin="5,0" Text="Nr Telefonu" 
+                       Visibility="{x:Bind vm:Converters.CollapsedIfNot(viewModel.PhoneNumber.IsValid),Mode=OneWay}"/>
+            
+            <TextBlock Margin="5,0" Foreground="Red" Text="Nieprawidłowy numer telefonu!"
+                       Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.PhoneNumber.IsValid),Mode=OneWay}"/>
+            <TextBox Margin="0,10" PlaceholderText="XXX-XXX-XXX" Text="{x:Bind viewModel.PhoneNumber.Number, Mode=TwoWay}"/>
 
         </StackPanel>
 
         <StackPanel  Orientation="Vertical" Grid.Row="5" Grid.Column="1">
-            
+
+            <!--Address -->
 
             <TextBlock>Dane Adresowe</TextBlock>
-            <TextBox Margin="0,10" PlaceholderText="Ulica"></TextBox>
-            <TextBox Margin="0,10" PlaceholderText="Miasto"></TextBox>
-            <TextBox Margin="0,10" MaxWidth="100" HorizontalAlignment="Left" PlaceholderText="Kod Pocztowy [xx-xxx]"></TextBox>
+            <TextBox Margin="0,10" PlaceholderText="Ulica" Text="{x:Bind viewModel.Address.Street,Mode=TwoWay}"/>
+
+            <TextBox Margin="0,10" PlaceholderText="Miasto" Text="{x:Bind viewModel.Address.City,Mode=TwoWay}"/>
+
+
+            <TextBlock Margin="5,0" Foreground="Red" Text="Nieprawidłowy kod pocztowy!"
+                       Visibility="{x:Bind vm:Converters.CollapsedIf(viewModel.Address.PostalCode.IsValid),Mode=OneWay}"/>
+            <TextBox Margin="0,10" MaxWidth="100" HorizontalAlignment="Left" 
+                     PlaceholderText="Kod Pocztowy [xx-xxx]" Text="{x:Bind viewModel.Address.PostalCode.Number,Mode=TwoWay}"/>
 
         </StackPanel>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </Grid>
 </Page>

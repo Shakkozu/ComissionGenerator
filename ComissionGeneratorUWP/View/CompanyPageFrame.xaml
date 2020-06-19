@@ -6,13 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Windows.UI.Xaml.Controls"
     mc:Ignorable="d"
-    xmlns:viewmodel="using:ComissionGeneratorUWP"
+    xmlns:viewmodel="using:ComissionGeneratorUWP.ViewModel"
     xmlns:vm="using:ComissionGeneratorUWP.ViewModel"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <viewmodel:CompanyViewModel x:Name="viewModel"/>
-        <x:String x:Key="AppName">Generator Zleceń</x:String>
     </Page.Resources>
     
     <Grid DataContext="{StaticResource viewModel}" >

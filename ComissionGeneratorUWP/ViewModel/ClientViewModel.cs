@@ -1,58 +1,38 @@
-﻿using System;
+﻿using ClassLibrary;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
-using ClassLibrary;
-using Windows.UI.Composition.Scenes;
-using Windows.UI.Popups;
-using System.Linq.Expressions;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace ComissionGeneratorUWP.ViewModel
 {
-    
-    [DataContract]
-    public class CompanyViewModel : INotifyPropertyChanged //This class doens't inheritate from BindableBase, because it causes some trouble with Serialization
-
+    [KnownType(typeof(ClientViewModel))]
+    public class ClientViewModel : INotifyPropertyChanged
     {
+
         #region Properties
-     
-        [DataMember]public AddressModel Address { get; set; } = new AddressModel();
+
+        [DataMember] public string Name { get; set; }
+        [DataMember] public string LastName { get; set; }
+
         [DataMember] public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
+        [DataMember] public AddressModel Address { get; set; } = new AddressModel();
 
-        [DataMember] public CommissionCreatorModel Creator { get; set; } = new CommissionCreatorModel();
-        [DataMember] public EmailAddressModel EmailAddress { get; set; } = new EmailAddressModel();
-
-
-        [DataMember] public NIPModel NIP { get; set; } = new NIPModel();
-        [DataMember] public RegonModel REGON { get; set; } = new RegonModel();
-
-        [DataMember] public string CompanyName { get; set; }
         #endregion
 
-        //**************************
-
-        #region Constructors
-        public CompanyViewModel()
+        public ClientViewModel()
         {
             
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-
-        #endregion
-
-
-        //**************************
 
         #region Methods
 
@@ -69,8 +49,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns>if all data is OK returns true, false otheriwse</returns>
         public bool CheckValidation()
         {
-            if (!Address.PostalCode.IsValid || !PhoneNumber.IsValid ||
-                !Creator.PhoneNumber.IsValid || !NIP.IsValid || !REGON.IsValid)
+            if (!PhoneNumber.IsValid | !Address.PostalCode.IsValid)
             {
                 return false;
             }
@@ -83,13 +62,13 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns></returns>
         async internal Task<bool> Save()
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(CompanyViewModel));
+            DataContractSerializer serializer = new DataContractSerializer(typeof(ClientViewModel));
             IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile companyViewModelFile = await localFolder.CreateFileAsync("companyView.xml", CreationCollisionOption.ReplaceExisting);
+            IStorageFile clientViewModelFile = await localFolder.CreateFileAsync("clientView.xml", CreationCollisionOption.ReplaceExisting);
 
             try
             {
-                using (IRandomAccessStream stream = await companyViewModelFile.OpenAsync(FileAccessMode.ReadWrite))
+                using (IRandomAccessStream stream = await clientViewModelFile.OpenAsync(FileAccessMode.ReadWrite))
                 {
                     using (Stream outputStream = stream.AsStreamForWrite())
                     {
@@ -101,25 +80,22 @@ namespace ComissionGeneratorUWP.ViewModel
             catch (Exception)
             {
                 return false;
-            }             
+            }
         }
 
         /// <summary>
-        /// Load Properties from parameter to current CompanyViewModel
+        /// Load Properties from parameter to current clientViewModel
         /// Function loads only valid data
         /// PS.Unfortunately overloading operator '=' is not possible so data overwriting needs to be written this way
         /// </summary>
-        private void LoadProperties(CompanyViewModel model)
+        private void LoadProperties(ClientViewModel model)
         {
             if (model.Address != null) Address = model.Address;
-            if (model.CompanyName != null) CompanyName = model.CompanyName;
-            if (model.Creator != null) Creator = model.Creator;
-            if (model.NIP.IsValid) NIP = model.NIP;
-            if (model.EmailAddress.IsValid) EmailAddress = model.EmailAddress;
             if (model.PhoneNumber.IsValid) PhoneNumber = model.PhoneNumber;
-            if (model.REGON.IsValid) REGON = model.REGON;
+            if (model.Name != null) Name = model.Name;
+            if (model.LastName != null) LastName = model.LastName;
             OnPropertyChanged();
-         }
+        }
 
 
 
@@ -127,30 +103,30 @@ namespace ComissionGeneratorUWP.ViewModel
 
 
         /// <summary>
-        /// Load CompanyViewModel from File
+        /// Load clientViewModel from File
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
         async internal Task<bool> Load()
         {
             //Data serializer
-            DataContractSerializer serializer = new DataContractSerializer(typeof(CompanyViewModel));
+            DataContractSerializer serializer = new DataContractSerializer(typeof(ClientViewModel));
 
 
             //%appdata%/Local/Packages/*appfolder*/LocalCache/
             IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile companyViewModelFile = await
-                localFolder.CreateFileAsync("companyView.xml", CreationCollisionOption.OpenIfExists);
+            IStorageFile clientViewModelFile = await
+                localFolder.CreateFileAsync("clientView.xml", CreationCollisionOption.OpenIfExists);
 
             //If opening file can't be done, or data is invalid, don't break the app and return false
             try
             {
-                using (IRandomAccessStream stream = await companyViewModelFile.OpenAsync(FileAccessMode.Read))
+                using (IRandomAccessStream stream = await clientViewModelFile.OpenAsync(FileAccessMode.Read))
                 {
                     using (Stream inputStream = stream.AsStreamForRead())
                     {
 
                         var result = serializer.ReadObject(inputStream);
-                        if (result != null && result is CompanyViewModel viewModel)
+                        if (result != null && result is ClientViewModel viewModel)
                         {
                             this.LoadProperties(viewModel);
                             return true;
@@ -163,31 +139,31 @@ namespace ComissionGeneratorUWP.ViewModel
             catch (Exception)
             {
                 return false;
-            } 
+            }
         }
 
         /// <summary>
-        /// Load CompanyViewModel from File
+        /// Load clientViewModel from File
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
         async internal Task<bool> LoadJson()
         {
             //Data serializer
-            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(CompanyViewModel));//TODO REMOVE
-                                                                                                                 //%appdata%/Local/Packages/*appfolder*/LocalCache/
+            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(ClientViewModel));
+            //%appdata%/Local/Packages/*appfolder*/LocalCache/
             IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile companyViewModelFile = await
-                localFolder.CreateFileAsync("companyView.json", CreationCollisionOption.OpenIfExists);
+            IStorageFile clientViewModelFile = await
+                localFolder.CreateFileAsync("clientView.json", CreationCollisionOption.OpenIfExists);
 
             try
             {
-                using (IRandomAccessStream stream = await companyViewModelFile.OpenAsync(FileAccessMode.Read))
+                using (IRandomAccessStream stream = await clientViewModelFile.OpenAsync(FileAccessMode.Read))
                 {
                     using (Stream inputStream = stream.AsStreamForRead())
                     {
 
                         var jsonResult = jsonSerializer.ReadObject(inputStream);
-                        if (jsonResult != null && jsonResult is CompanyViewModel viewModel)
+                        if (jsonResult != null && jsonResult is ClientViewModel viewModel)
                         {
                             this.LoadProperties(viewModel);
                             return true;
@@ -197,8 +173,9 @@ namespace ComissionGeneratorUWP.ViewModel
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return false;
             }
         }
@@ -209,13 +186,13 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns></returns>
         async internal Task<bool> SaveJson()
         {
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(CompanyViewModel));
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ClientViewModel));
             IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile companyViewModelFile = await localFolder.CreateFileAsync("companyView.json", CreationCollisionOption.ReplaceExisting);
+            IStorageFile clientViewModelFile = await localFolder.CreateFileAsync("clientView.json", CreationCollisionOption.ReplaceExisting);
 
             try
             {
-                using (IRandomAccessStream stream = await companyViewModelFile.OpenAsync(FileAccessMode.ReadWrite))
+                using (IRandomAccessStream stream = await clientViewModelFile.OpenAsync(FileAccessMode.ReadWrite))
                 {
                     using (Stream outputStream = stream.AsStreamForWrite())
                     {
@@ -224,8 +201,9 @@ namespace ComissionGeneratorUWP.ViewModel
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return false;
             }
         }

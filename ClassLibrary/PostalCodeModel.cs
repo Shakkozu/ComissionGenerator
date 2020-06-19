@@ -45,7 +45,7 @@ namespace ClassLibrary
 
         public PostalCodeModel()
         {
-            Number = String.Empty;
+            
         }
 
         #endregion

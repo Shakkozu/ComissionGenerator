@@ -28,11 +28,20 @@ namespace ComissionGeneratorUWP
             this.InitializeComponent();
         }
 
-        protected override void OnBringIntoViewRequested(BringIntoViewRequestedEventArgs e)
+        async protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            base.OnBringIntoViewRequested(e);
-            
+            await viewModel.SaveJson();
+            base.OnNavigatedFrom(e);
         }
+
+        async protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            await viewModel.LoadJson();
+            base.OnNavigatedTo(e);
+        }
+
+
+
 
     }
 }

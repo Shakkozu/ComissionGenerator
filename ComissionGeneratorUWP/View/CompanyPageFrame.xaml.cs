@@ -62,7 +62,7 @@ namespace ComissionGeneratorUWP
         /// <param name="e"></param>
         async protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            await viewModel.Save();
+            await viewModel.SaveJson();
             base.OnNavigatingFrom(e);
         }
 
@@ -72,7 +72,7 @@ namespace ComissionGeneratorUWP
         /// <param name="e"></param>
         async protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            await viewModel.Load();
+            await viewModel.LoadJson();
             base.OnNavigatedTo(e);
         }
 
