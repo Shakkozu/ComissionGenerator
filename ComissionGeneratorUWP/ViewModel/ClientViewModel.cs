@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -14,7 +15,7 @@ using Windows.Storage.Streams;
 namespace ComissionGeneratorUWP.ViewModel
 {
     [KnownType(typeof(ClientViewModel))]
-    public class ClientViewModel :  INotifyPropertyChanged
+    public class ClientViewModel : BaseViewModel// INotifyPropertyChanged
     {
 
         #region Properties
@@ -27,20 +28,20 @@ namespace ComissionGeneratorUWP.ViewModel
 
         #endregion
 
-        public ClientViewModel()
+        public ClientViewModel():base("clientViewModel")
         {
-            
+
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
         #region Methods
 
         /// <summary>
         /// Notifies listeners that a property value has changed.
         /// </summary>
-        private void OnPropertyChanged(string propertyName = null) =>
-           PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //private void OnPropertyChanged(string propertyName = null) =>
+         //  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 
         /// <summary>
@@ -56,156 +57,62 @@ namespace ComissionGeneratorUWP.ViewModel
             return true;
         }
 
-        /// <summary>
-        /// Save current properties to file
-        /// </summary>
-        /// <returns></returns>
-        async internal Task<bool> Save()
-        {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(ClientViewModel));
-            IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile clientViewModelFile = await localFolder.CreateFileAsync("clientView.xml", CreationCollisionOption.ReplaceExisting);
-
-            try
-            {
-                using (IRandomAccessStream stream = await clientViewModelFile.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    using (Stream outputStream = stream.AsStreamForWrite())
-                    {
-                        serializer.WriteObject(outputStream, this);
-                        return true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+        
 
         /// <summary>
         /// Load Properties from parameter to current clientViewModel
         /// Function loads only valid data
         /// PS.Unfortunately overloading operator '=' is not possible so data overwriting needs to be written this way
         /// </summary>
-        private void LoadProperties(ClientViewModel model)
+        protected override void LoadProperties(object obj)
         {
-            if (model.Address != null) Address = model.Address;
-            if (model.PhoneNumber.IsValid) PhoneNumber = model.PhoneNumber;
-            if (model.Name != null) Name = model.Name;
-            if (model.LastName != null) LastName = model.LastName;
+            if (obj is ClientViewModel model)
+            {
+                if (model.Address != null) Address = model.Address;
+                if (model.PhoneNumber.IsValid) PhoneNumber = model.PhoneNumber;
+                if (model.Name != null) Name = model.Name;
+                if (model.LastName != null) LastName = model.LastName;
+            }
             OnPropertyChanged();
         }
 
-
-
-
-
-
-        /// <summary>
-        /// Load clientViewModel from File
-        /// </summary>
-        /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> Load()
-        {
-            //Data serializer
-            DataContractSerializer serializer = new DataContractSerializer(typeof(ClientViewModel));
-
-
-            //%appdata%/Local/Packages/*appfolder*/LocalCache/
-            IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile clientViewModelFile = await
-                localFolder.CreateFileAsync("clientView.xml", CreationCollisionOption.OpenIfExists);
-
-            //If opening file can't be done, or data is invalid, don't break the app and return false
-            try
-            {
-                using (IRandomAccessStream stream = await clientViewModelFile.OpenAsync(FileAccessMode.Read))
-                {
-                    using (Stream inputStream = stream.AsStreamForRead())
-                    {
-
-                        var result = serializer.ReadObject(inputStream);
-                        if (result != null && result is ClientViewModel viewModel)
-                        {
-                            this.LoadProperties(viewModel);
-                            return true;
-                        }
-                        else
-                            return false;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Load clientViewModel from File
-        /// </summary>
-        /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> LoadJson()
-        {
-            //Data serializer
-            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(ClientViewModel));
-            //%appdata%/Local/Packages/*appfolder*/LocalCache/
-            IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile clientViewModelFile = await
-                localFolder.CreateFileAsync("clientView.json", CreationCollisionOption.OpenIfExists);
-
-            try
-            {
-                using (IRandomAccessStream stream = await clientViewModelFile.OpenAsync(FileAccessMode.Read))
-                {
-                    using (Stream inputStream = stream.AsStreamForRead())
-                    {
-
-                        var jsonResult = jsonSerializer.ReadObject(inputStream);
-                        if (jsonResult != null && jsonResult is ClientViewModel viewModel)
-                        {
-                            this.LoadProperties(viewModel);
-                            return true;
-                        }
-                        else
-                            return false;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
-        }
 
         /// <summary>
         /// Save current properties to file
         /// </summary>
         /// <returns></returns>
+        async internal Task<bool> SaveXml()
+        {
+            return await base.SaveXml(this);
+        }
+
+
+
+        /// <summary>
+        /// Load clientViewModel from File
+        /// </summary>
+        /// <returns>true if loading is succesful, false otheriwse</returns>
+        async internal Task<bool> LoadXml()
+        {
+            return await base.LoadXml(this);
+        }
+
+        /// <summary>
+        /// Loads clientViewModel from File in .json format
+        /// </summary>
+        /// <returns>true if loading is succesful, false otheriwse</returns>
+        async internal Task<bool> LoadJson()
+        {
+            return await base.LoadJson(this);
+        }
+
+        /// <summary>
+        /// Saves clientViewModel to file in .json format
+        /// </summary>
+        /// <returns>true if saving is succesful, false otherwise</returns>
         async internal Task<bool> SaveJson()
         {
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ClientViewModel));
-            IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile clientViewModelFile = await localFolder.CreateFileAsync("clientView.json", CreationCollisionOption.ReplaceExisting);
-
-            try
-            {
-                using (IRandomAccessStream stream = await clientViewModelFile.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    using (Stream outputStream = stream.AsStreamForWrite())
-                    {
-                        serializer.WriteObject(outputStream, this);
-                        return true;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
+            return await base.SaveJson(this);
         }
 
 

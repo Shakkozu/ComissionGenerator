@@ -30,13 +30,13 @@ namespace ComissionGeneratorUWP
 
         async protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            await viewModel.SaveJson();
+            await viewModel.SaveXml();
             base.OnNavigatedFrom(e);
         }
 
         async protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            await viewModel.LoadJson();
+            await viewModel.LoadXml();
             base.OnNavigatedTo(e);
         }
 
