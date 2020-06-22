@@ -14,7 +14,7 @@ using Windows.Storage.Streams;
 namespace ComissionGeneratorUWP.ViewModel
 {
     [KnownType(typeof(ClientViewModel))]
-    public class ClientViewModel : INotifyPropertyChanged
+    public class ClientViewModel :  INotifyPropertyChanged
     {
 
         #region Properties
@@ -40,7 +40,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// Notifies listeners that a property value has changed.
         /// </summary>
         private void OnPropertyChanged(string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+           PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 
         /// <summary>

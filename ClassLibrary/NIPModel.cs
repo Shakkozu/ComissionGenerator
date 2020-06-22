@@ -39,6 +39,10 @@ namespace ClassLibrary
 
         #region Constructors
 
+        public NIPModel()
+        {
+            _number = "";
+        }
 
 
         #endregion

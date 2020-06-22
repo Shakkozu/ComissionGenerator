@@ -15,6 +15,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml.Documents;
 
 namespace ComissionGeneratorUWP.ViewModel
 {
@@ -25,7 +26,7 @@ namespace ComissionGeneratorUWP.ViewModel
     {
         #region Properties
      
-        [DataMember]public AddressModel Address { get; set; } = new AddressModel();
+        [DataMember] public AddressModel Address { get; set; } = new AddressModel();
         [DataMember] public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
 
         [DataMember] public CommissionCreatorModel Creator { get; set; } = new CommissionCreatorModel();
@@ -111,9 +112,25 @@ namespace ComissionGeneratorUWP.ViewModel
         /// </summary>
         private void LoadProperties(CompanyViewModel model)
         {
-            if (model.Address != null) Address = model.Address;
+            if (model.Creator != null)
+            {
+                //I need to specify properties, because otherwise null 'sneaks in' into one of properties
+                //in case that field is empty
+                if (model.Creator.LastName != null)
+                    Creator.LastName = model.Creator.LastName;
+                if (model.Creator.Name != null)
+                    Creator.Name = model.Creator.Name;
+                if (model.Creator.PhoneNumber.IsValid)
+                    Creator.PhoneNumber = model.Creator.PhoneNumber;
+            }
+            if (model.Address != null)
+            {
+                if (model.Address.City != null) Address.City = model.Address.City;
+                if (model.Address.PostalCode.IsValid) Address.PostalCode = model.Address.PostalCode;
+                if (model.Address.Street != null) Address.Street = model.Address.Street;                
+            }
             if (model.CompanyName != null) CompanyName = model.CompanyName;
-            if (model.Creator != null) Creator = model.Creator;
+            
             if (model.NIP.IsValid) NIP = model.NIP;
             if (model.EmailAddress.IsValid) EmailAddress = model.EmailAddress;
             if (model.PhoneNumber.IsValid) PhoneNumber = model.PhoneNumber;
@@ -185,7 +202,6 @@ namespace ComissionGeneratorUWP.ViewModel
                 {
                     using (Stream inputStream = stream.AsStreamForRead())
                     {
-
                         var jsonResult = jsonSerializer.ReadObject(inputStream);
                         if (jsonResult != null && jsonResult is CompanyViewModel viewModel)
                         {

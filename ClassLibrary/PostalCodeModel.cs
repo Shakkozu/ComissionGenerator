@@ -45,7 +45,7 @@ namespace ClassLibrary
 
         public PostalCodeModel()
         {
-            
+            _number = "";
         }
 
         #endregion

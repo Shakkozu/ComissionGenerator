@@ -44,7 +44,7 @@ namespace ClassLibrary
 
         public EmailAddressModel()
         {
-            Address = string.Empty;
+            _address = "";
         }
 
 

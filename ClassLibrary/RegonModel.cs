@@ -40,6 +40,10 @@ namespace ClassLibrary
 
         #region Constructors
 
+        public RegonModel()
+        {
+            _number = "";
+        }
 
 
         #endregion
