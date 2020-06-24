@@ -28,22 +28,20 @@ namespace ComissionGeneratorUWP.ViewModel
 
         #endregion
 
+        #region Constructors
+
         public ClientViewModel():base("clientViewModel")
         {
 
         }
 
-        //public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+        
 
         #region Methods
 
-        /// <summary>
-        /// Notifies listeners that a property value has changed.
-        /// </summary>
-        //private void OnPropertyChanged(string propertyName = null) =>
-         //  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
+        
         /// <summary>
         /// Check if any of properties is incorrect
         /// </summary>
@@ -68,51 +66,71 @@ namespace ComissionGeneratorUWP.ViewModel
         {
             if (obj is ClientViewModel model)
             {
-                if (model.Address != null) Address = model.Address;
-                if (model.PhoneNumber.IsValid) PhoneNumber = model.PhoneNumber;
-                if (model.Name != null) Name = model.Name;
-                if (model.LastName != null) LastName = model.LastName;
+                if (model.Address != null)
+                {
+                    if (model.Address.City != null) Address.City = model.Address.City;
+                    if (model.Address.PostalCode.IsValid) Address.PostalCode = model.Address.PostalCode;
+                    if (model.Address.Street != null) Address.Street = model.Address.Street;
+                    OnPropertyChanged("Address");
+                }
+                if (model.PhoneNumber.IsValid)
+                { 
+                    PhoneNumber = model.PhoneNumber;
+                    OnPropertyChanged("PhoneNumber");
+                }
+                if (model.Name != null)
+                {
+                    Name = model.Name;
+                    OnPropertyChanged("Name");
+                }
+
+                if (model.LastName != null)
+                {
+                    LastName = model.LastName;
+                    OnPropertyChanged("LastName");
+                }
+
             }
-            OnPropertyChanged();
+            
         }
 
 
         /// <summary>
-        /// Save current properties to file
+        /// Save current properties to file in xml format
         /// </summary>
         /// <returns></returns>
         async internal Task<bool> SaveXml()
         {
-            return await base.SaveXml(this);
+            return await base.Save(this,ExtensionType.Xml);
         }
 
 
 
         /// <summary>
-        /// Load clientViewModel from File
+        /// Load clientViewModel from File in xml format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
         async internal Task<bool> LoadXml()
         {
-            return await base.LoadXml(this);
+            return await base.Load(this,ExtensionType.Xml);
         }
 
         /// <summary>
-        /// Loads clientViewModel from File in .json format
+        /// Loads clientViewModel from File in json format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
         async internal Task<bool> LoadJson()
         {
-            return await base.LoadJson(this);
+            return await base.Load(this, ExtensionType.Json);
         }
 
         /// <summary>
-        /// Saves clientViewModel to file in .json format
+        /// Saves clientViewModel to file in json format
         /// </summary>
         /// <returns>true if saving is succesful, false otherwise</returns>
         async internal Task<bool> SaveJson()
         {
-            return await base.SaveJson(this);
+            return await base.Save(this,ExtensionType.Json);
         }
 
 

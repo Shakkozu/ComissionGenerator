@@ -57,7 +57,7 @@ namespace ComissionGeneratorUWP
         #region Methods
           
         /// <summary>
-        /// During frame change saves actual data to .xaml file
+        /// During frame change saves actual data
         /// </summary>
         /// <param name="e"></param>
         async protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

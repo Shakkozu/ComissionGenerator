@@ -71,6 +71,7 @@ namespace ComissionGeneratorUWP
         /// </summary>
         private void NavigationViewControl_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
+            Frame.RemoveFocusEngagement();
             if (args.SelectedItemContainer != null)
             {
                 NavigationViewControl_Navigate(args.SelectedItemContainer.Tag.ToString(),

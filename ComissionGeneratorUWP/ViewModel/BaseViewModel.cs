@@ -17,12 +17,18 @@ using Windows.UI.Xaml.Media.Animation;
 namespace ComissionGeneratorUWP.ViewModel
 {
     [DataContract]
-    abstract public class BaseViewModel : INotifyPropertyChanged
+    abstract public class BaseViewModel : BindableBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region Properties
 
         protected string ViewModelName { get; private set; }
         protected ViewModelTypeEnumerator ViewModelType { get; private set; }
+
+        #endregion
+
+
+
+        #region Constructors
 
         public BaseViewModel(string viewModelName)
         {
@@ -42,43 +48,22 @@ namespace ComissionGeneratorUWP.ViewModel
 
         }
 
+        #endregion
+
+
+        #region Methods
+
         /// <summary>
         /// Notifies listeners that a property value has changed.
         /// </summary>
-        protected void OnPropertyChanged(string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
-        /// <summary>
-        /// Load properties for specified viewModelType
-        /// </summary>
-        /// <param name="loadedViewModel"></param>
-        /// <returns>true if loading is succesful, false otherwise</returns>
-        private bool ReadViewModel(object loadedViewModel)
-        {
-            if (loadedViewModel != null)
-            {
-                LoadProperties(loadedViewModel);
-                return true;
-            }
-            return false;
-        }
+        //protected void OnPropertyChanged(string propertyName = null) =>
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 
 
-        
-        protected async virtual internal Task<bool> SaveJson(object sender)
-        {
-            return await Save(sender, ExtensionType.Json);
-        }
-
-        protected async virtual internal Task<bool> SaveXml(object sender)
-        {
-            return await Save(sender, ExtensionType.Xml);
-        }
 
 
-        private async Task<bool> Load(object sender, ExtensionType extensionType)
+        protected async Task<bool> Load(object sender, ExtensionType extensionType)
         {
             XmlObjectSerializer serializer;
             string fileExtenstion;
@@ -108,8 +93,13 @@ namespace ComissionGeneratorUWP.ViewModel
                 {
                     using (Stream inputStream = stream.AsStreamForRead())
                     {
-                        var jsonResult = serializer.ReadObject(inputStream);
-                        return ReadViewModel(jsonResult);
+                        var result = serializer.ReadObject(inputStream);
+                        if (result != null)
+                        {
+                            LoadProperties(result);
+                            return true;
+                        }
+                        return false;
                     }
                 }
             }
@@ -120,14 +110,7 @@ namespace ComissionGeneratorUWP.ViewModel
             }
 
         }
-        /// <summary>
-        /// Load clientViewModel from File
-        /// </summary>
-        /// <returns>true if loading is succesful, false otheriwse</returns>
-        protected async internal Task<bool> LoadJson(object sender)
-        {
-            return await Load(sender, ExtensionType.Json);
-        }
+
 
 
         /// <summary>
@@ -135,7 +118,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// with extension type given in parameter
         /// </summary>
         /// <returns> true if saving operation succed, false otherwise</returns>
-        private async Task<bool> Save(object sender, ExtensionType extensionType)
+        protected async Task<bool> Save(object sender, ExtensionType extensionType)
         {
             XmlObjectSerializer serializer;
             string fileExtenstion;
@@ -176,18 +159,20 @@ namespace ComissionGeneratorUWP.ViewModel
 
         }
 
-        
-        protected async internal Task<bool> LoadXml(object sender)
-        {
-            return await Load(sender, ExtensionType.Xml);
-        }
 
         /// <summary>
         /// This method needs to be overwritten in derived class
         /// </summary>
         /// <param name="viewModel"></param>
         protected abstract void LoadProperties(object viewModel);
-        
+
+        #endregion
+
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+
+        #region Enumerators
+
         protected enum ViewModelTypeEnumerator
         {
             CompanyViewModelType,
@@ -195,9 +180,17 @@ namespace ComissionGeneratorUWP.ViewModel
             CommisionViewModelType
         };
 
-        private enum ExtensionType
+        protected enum ExtensionType
         {
             Json, Xml
         };
+
+        #endregion
+
+
+
+
+
+
     }
 }

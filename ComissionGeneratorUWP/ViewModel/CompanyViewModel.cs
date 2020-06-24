@@ -16,12 +16,13 @@ using System.IO;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Documents;
+using Windows.Foundation.Metadata;
 
 namespace ComissionGeneratorUWP.ViewModel
 {
     
     [DataContract]
-    public class CompanyViewModel : INotifyPropertyChanged //This class doens't inheritate from BindableBase, because it causes some trouble with Serialization
+    public class CompanyViewModel : BaseViewModel
 
     {
         #region Properties
@@ -42,13 +43,10 @@ namespace ComissionGeneratorUWP.ViewModel
         //**************************
 
         #region Constructors
-        public CompanyViewModel()
+        public CompanyViewModel() : base("companyViewModel")
         {
             
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
 
         #endregion
 
@@ -56,13 +54,6 @@ namespace ComissionGeneratorUWP.ViewModel
         //**************************
 
         #region Methods
-
-        /// <summary>
-        /// Notifies listeners that a property value has changed.
-        /// </summary>
-        private void OnPropertyChanged(string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
 
         /// <summary>
         /// Check if any of properties is incorrect
@@ -78,172 +69,98 @@ namespace ComissionGeneratorUWP.ViewModel
             return true;
         }
 
-        /// <summary>
-        /// Save current properties to file
-        /// </summary>
-        /// <returns></returns>
-        async internal Task<bool> Save()
-        {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(CompanyViewModel));
-            IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile companyViewModelFile = await localFolder.CreateFileAsync("companyView.xml", CreationCollisionOption.ReplaceExisting);
-
-            try
-            {
-                using (IRandomAccessStream stream = await companyViewModelFile.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    using (Stream outputStream = stream.AsStreamForWrite())
-                    {
-                        serializer.WriteObject(outputStream, this);
-                        return true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }             
-        }
-
+        
         /// <summary>
         /// Load Properties from parameter to current CompanyViewModel
         /// Function loads only valid data
         /// PS.Unfortunately overloading operator '=' is not possible so data overwriting needs to be written this way
         /// </summary>
-        private void LoadProperties(CompanyViewModel model)
+        protected override void LoadProperties(object obj)
         {
-            if (model.Creator != null)
+            if (obj is CompanyViewModel model)
             {
-                //I need to specify properties, because otherwise null 'sneaks in' into one of properties
-                //in case that field is empty
-                if (model.Creator.LastName != null)
-                    Creator.LastName = model.Creator.LastName;
-                if (model.Creator.Name != null)
-                    Creator.Name = model.Creator.Name;
-                if (model.Creator.PhoneNumber.IsValid)
-                    Creator.PhoneNumber = model.Creator.PhoneNumber;
+                if (model.Creator != null)
+                {
+                    //I need to specify properties, because otherwise null 'sneaks in' into one of properties
+                    //in case that field is empty
+                    if (model.Creator.LastName != null)
+                        Creator.LastName = model.Creator.LastName;
+                    if (model.Creator.Name != null)
+                        Creator.Name = model.Creator.Name;
+                    if (model.Creator.PhoneNumber.IsValid)
+                        Creator.PhoneNumber = model.Creator.PhoneNumber;
+                    OnPropertyChanged("Creator");
+                }
+                if (model.Address != null)
+                {
+                    if (model.Address.City != null) Address.City = model.Address.City;
+                    if (model.Address.PostalCode.IsValid) Address.PostalCode = model.Address.PostalCode;
+                    if (model.Address.Street != null) Address.Street = model.Address.Street;
+                    OnPropertyChanged("Address");
+                }
+                if (model.CompanyName != null)
+                {
+                    CompanyName = model.CompanyName;
+                    OnPropertyChanged("CompanyName");
+                }
+                if (model.NIP.IsValid)
+                {
+                    NIP = model.NIP;
+                    OnPropertyChanged("NIP");
+                }
+                if (model.EmailAddress.IsValid)
+                {
+                    EmailAddress = model.EmailAddress;
+                    OnPropertyChanged("EmailAddress");
+                }
+                if (model.PhoneNumber.IsValid)
+                {
+                    PhoneNumber = model.PhoneNumber;
+                    OnPropertyChanged("PhoneNumber");
+                }
+                if (model.REGON.IsValid)
+                {
+                    REGON = model.REGON;
+                    OnPropertyChanged("REGON");
+                }
             }
-            if (model.Address != null)
-            {
-                if (model.Address.City != null) Address.City = model.Address.City;
-                if (model.Address.PostalCode.IsValid) Address.PostalCode = model.Address.PostalCode;
-                if (model.Address.Street != null) Address.Street = model.Address.Street;                
-            }
-            if (model.CompanyName != null) CompanyName = model.CompanyName;
-            
-            if (model.NIP.IsValid) NIP = model.NIP;
-            if (model.EmailAddress.IsValid) EmailAddress = model.EmailAddress;
-            if (model.PhoneNumber.IsValid) PhoneNumber = model.PhoneNumber;
-            if (model.REGON.IsValid) REGON = model.REGON;
-            OnPropertyChanged();
          }
 
-
-
-
+        /// <summary>
+        /// Save current properties to file in xml format
+        /// </summary>
+        /// <returns></returns>
+        async internal Task<bool> SaveXml()
+        {
+            return await base.Save(this, ExtensionType.Xml);
+        }
 
 
         /// <summary>
-        /// Load CompanyViewModel from File
+        /// Load CompanyViewModel from File in xml format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> Load()
+        async internal Task<bool> LoadXml()
         {
-            //Data serializer
-            DataContractSerializer serializer = new DataContractSerializer(typeof(CompanyViewModel));
-
-
-            //%appdata%/Local/Packages/*appfolder*/LocalCache/
-            IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile companyViewModelFile = await
-                localFolder.CreateFileAsync("companyView.xml", CreationCollisionOption.OpenIfExists);
-
-            //If opening file can't be done, or data is invalid, don't break the app and return false
-            try
-            {
-                using (IRandomAccessStream stream = await companyViewModelFile.OpenAsync(FileAccessMode.Read))
-                {
-                    using (Stream inputStream = stream.AsStreamForRead())
-                    {
-
-                        var result = serializer.ReadObject(inputStream);
-                        if (result != null && result is CompanyViewModel viewModel)
-                        {
-                            this.LoadProperties(viewModel);
-                            return true;
-                        }
-                        else
-                            return false;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            } 
+            return await base.Load(this, ExtensionType.Xml);
         }
 
         /// <summary>
-        /// Load CompanyViewModel from File
+        /// Load CompanyViewModel from File in json format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
         async internal Task<bool> LoadJson()
         {
-            //Data serializer
-            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(CompanyViewModel));//TODO REMOVE
-                                                                                                                 //%appdata%/Local/Packages/*appfolder*/LocalCache/
-            IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile companyViewModelFile = await
-                localFolder.CreateFileAsync("companyView.json", CreationCollisionOption.OpenIfExists);
-
-            try
-            {
-                using (IRandomAccessStream stream = await companyViewModelFile.OpenAsync(FileAccessMode.Read))
-                {
-                    using (Stream inputStream = stream.AsStreamForRead())
-                    {
-                        var jsonResult = jsonSerializer.ReadObject(inputStream);
-                        if (jsonResult != null && jsonResult is CompanyViewModel viewModel)
-                        {
-                            this.LoadProperties(viewModel);
-                            return true;
-                        }
-                        else
-                            return false;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return await base.Load(this, ExtensionType.Json);
         }
 
         /// <summary>
-        /// Save current properties to file
+        /// Save current properties to file in json format
         /// </summary>
         /// <returns></returns>
         async internal Task<bool> SaveJson()
         {
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(CompanyViewModel));
-            IStorageFolder localFolder = ApplicationData.Current.LocalCacheFolder;
-            IStorageFile companyViewModelFile = await localFolder.CreateFileAsync("companyView.json", CreationCollisionOption.ReplaceExisting);
-
-            try
-            {
-                using (IRandomAccessStream stream = await companyViewModelFile.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    using (Stream outputStream = stream.AsStreamForWrite())
-                    {
-                        serializer.WriteObject(outputStream, this);
-                        return true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return await base.Save(this, ExtensionType.Json);
         }
 
 
