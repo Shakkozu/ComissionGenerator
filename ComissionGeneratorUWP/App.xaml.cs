@@ -31,7 +31,7 @@ namespace ComissionGeneratorUWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            
+
         }
 
         /// <summary>
@@ -98,10 +98,7 @@ namespace ComissionGeneratorUWP
             var deferral = e.SuspendingOperation.GetDeferral();
             try
             {
-                string jsonPath = ApplicationData.Current.LocalCacheFolder.Path + "\\clientView.json";
-                string xmlPath = ApplicationData.Current.LocalCacheFolder.Path + "\\clientView.xml";
-                if (File.Exists(jsonPath)) File.Delete(jsonPath);
-                if (File.Exists(xmlPath)) File.Delete(xmlPath);
+                RemoveFiles();
             }
             catch
             {
@@ -113,7 +110,21 @@ namespace ComissionGeneratorUWP
                 deferral.Complete();
             }
 
-            
+
+        }
+        private void RemoveFiles()
+        {
+            List<string> filesToDelete = new List<string>() { "\\comissionViewModel.json", "\\comissionViewModel.xml",
+            "\\clientViewModel.json","\\clientViewModel.xml"};
+            string folderPath = ApplicationData.Current.LocalCacheFolder.Path;
+            foreach (string filePath in filesToDelete)
+            {
+                string fullFilePath = folderPath + filePath;
+                if (File.Exists(fullFilePath))
+                {
+                    File.Delete(fullFilePath);
+                }
+            }
         }
     }
 }

@@ -31,6 +31,7 @@ namespace ClassLibrary
                     IsValid = false;
                 }
                 OnPropertyChanged("IsValid");
+                OnPropertyChanged("Number");
             }
         }
         private string _number;

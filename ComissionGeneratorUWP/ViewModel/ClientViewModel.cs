@@ -14,8 +14,8 @@ using Windows.Storage.Streams;
 
 namespace ComissionGeneratorUWP.ViewModel
 {
-    [KnownType(typeof(ClientViewModel))]
-    public class ClientViewModel : BaseViewModel// INotifyPropertyChanged
+    [DataContract]
+    public class ClientViewModel : BaseViewModel
     {
 
         #region Properties

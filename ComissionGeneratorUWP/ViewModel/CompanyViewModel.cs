@@ -43,6 +43,7 @@ namespace ComissionGeneratorUWP.ViewModel
         //**************************
 
         #region Constructors
+
         public CompanyViewModel() : base("companyViewModel")
         {
             

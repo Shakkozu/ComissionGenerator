@@ -71,9 +71,14 @@ namespace ComissionGeneratorUWP
         /// </summary>
         private void NavigationViewControl_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            Frame.RemoveFocusEngagement();
+            
+            sender.UpdateLayout();
+            FocusManager.FindNextElement(FocusNavigationDirection.Next);
+            //OnPointerCaptureLost(new PointerRoutedEventArgs("this"));
+            this.ReleasePointerCaptures();
             if (args.SelectedItemContainer != null)
             {
+                //NavigationViewControl.SelectedItem = args.SelectedItemContainer.Tag.ToString();
                 NavigationViewControl_Navigate(args.SelectedItemContainer.Tag.ToString(),
                     args.RecommendedNavigationTransitionInfo);
             }
@@ -124,8 +129,7 @@ namespace ComissionGeneratorUWP
             }
         }
         /// <summary>
-        /// Check if all data is correct, if so, move to the next page
-        /// otherwise show to the user dialog
+        /// Moves to the next page
         /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -184,21 +188,22 @@ namespace ComissionGeneratorUWP
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         #endregion
 
        
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

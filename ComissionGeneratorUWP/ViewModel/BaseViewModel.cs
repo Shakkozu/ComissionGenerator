@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Animation;
+using ClassLibrary;
 
 namespace ComissionGeneratorUWP.ViewModel
 {
@@ -52,16 +53,6 @@ namespace ComissionGeneratorUWP.ViewModel
 
 
         #region Methods
-
-        /// <summary>
-        /// Notifies listeners that a property value has changed.
-        /// </summary>
-        //protected void OnPropertyChanged(string propertyName = null) =>
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
-
-
 
         protected async Task<bool> Load(object sender, ExtensionType extensionType)
         {
@@ -167,8 +158,6 @@ namespace ComissionGeneratorUWP.ViewModel
         protected abstract void LoadProperties(object viewModel);
 
         #endregion
-
-        //public event PropertyChangedEventHandler PropertyChanged;
 
 
         #region Enumerators

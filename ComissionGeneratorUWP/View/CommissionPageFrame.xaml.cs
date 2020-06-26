@@ -35,7 +35,7 @@ namespace ComissionGeneratorUWP
         public CommissionPage()
         {
             this.InitializeComponent();
-            AddItemControls();
+            //AddItemControls();
             
         }
 
@@ -45,18 +45,33 @@ namespace ComissionGeneratorUWP
 
         #region Methods
 
-        /// <summary>
-        /// Add 20 ItemControls to UI
-        /// </summary>
-        private void AddItemControls()
+       
+        #endregion
+
+        async private void Button_Click(object sender, RoutedEventArgs e)
         {
-            for(int i=0; i<20; i++)
-            {
-                itemsList.Items.Add(new ItemControl(i+1));
-               
-            }
+            await viewModel.SaveJson();
+            viewModel.GenerateDocument();
         }
 
-        #endregion
+        /// <summary>
+        /// During frame change saves actual data
+        /// </summary>
+        /// <param name="e"></param>
+        async protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            await viewModel.SaveJson();
+            base.OnNavigatingFrom(e);
+        }
+
+        /// <summary>
+        /// During frame load tries to load data stored in file
+        /// </summary>
+        /// <param name="e"></param>
+        async protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            await viewModel.LoadJson();
+            base.OnNavigatedTo(e);
+        }
     }
 }

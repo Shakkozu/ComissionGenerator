@@ -45,22 +45,5 @@
         <TextBlock Text="Opis" Grid.Column="4" Grid.Row="1"/>
         <RichEditBox Grid.Column="4" Grid.Row="2" Name="itemDescription" Grid.RowSpan="4"
                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
-        <!--<TextBlock x:Name="id" Text="{x:Bind Id}" VerticalAlignment="Center" 
-                  FontSize="20" FontWeight="Bold"/>
-
-            
-            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" >
-            
-               
-            
-            <TextBlock Margin="40,30,0,0" Text="Cena [zł]"/>
-            <TextBox x:Name="itemPrice" Margin="30,0"/>
-            </StackPanel>
-
-            <StackPanel Margin="40,0" Orientation="Vertical" Grid.Column="2" HorizontalAlignment="Stretch">
-                
-            </StackPanel>-->
-
     </Grid>
 </UserControl>

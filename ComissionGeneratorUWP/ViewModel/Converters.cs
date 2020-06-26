@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -25,5 +26,8 @@ namespace ComissionGeneratorUWP.ViewModel
         /// </summary>
         public static Visibility CollapsedIfNot(bool value) =>
             value ? Visibility.Visible : Visibility.Collapsed;
+
+        public static decimal StringToDecimalConverter(string str) =>
+             Decimal.Parse(str);
     }
 }

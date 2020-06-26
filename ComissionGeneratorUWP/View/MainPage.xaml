@@ -25,7 +25,8 @@
         <NavigationView Name="NavigationViewControl" Grid.Column="0" Grid.Row="1" 
                         SelectionChanged="NavigationViewControl_SelectionChanged" 
                         PaneDisplayMode="Top"
-                        BackRequested="NavigationViewControl_BackRequested" Grid.ColumnSpan="4"
+                        BackRequested="NavigationViewControl_BackRequested" 
+                        Grid.ColumnSpan="4"
                         Loaded="NavigationViewControl_Loaded" IsSettingsVisible="False"
                         IsBackEnabled="False">
             <NavigationView.MenuItems>

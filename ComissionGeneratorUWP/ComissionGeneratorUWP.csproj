@@ -120,10 +120,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="ViewModel\BindableBase.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\CommissionViewModel.cs" />
     <Compile Include="ViewModel\Converters.cs" />
+    <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="View\ClientPageFrame.xaml.cs">
       <DependentUpon>ClientPageFrame.xaml</DependentUpon>
     </Compile>
