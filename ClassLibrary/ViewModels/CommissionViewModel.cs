@@ -3,10 +3,10 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace ComissionGeneratorUWP.ViewModel
+namespace ClassLibrary
 {
     [DataContract]
-    public class CommissionViewModel : BaseViewModelUWP
+    public class CommissionViewModel : BaseViewModel
     {
         #region Properties
 
@@ -35,7 +35,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns></returns>
         internal async Task<bool> SaveXml()
         {
-            return await base.Save(this, ExtensionType.Xml);
+            return  base.Save(this, ExtensionType.Xml);
         }
 
 
@@ -45,7 +45,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns>true if loading is succesful, false otheriwse</returns>
         async internal Task<bool> LoadXml()
         {
-            return await base.Load(this, ExtensionType.Xml);
+            return  base.Load(this, ExtensionType.Xml);
         }
 
         internal void GenerateDocument()
@@ -59,7 +59,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns>true if loading is succesful, false otheriwse</returns>
         async internal Task<bool> LoadJson()
         {
-            return await base.Load(this, ExtensionType.Json);
+            return  base.Load(this, ExtensionType.Json);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns></returns>
         async internal Task<bool> SaveJson()
         {
-            return await base.Save(this, ExtensionType.Json);
+            return  base.Save(this, ExtensionType.Json);
         }
         
         /// <summary>

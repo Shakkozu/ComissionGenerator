@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using ClassLibrary;
 
-namespace ComissionGeneratorUWP.ViewModel
+namespace ClassLibrary
 {
 
     [DataContract]
-    public class CompanyViewModel : BaseViewModelUWP
+    public class CompanyViewModel : BaseViewModel
 
     {
         #region Properties
@@ -115,9 +115,9 @@ namespace ComissionGeneratorUWP.ViewModel
         /// Save current properties to file in xml format
         /// </summary>
         /// <returns></returns>
-        async internal Task<bool> SaveXml()
+        public bool SaveXml()
         {
-            return await base.Save(this, ExtensionType.Xml);
+            return Save(this, ExtensionType.Xml);
         }
 
 
@@ -125,27 +125,27 @@ namespace ComissionGeneratorUWP.ViewModel
         /// Load CompanyViewModel from File in xml format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> LoadXml()
+        public bool LoadXml()
         {
-            return await base.Load(this, ExtensionType.Xml);
+            return Load(this, ExtensionType.Xml);
         }
 
         /// <summary>
         /// Load CompanyViewModel from File in json format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> LoadJson()
+        public bool LoadJson()
         {
-            return await base.Load(this, ExtensionType.Json);
+            return  Load(this, ExtensionType.Json);
         }
 
         /// <summary>
         /// Save current properties to file in json format
         /// </summary>
         /// <returns></returns>
-        async internal Task<bool> SaveJson()
+       public bool SaveJson()
         {
-            return await base.Save(this, ExtensionType.Json);
+            return  Save(this, ExtensionType.Json);
         }
 
 

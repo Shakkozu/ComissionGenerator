@@ -18,7 +18,7 @@ using ClassLibrary;
 namespace ComissionGeneratorUWP.ViewModel
 {
     [DataContract]
-    abstract public class BaseViewModel : BindableBase
+    abstract public class BaseViewModelUWP : BindableBase
     {
         #region Properties
 
@@ -31,7 +31,7 @@ namespace ComissionGeneratorUWP.ViewModel
 
         #region Constructors
 
-        public BaseViewModel(string viewModelName)
+        public BaseViewModelUWP(string viewModelName)
         {
             ViewModelName = viewModelName;
             switch (ViewModelName)
