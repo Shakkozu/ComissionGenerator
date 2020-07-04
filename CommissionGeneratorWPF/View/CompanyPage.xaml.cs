@@ -21,8 +21,7 @@ namespace CommissionGeneratorWPF.View
     /// </summary>
     public partial class CompanyPage : Page
     {
-        public CompanyViewModel viewModel;
-        
+        public CompanyViewModel viewModel = new CompanyViewModel();
         public CompanyPage()
         {
             InitializeComponent();
@@ -31,10 +30,7 @@ namespace CommissionGeneratorWPF.View
 
         public void InitializeBinding()
         {
-            viewModel = new CompanyViewModel();
             mainGrid.DataContext = viewModel;
         }
-        
-        
     }
 }

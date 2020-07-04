@@ -21,18 +21,36 @@ namespace CommissionGeneratorWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Private Members
 
         private CompanyPage _companyPage = new CompanyPage();
         private ClientPage _clientPage = new ClientPage();
+        private CommissionPage _commissionPage = new CommissionPage();
+
+        #endregion
+
+        #region Constructors
+
         public MainWindow()
         {
             InitializeComponent();
-            companyPageLabel_MouseLeftButtonDown(this, null);
+            InitializeMainWindow();
+        }
+
+
+        private void InitializeMainWindow()
+        {
+
             LoadCompanyPage();
-            
+            SetPage("companyPageLabel");
+
             FontSize = 14;
             FontFamily = new FontFamily("Calibri");
         }
+
+        #endregion
+
+        #region Methods
 
         protected override void OnDeactivated(EventArgs e)
         {
@@ -49,35 +67,50 @@ namespace CommissionGeneratorWPF
         }
 
         
-
-        private void companyPageLabel_MouseEnter(object sender, MouseEventArgs e)
+        private void TextBlock_MouseEnter(object sender, MouseEventArgs e)
         {
-            companyPageLabel.Background = Brushes.Wheat;
+            if (sender is TextBlock block)
+                block.Background = Brushes.Wheat;
         }
 
-        private void companyPageLabel_MouseLeave(object sender, MouseEventArgs e)
+        private void TextBlock_MouseLeave(object sender, MouseEventArgs e)
         {
-            companyPageLabel.Background = Brushes.White;
+            if (sender is TextBlock block)
+                block.Background = Brushes.White;
         }
 
-        private void companyPageLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            frame.Content = _companyPage;
+            if (sender is TextBlock textBlock)
+            {
+                SetPage(textBlock.Name);
+            }
         }
 
-        private void clientPageLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        /// <summary>
+        /// Sets frame content using appropriate Page labels
+        /// </summary>
+        /// <param name="pageLabel"></param>
+        private void SetPage(string pageLabel)
         {
-            frame.Content = _clientPage;
+            switch (pageLabel)
+            {
+                case "companyPageLabel":
+                    frame.Content = _companyPage;
+                    break;
+                case "clientPageLabel":
+                    frame.Content = _clientPage;
+                    break;
+                case "commissionPageLabel":
+                    frame.Content = _commissionPage;
+                    break;
+                default:
+                    break;
+            }
         }
 
-        private void clientPageLabel_MouseEnter(object sender, MouseEventArgs e)
-        {
-            clientPageLabel.Background = Brushes.Wheat;
-        }
+        #endregion
 
-        private void clientPageLabel_MouseLeave(object sender, MouseEventArgs e)
-        {
-            clientPageLabel.Background = Brushes.White;
-        }
+
     }
 }

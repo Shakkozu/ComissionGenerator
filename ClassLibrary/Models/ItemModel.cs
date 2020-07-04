@@ -10,12 +10,16 @@ namespace ClassLibrary
     [DataContract]
     public class ItemModel : BindableBase
     {
-        #region Properties
+
+        #region Private Members
 
         private decimal _itemPrice;
         private string _itemDescription;
         private string _itemName;
 
+        #endregion
+
+        #region Properties
 
         [DataMember] public string ItemName { get { return _itemName; }
             set 

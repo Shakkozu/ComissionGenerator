@@ -39,21 +39,21 @@
         <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1">
 
             <!-- Company Name -->
-            <TextBlock Margin="5,0" Text="Nazwa Firmy"/>
+            <TextBlock Text="Nazwa Firmy"/>
             <TextBox Margin="0,10"  Text="{Binding CompanyName,Mode=TwoWay}" />
             <!-- NIP -->
-            <TextBlock Margin="5,0" Text="NIP" 
+            <TextBlock Text="NIP" 
                        Visibility="{Binding NIP.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
             
-            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer NIP" Foreground="Red" 
+            <TextBlock Text="Nieprawidłowy Numer NIP" Foreground="Red" 
                 Visibility="{Binding NIP.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
             <TextBox Margin="0,10" Text="{Binding NIP.Number,Mode=TwoWay}"></TextBox>
 
 
             <!-- Regon -->
-            <TextBlock Margin="5,0" Text="REGON" 
+            <TextBlock  Text="REGON" 
                        Visibility="{Binding REGON.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
-            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer REGON" Foreground="Red" 
+            <TextBlock  Text="Nieprawidłowy Numer REGON" Foreground="Red" 
                        Visibility="{Binding REGON.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
             
             <TextBox Margin="0,10" Text="{Binding REGON.Number,Mode=TwoWay}"></TextBox>
@@ -81,17 +81,17 @@
 
         <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="3">
             <!-- Email -->
-            <TextBlock Margin="5,0" Text="Email" 
+            <TextBlock Text="Email" 
                       Visibility="{Binding EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
-            <TextBlock Margin="5,0" Foreground="Red" Text="Nieprawidłowy Adres Email!"
+            <TextBlock  Foreground="Red" Text="Nieprawidłowy Adres Email!"
                         Visibility="{Binding EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
             <TextBox Margin="0,10" 
                      Text="{Binding EmailAddress.Address, Mode=TwoWay}"/>
 
             <!-- Phone Number -->
-            <TextBlock Margin="5,0" Text="Nr telefonu"
+            <TextBlock  Text="Nr telefonu"
                          Visibility="{Binding PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
-            <TextBlock Margin="5,0" Text="Nieprawidłowy Numer Telefonu!" Foreground="Red"
+            <TextBlock Text="Nieprawidłowy Numer Telefonu!" Foreground="Red"
                       Visibility="{Binding PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
             <TextBox Margin="0,10" Text="{Binding PhoneNumber.Number,Mode=TwoWay}"  
                   ></TextBox>
@@ -115,9 +115,9 @@
             </StackPanel>
 
             <!-- Phone Number -->
-            <TextBlock Margin="5,0" Text="Nr telefonu"
+            <TextBlock Text="Nr telefonu"
                          Visibility="{Binding Creator.PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
-            <TextBlock Margin="5,0"  Text="Nieprawidłowy Numer Telefonu!" Foreground="Red" 
+            <TextBlock  Text="Nieprawidłowy Numer Telefonu!" Foreground="Red" 
                         Visibility="{Binding Creator.PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
             <TextBox Margin="0,10" Text="{Binding Creator.PhoneNumber.Number, Mode=TwoWay}"></TextBox>
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,17 @@ namespace CommissionGeneratorWPF.View
     /// </summary>
     public partial class ClientPage : Page
     {
+        public ClientViewModel viewModel = new ClientViewModel();
+
         public ClientPage()
         {
             InitializeComponent();
+            InitializeBinding();
+        }
+
+        public void InitializeBinding()
+        {
+            mainGrid.DataContext = viewModel;
         }
     }
 }

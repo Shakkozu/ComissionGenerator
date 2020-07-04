@@ -5,10 +5,74 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CommissionGeneratorWPF.View"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="800"
       Title="ClientPage">
 
-    <Grid>
-        <TextBlock FontSize="40" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">  tessssssssst</TextBlock>
+    <Grid x:Name="mainGrid">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+
+
+
+
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Dane Klienta" FontSize="24" FontWeight="Black" Grid.ColumnSpan="2"/>
+
+        <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="1">
+           
+            <!--Name and LastName-->
+
+            <TextBlock Text="Imie i Nazwisko"/>
+            <StackPanel Orientation="Horizontal">
+
+                <TextBox Margin="0,10" MinWidth="100" 
+                         Text="{Binding Name, Mode=TwoWay}"/>
+
+                <TextBox Margin="30,10" MinWidth="150" 
+                         Text="{Binding LastName, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <!--Phone number -->
+            <TextBlock  Text="Nr Telefonu" 
+                        Visibility="{Binding PhoneNumber.IsValid, Mode=OneWay,
+                Converter={StaticResource collapsedIfNotConverter}}"/>
+
+            <TextBlock Foreground="Red" Text="Nieprawidłowy numer telefonu!"
+                       Visibility="{Binding PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+            <TextBox Margin="0,10"  Text="{Binding PhoneNumber.Number, Mode=TwoWay}"/>
+
+        </StackPanel>
+
+        <!-- Address data -->
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="1">
+        
+        <TextBlock FontSize="24" FontWeight="Black">Dane Adresowe</TextBlock>
+        <TextBlock Margin="0,10,0,0">Ulica</TextBlock>
+        <TextBox  Text="{Binding Address.Street, Mode=TwoWay}"/>
+
+        <TextBlock Margin="0,10,0,0">Miasto</TextBlock>
+        <TextBox Margin="0,0,0,10" Text="{Binding Address.City, Mode=TwoWay}"/>
+
+        <!-- Postal Code -->
+        <TextBlock Text="Kod Pocztowy" 
+                       Visibility="{Binding Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+        <TextBlock Foreground="Red" Text="Nieprawidłowy Kod Pocztowy" 
+                       Visibility="{Binding Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+
+        <TextBox Margin="0,10" HorizontalAlignment="Left" MaxWidth="150" MinWidth="80"
+                   Text="{Binding Address.PostalCode.Number,Mode=TwoWay}" />
+        </StackPanel>
     </Grid>
 </Page>

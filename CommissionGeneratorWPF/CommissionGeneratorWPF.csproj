@@ -71,6 +71,9 @@
     <Compile Include="View\ClientPage.xaml.cs">
       <DependentUpon>ClientPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CommissionPage.xaml.cs">
+      <DependentUpon>CommissionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CompanyPage.xaml.cs">
       <DependentUpon>CompanyPage.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ClientPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CommissionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

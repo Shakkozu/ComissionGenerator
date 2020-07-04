@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         
         Title="MainWindow" Height="600" Width="800"
-        MinHeight="600" MinWidth="800"
+        MinHeight="800" MinWidth="1024"
         >
 
 
@@ -29,16 +29,24 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="4">
           
             <TextBlock Text="Company Page" Name="companyPageLabel" 
-                   MouseLeftButtonDown="companyPageLabel_MouseLeftButtonDown" Margin="20,0,0,0" 
+                   MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Margin="20,0,0,0" 
                    Padding="10" FontSize="16"
-                   MouseEnter="companyPageLabel_MouseEnter" 
-                   MouseLeave="companyPageLabel_MouseLeave"/>
+                   MouseEnter="TextBlock_MouseEnter" 
+                   MouseLeave="TextBlock_MouseLeave"/>
 
             <TextBlock Text="Client Page" Margin="10,0" Padding="10" FontSize="16"
                        Name="clientPageLabel" 
-                       MouseLeftButtonDown="clientPageLabel_MouseLeftButtonDown"
-                       MouseEnter="clientPageLabel_MouseEnter" 
-                       MouseLeave="clientPageLabel_MouseLeave"/>
+                       MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                       MouseEnter="TextBlock_MouseEnter" 
+                   MouseLeave="TextBlock_MouseLeave"/>
+
+
+            <TextBlock Text="Commission Page" Margin="10,0" Padding="10" FontSize="16"
+                       Name="commissionPageLabel" 
+                       MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                       MouseEnter="TextBlock_MouseEnter" 
+                   MouseLeave="TextBlock_MouseLeave"/>
+            
         </StackPanel>
         <Line Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" StrokeThickness="3"/>
         <Frame NavigationUIVisibility="Hidden"

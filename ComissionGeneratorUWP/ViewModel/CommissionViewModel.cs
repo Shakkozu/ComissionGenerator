@@ -104,6 +104,8 @@ namespace ComissionGeneratorUWP.ViewModel
             }
         }
 
+       
+
         #endregion
 
 
