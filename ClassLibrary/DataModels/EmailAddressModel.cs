@@ -7,6 +7,13 @@ namespace ClassLibrary
 {
     public class EmailAddressModel : BindableBase
     {
+        #region Private Members
+
+        string _address;
+
+        #endregion
+
+        //***********************
 
         #region Properties
 
@@ -29,7 +36,7 @@ namespace ClassLibrary
             }
         }
         public bool IsValid { get; private set; } = true;
-        string _address;
+       
 
         #endregion
 

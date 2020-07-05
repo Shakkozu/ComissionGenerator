@@ -7,6 +7,15 @@ namespace ClassLibrary
 {
     public class PhoneNumberModel : BindableBase
     {
+
+        #region Private Members
+        
+        string _number;
+
+        #endregion
+
+        //***********************
+
         #region Properties
 
         public string Number
@@ -28,7 +37,7 @@ namespace ClassLibrary
             }
         }
         public bool IsValid { get; private set; } = true;
-        string _number;
+       
 
         #endregion
 
@@ -59,8 +68,8 @@ namespace ClassLibrary
         /// <returns>true if number is valid phone-number format, false otherwise</returns>
         public static bool Validate(string number)
         {
-            Regex rx_ = new Regex(@"^(\+\d{2}\s)?\d{3}[\-]?\d{3}[\-]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            Regex rx = new Regex(@"^(\+\d{2}\s)?\d{3}[\s]?\d{3}[\s]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex rx_ = new Regex(@"^(\+\d{2})?\s?\d{3}[\-]?\d{3}[\-]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex rx = new Regex(@"^(\+\d{2})?\s?\d{3}[\s]?\d{3}[\s]?\d{3}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             if (rx_.Match(number).Success)
                 return true;

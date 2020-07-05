@@ -32,7 +32,7 @@ namespace ClassLibrary
         [DataMember]
         public string ItemPrice
         {
-            get { return $"{_itemPrice.ToString()}zł"; }
+            get { return $"{_itemPrice}zł"; }
             set
             {
                 decimal result;

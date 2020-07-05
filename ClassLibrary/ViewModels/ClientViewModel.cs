@@ -4,17 +4,13 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    [DataContract]
     public class ClientViewModel : BaseViewModel
     {
 
         #region Properties
 
-        [DataMember] public string Name { get; set; }
-        [DataMember] public string LastName { get; set; }
+        public ClientModel Client { get; set; } = new ClientModel();
 
-        [DataMember] public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
-        [DataMember] public AddressModel Address { get; set; } = new AddressModel();
 
         #endregion
 
@@ -38,7 +34,7 @@ namespace ClassLibrary
         /// <returns>if all data is OK returns true, false otheriwse</returns>
         public bool CheckValidation()
         {
-            if (!PhoneNumber.IsValid | !Address.PostalCode.IsValid)
+            if (!Client.PhoneNumber.IsValid | !Client.Address.PostalCode.IsValid | !Client.EmailAddress.IsValid)
             {
                 return false;
             }
@@ -56,28 +52,33 @@ namespace ClassLibrary
         {
             if (obj is ClientViewModel model)
             {
-                if (model.Address != null)
+                if (model.Client.Address != null)
                 {
-                    if (model.Address.City != null) Address.City = model.Address.City;
-                    if (model.Address.PostalCode.IsValid) Address.PostalCode = model.Address.PostalCode;
-                    if (model.Address.Street != null) Address.Street = model.Address.Street;
+                    if (model.Client.Address.City != null) Client.Address.City = model.Client.Address.City;
+                    if (model.Client.Address.PostalCode.IsValid) Client.Address.PostalCode = model.Client.Address.PostalCode;
+                    if (model.Client.Address.Street != null) Client.Address.Street = model.Client.Address.Street;
                     OnPropertyChanged("Address");
                 }
-                if (model.PhoneNumber.IsValid)
-                { 
-                    PhoneNumber = model.PhoneNumber;
+                if (model.Client.PhoneNumber.IsValid)
+                {
+                    Client.PhoneNumber = model.Client.PhoneNumber;
                     OnPropertyChanged("PhoneNumber");
                 }
-                if (model.Name != null)
+                if (model.Client.Name != null)
                 {
-                    Name = model.Name;
+                    Client.Name = model.Client.Name;
                     OnPropertyChanged("Name");
                 }
 
-                if (model.LastName != null)
+                if (model.Client.LastName != null)
                 {
-                    LastName = model.LastName;
+                    Client.LastName = model.Client.LastName;
                     OnPropertyChanged("LastName");
+                }
+                if (model.Client.EmailAddress != null)
+                {
+                    Client.EmailAddress = model.Client.EmailAddress;
+                    OnPropertyChanged("EmailAddress");
                 }
 
             }
@@ -100,27 +101,27 @@ namespace ClassLibrary
         /// Load clientViewModel from File in xml format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> LoadXml()
+        internal bool LoadXml()
         {
-            return base.Load(this,ExtensionType.Xml);
+            return Load(this,ExtensionType.Xml);
         }
 
         /// <summary>
         /// Loads clientViewModel from File in json format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> LoadJson()
+        internal bool LoadJson()
         {
-            return  base.Load(this, ExtensionType.Json);
+            return  Load(this, ExtensionType.Json);
         }
 
         /// <summary>
         /// Saves clientViewModel to file in json format
         /// </summary>
         /// <returns>true if saving is succesful, false otherwise</returns>
-        async internal Task<bool> SaveJson()
+        internal bool SaveJson()
         {
-            return base.Save(this,ExtensionType.Json);
+            return Save(this,ExtensionType.Json);
         }
 
 

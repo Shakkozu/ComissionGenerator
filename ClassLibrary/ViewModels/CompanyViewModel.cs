@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using ClassLibrary;
+using ClassLibrary.Models;
 
 namespace ClassLibrary
 {
@@ -11,17 +12,9 @@ namespace ClassLibrary
     {
         #region Properties
      
-        [DataMember] public AddressModel Address { get; set; } = new AddressModel();
-        [DataMember] public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
-
+        
         [DataMember] public CommissionCreatorModel Creator { get; set; } = new CommissionCreatorModel();
-        [DataMember] public EmailAddressModel EmailAddress { get; set; } = new EmailAddressModel();
-
-
-        [DataMember] public NIPModel NIP { get; set; } = new NIPModel();
-        [DataMember] public RegonModel REGON { get; set; } = new RegonModel();
-
-        [DataMember] public string CompanyName { get; set; }
+        [DataMember] public CompanyModel Company { get; set; } = new CompanyModel();
         #endregion
 
         //**************************
@@ -46,8 +39,8 @@ namespace ClassLibrary
         /// <returns>if all data is OK returns true, false otheriwse</returns>
         public bool CheckValidation()
         {
-            if (!Address.PostalCode.IsValid || !PhoneNumber.IsValid ||
-                !Creator.PhoneNumber.IsValid || !NIP.IsValid || !REGON.IsValid)
+            if (!Company.Address.PostalCode.IsValid || !Company.PhoneNumber.IsValid ||
+                !Creator.PhoneNumber.IsValid || !Company.NIP.IsValid || !Company.REGON.IsValid)
             {
                 return false;
             }
@@ -74,38 +67,40 @@ namespace ClassLibrary
                         Creator.Name = model.Creator.Name;
                     if (model.Creator.PhoneNumber.IsValid)
                         Creator.PhoneNumber = model.Creator.PhoneNumber;
+                    if (model.Creator.EmailAddress.IsValid)
+                        Creator.EmailAddress = model.Creator.EmailAddress;
                     OnPropertyChanged("Creator");
                 }
-                if (model.Address != null)
+                if (model.Company.Address != null)
                 {
-                    if (model.Address.City != null) Address.City = model.Address.City;
-                    if (model.Address.PostalCode.IsValid) Address.PostalCode = model.Address.PostalCode;
-                    if (model.Address.Street != null) Address.Street = model.Address.Street;
+                    if (model.Company.Address.City != null) Company.Address.City = model.Company.Address.City;
+                    if (model.Company.Address.PostalCode.IsValid) Company.Address.PostalCode = model.Company.Address.PostalCode;
+                    if (model.Company.Address.Street != null) Company.Address.Street = model.Company.Address.Street;
                     OnPropertyChanged("Address");
                 }
-                if (model.CompanyName != null)
+                if (model.Company.CompanyName != null)
                 {
-                    CompanyName = model.CompanyName;
+                    Company.CompanyName = model.Company.CompanyName;
                     OnPropertyChanged("CompanyName");
                 }
-                if (model.NIP.IsValid)
+                if (model.Company.NIP.IsValid)
                 {
-                    NIP = model.NIP;
+                    Company.NIP = model.Company.NIP;
                     OnPropertyChanged("NIP");
                 }
-                if (model.EmailAddress.IsValid)
+                if (model.Company.EmailAddress.IsValid)
                 {
-                    EmailAddress = model.EmailAddress;
+                    Company.EmailAddress = model.Company.EmailAddress;
                     OnPropertyChanged("EmailAddress");
                 }
-                if (model.PhoneNumber.IsValid)
+                if (model.Company.PhoneNumber.IsValid)
                 {
-                    PhoneNumber = model.PhoneNumber;
+                    Company.PhoneNumber = model.Company.PhoneNumber;
                     OnPropertyChanged("PhoneNumber");
                 }
-                if (model.REGON.IsValid)
+                if (model.Company.REGON.IsValid)
                 {
-                    REGON = model.REGON;
+                    Company.REGON = model.Company.REGON;
                     OnPropertyChanged("REGON");
                 }
             }

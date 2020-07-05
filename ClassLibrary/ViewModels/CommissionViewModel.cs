@@ -33,9 +33,9 @@ namespace ClassLibrary
         /// Save current properties to file in xml format
         /// </summary>
         /// <returns></returns>
-        internal async Task<bool> SaveXml()
+        internal bool SaveXml()
         {
-            return  base.Save(this, ExtensionType.Xml);
+            return  Save(this, ExtensionType.Xml);
         }
 
 
@@ -43,9 +43,9 @@ namespace ClassLibrary
         /// Load CompanyViewModel from File in xml format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> LoadXml()
+        internal bool LoadXml()
         {
-            return  base.Load(this, ExtensionType.Xml);
+            return Load(this, ExtensionType.Xml);
         }
 
         internal void GenerateDocument()
@@ -57,18 +57,18 @@ namespace ClassLibrary
         /// Load CompanyViewModel from File in json format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        async internal Task<bool> LoadJson()
+        internal bool LoadJson()
         {
-            return  base.Load(this, ExtensionType.Json);
+            return Load(this, ExtensionType.Json);
         }
 
         /// <summary>
         /// Save current properties to file in json format
         /// </summary>
         /// <returns></returns>
-        async internal Task<bool> SaveJson()
+        internal bool SaveJson()
         {
-            return  base.Save(this, ExtensionType.Json);
+            return Save(this, ExtensionType.Json);
         }
         
         /// <summary>

@@ -17,6 +17,10 @@
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
-    
+    <Style TargetType="RadioButton">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontFamily" Value="Calibri"/>
+    </Style>
+
 </ResourceDictionary>
     

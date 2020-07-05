@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 
 namespace ClassLibrary
 {
-    public class PostalCodeModel : BindableBase
+    public class NIPModel : BindableBase
     {
+
+        #region Private Members
+
+        private string _number;
+
+        #endregion
+
         #region Properties
 
         public string Number
         {
-            get
-            {
-                return _number;
-            }
-
+            get => _number;
             set
             {
                 _number = value;
-                if (Validate(value) == true)
+                if (Validate(value))
                 {
                     IsValid = true;
                 }
@@ -31,10 +32,9 @@ namespace ClassLibrary
                     IsValid = false;
                 }
                 OnPropertyChanged("IsValid");
-                OnPropertyChanged("Number");
             }
         }
-        private string _number;
+
         public bool IsValid { get; private set; } = true;
 
 
@@ -44,10 +44,11 @@ namespace ClassLibrary
 
         #region Constructors
 
-        public PostalCodeModel()
+        public NIPModel()
         {
             _number = "";
         }
+
 
         #endregion
 
@@ -56,21 +57,27 @@ namespace ClassLibrary
         #region Methods
 
         /// <summary>
-        /// Regex Validator,
-        /// valid formats: {xx-xxx; xx xxx; xxxxx}
+        /// regex validator
+        /// Correct formats: {xxxxxxxxx;xxx-xxx-xx-xx;xxx xxx xx xx}
+        /// spaces and '-' can be swapped
         /// </summary>
-        /// <returns>true if number is valid postal-code format, false otherwise</returns>
+        /// <param name="number"></param>
+        /// <returns>true if number is valid NIP format, false otherwise</returns>
         public static bool Validate(string number)
         {
-            Regex rx = new Regex(@"^\d{2}[\-\s]?\d{3}$");
-            return rx.Match(number).Success;
+
+            Regex rx_ = new Regex(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{2}[\-\s]?\d{2}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            return (rx_.Match(number).Success);
         }
+
+
         public override string ToString()
         {
-            return this.Number;
+            return $"NIP: {Number}";
         }
 
         #endregion
+
 
 
 

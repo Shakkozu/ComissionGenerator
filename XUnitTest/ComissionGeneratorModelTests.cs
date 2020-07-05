@@ -44,6 +44,7 @@ namespace XUnitTest
         [InlineData("111-111-111")]
         [InlineData("+00 665 971 122")]
         [InlineData("123 123 123")]
+        [InlineData("+48 123 123 123")]
         void TestPhoneNumberValidRegex(string number)
         {
             Assert.True(PhoneNumberModel.Validate(number));

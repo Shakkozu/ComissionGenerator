@@ -11,7 +11,9 @@ namespace ClassLibrary
 
         public string Name { get; set; }
         public string LastName { get; set; }
+
         public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
+        public EmailAddressModel EmailAddress { get; set; } = new EmailAddressModel();
 
 
         #endregion

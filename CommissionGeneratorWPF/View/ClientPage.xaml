@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CommissionGeneratorWPF.View"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="800"
       Title="ClientPage">
 
     <Grid x:Name="mainGrid">
@@ -13,45 +13,95 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="6*"/>
-            <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="15*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
 
 
-
+        <Button Click="Button_Click"></Button>
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Dane Klienta" FontSize="24" FontWeight="Black" Grid.ColumnSpan="2"/>
 
         <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="1">
            
             <!--Name and LastName-->
 
-            <TextBlock Text="Imie i Nazwisko"/>
-            <StackPanel Orientation="Horizontal">
+            
+            
+            <RadioButton x:Name="personRadioButton" IsChecked="True" Checked="personRadioButton_Checked">
+                <RadioButton.Content>
+                    <TextBlock>Osoba Prywatna</TextBlock>
+                </RadioButton.Content>
+            </RadioButton>
 
-                <TextBox Margin="0,10" MinWidth="100" 
-                         Text="{Binding Name, Mode=TwoWay}"/>
+            <RadioButton Margin="0,10,0,20" x:Name="companyRadioButton" IsChecked="{Binding Client.Company, Mode=TwoWay}" Checked="companyRadioButton_Checked">
+                <RadioButton.Content>
+                    <TextBlock>Firma</TextBlock>
+                </RadioButton.Content>
+            </RadioButton>
 
-                <TextBox Margin="30,10" MinWidth="150" 
-                         Text="{Binding LastName, Mode=TwoWay}"/>
+            <!-- Private Individual Form -->
+            <StackPanel x:Name="personStackPanel" Orientation="Vertical" >
+                
+                <TextBlock Text="Imie i Nazwisko"/>
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBox Margin="0,10" MinWidth="100" 
+                         Text="{Binding Client.Name, Mode=TwoWay}"/>
+
+                    <TextBox Margin="30,10" MinWidth="150" 
+                         Text="{Binding Client.LastName, Mode=TwoWay}"/>
+                </StackPanel>
             </StackPanel>
+            
+
+            <!-- Company Form -->
+            <StackPanel x:Name="companyStackPanel" Orientation="Vertical">
+                <TextBlock Text="Nazwa Firmy"/>
+                
+                <TextBox Margin="0,10" MinWidth="200" MaxWidth="300" 
+                         HorizontalAlignment="Left" 
+                         Text="{Binding Client.CompanyName, Mode=TwoWay}"/>
+
+                <TextBlock Text="NIP" 
+                       Visibility="{Binding Client.NIP.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+
+                <TextBlock Text="Nieprawidłowy Numer NIP" Foreground="Red" 
+                Visibility="{Binding Client.NIP.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+
+                <TextBox Margin="0,10" MinWidth="200" MaxWidth="300" 
+                         HorizontalAlignment="Left" 
+                         Text="{Binding Client.NIP.Number, Mode=TwoWay}"/>
+
+
+            </StackPanel>
+
 
             <!--Phone number -->
             <TextBlock  Text="Nr Telefonu" 
-                        Visibility="{Binding PhoneNumber.IsValid, Mode=OneWay,
+                        Visibility="{Binding Client.PhoneNumber.IsValid, Mode=OneWay,
                 Converter={StaticResource collapsedIfNotConverter}}"/>
 
             <TextBlock Foreground="Red" Text="Nieprawidłowy numer telefonu!"
-                       Visibility="{Binding PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
-            <TextBox Margin="0,10"  Text="{Binding PhoneNumber.Number, Mode=TwoWay}"/>
+                       Visibility="{Binding Client.PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+            <TextBox Margin="0,10" MinWidth="200"  MaxWidth="300" HorizontalAlignment="Left" 
+                     Text="{Binding Client.PhoneNumber.Number, Mode=TwoWay}"/>
+
+            <!--Email -->
+            <TextBlock  Text="Email" 
+                        Visibility="{Binding Client.EmailAddress.IsValid, Mode=OneWay,
+                Converter={StaticResource collapsedIfNotConverter}}"/>
+
+            <TextBlock Foreground="Red" Text="Nieprawidłowy adres email!!"
+                       Visibility="{Binding Client.EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+            <TextBox Margin="0,10" MinWidth="200"  MaxWidth="300" HorizontalAlignment="Left" Text="{Binding Client.EmailAddress.Address, Mode=TwoWay}"/>
 
         </StackPanel>
 
@@ -60,19 +110,19 @@
         
         <TextBlock FontSize="24" FontWeight="Black">Dane Adresowe</TextBlock>
         <TextBlock Margin="0,10,0,0">Ulica</TextBlock>
-        <TextBox  Text="{Binding Address.Street, Mode=TwoWay}"/>
+            <TextBox MinWidth="200"  MaxWidth="300" HorizontalAlignment="Left" Text="{Binding Client.Address.Street, Mode=TwoWay}"/>
 
         <TextBlock Margin="0,10,0,0">Miasto</TextBlock>
-        <TextBox Margin="0,0,0,10" Text="{Binding Address.City, Mode=TwoWay}"/>
+            <TextBox Margin="0,0,0,10" MinWidth="200"  MaxWidth="300" HorizontalAlignment="Left" Text="{Binding Client.Address.City, Mode=TwoWay}"/>
 
         <!-- Postal Code -->
         <TextBlock Text="Kod Pocztowy" 
-                       Visibility="{Binding Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+                       Visibility="{Binding Client.Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
         <TextBlock Foreground="Red" Text="Nieprawidłowy Kod Pocztowy" 
-                       Visibility="{Binding Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+                       Visibility="{Binding Client.Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
 
         <TextBox Margin="0,10" HorizontalAlignment="Left" MaxWidth="150" MinWidth="80"
-                   Text="{Binding Address.PostalCode.Number,Mode=TwoWay}" />
+                   Text="{Binding Client.Address.PostalCode.Number,Mode=TwoWay}" />
         </StackPanel>
     </Grid>
 </Page>

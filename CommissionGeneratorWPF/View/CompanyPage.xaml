@@ -40,23 +40,23 @@
 
             <!-- Company Name -->
             <TextBlock Text="Nazwa Firmy"/>
-            <TextBox Margin="0,10"  Text="{Binding CompanyName,Mode=TwoWay}" />
+            <TextBox Margin="0,10"  Text="{Binding Company.CompanyName,Mode=TwoWay}" />
             <!-- NIP -->
             <TextBlock Text="NIP" 
-                       Visibility="{Binding NIP.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+                       Visibility="{Binding Company.NIP.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
             
             <TextBlock Text="Nieprawidłowy Numer NIP" Foreground="Red" 
-                Visibility="{Binding NIP.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
-            <TextBox Margin="0,10" Text="{Binding NIP.Number,Mode=TwoWay}"></TextBox>
+                Visibility="{Binding Company.NIP.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+            <TextBox Margin="0,10" Text="{Binding Company.NIP.Number,Mode=TwoWay}"></TextBox>
 
 
             <!-- Regon -->
             <TextBlock  Text="REGON" 
-                       Visibility="{Binding REGON.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+                       Visibility="{Binding Company.REGON.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
             <TextBlock  Text="Nieprawidłowy Numer REGON" Foreground="Red" 
-                       Visibility="{Binding REGON.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
-            
-            <TextBox Margin="0,10" Text="{Binding REGON.Number,Mode=TwoWay}"></TextBox>
+                       Visibility="{Binding Company.REGON.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+
+            <TextBox Margin="0,10" Text="{Binding Company.REGON.Number,Mode=TwoWay}"></TextBox>
 
         </StackPanel>
 
@@ -64,36 +64,36 @@
             <!-- Address data -->
             <TextBlock FontSize="24" FontWeight="Black">Dane Adresowe</TextBlock>
             <TextBlock Margin="0,10,0,0">Ulica</TextBlock>
-            <TextBox  Text="{Binding Address.Street, Mode=TwoWay}"/>
+            <TextBox  Text="{Binding Company.Address.Street, Mode=TwoWay}"/>
 
             <TextBlock Margin="0,10,0,0">Miasto</TextBlock>
-            <TextBox Margin="0,0,0,10" Text="{Binding Address.City, Mode=TwoWay}"/>
+            <TextBox Margin="0,0,0,10" Text="{Binding Company.Address.City, Mode=TwoWay}"/>
 
             <!-- Postal Code -->
             <TextBlock Text="Kod Pocztowy" 
-                       Visibility="{Binding Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+                       Visibility="{Binding Company.Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
             <TextBlock Foreground="Red" Text="Nieprawidłowy Kod Pocztowy" 
-                       Visibility="{Binding Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+                       Visibility="{Binding Company.Address.PostalCode.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
 
             <TextBox Margin="0,10" HorizontalAlignment="Left" MaxWidth="150" MinWidth="80"
-                   Text="{Binding Address.PostalCode.Number,Mode=TwoWay}" />
+                   Text="{Binding Company.Address.PostalCode.Number,Mode=TwoWay}" />
         </StackPanel>
 
         <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="3">
             <!-- Email -->
             <TextBlock Text="Email" 
-                      Visibility="{Binding EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+                      Visibility="{Binding Company.EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
             <TextBlock  Foreground="Red" Text="Nieprawidłowy Adres Email!"
-                        Visibility="{Binding EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+                        Visibility="{Binding Company.EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
             <TextBox Margin="0,10" 
-                     Text="{Binding EmailAddress.Address, Mode=TwoWay}"/>
+                     Text="{Binding Company.EmailAddress.Address, Mode=TwoWay}"/>
 
             <!-- Phone Number -->
             <TextBlock  Text="Nr telefonu"
-                         Visibility="{Binding PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+                         Visibility="{Binding Company.PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
             <TextBlock Text="Nieprawidłowy Numer Telefonu!" Foreground="Red"
-                      Visibility="{Binding PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
-            <TextBox Margin="0,10" Text="{Binding PhoneNumber.Number,Mode=TwoWay}"  
+                      Visibility="{Binding Company.PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+            <TextBox Margin="0,10" Text="{Binding Company.PhoneNumber.Number,Mode=TwoWay}"  
                   ></TextBox>
         </StackPanel>
 
@@ -107,10 +107,10 @@
             <TextBlock >Wygenerował Zlecenie</TextBlock>
             <StackPanel Orientation="Horizontal">
                 <TextBox Margin="0,10" MinWidth="100" 
-                         Text="{Binding viewModel.Creator.Name, Mode=TwoWay}"/>
+                         Text="{Binding Creator.Name, Mode=TwoWay}"/>
 
                 <TextBox Margin="30,10" MinWidth="150" 
-                         Text="{Binding viewModel.Creator.LastName, Mode=TwoWay}"/>
+                         Text="{Binding Creator.LastName, Mode=TwoWay}"/>
 
             </StackPanel>
 
@@ -120,6 +120,15 @@
             <TextBlock  Text="Nieprawidłowy Numer Telefonu!" Foreground="Red" 
                         Visibility="{Binding Creator.PhoneNumber.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
             <TextBox Margin="0,10" Text="{Binding Creator.PhoneNumber.Number, Mode=TwoWay}"></TextBox>
+
+
+            <TextBlock Text="Email" 
+                      Visibility="{Binding Creator.EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfNotConverter}}"/>
+            <TextBlock  Foreground="Red" Text="Nieprawidłowy Adres Email!"
+                        Visibility="{Binding Creator.EmailAddress.IsValid, Mode=OneWay, Converter={StaticResource collapsedIfConverter}}"/>
+            <TextBox Margin="0,10" 
+                     Text="{Binding Creator.EmailAddress.Address, Mode=TwoWay}"/>
+
 
         </StackPanel>
         <!--#endregion-->

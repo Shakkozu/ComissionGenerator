@@ -8,9 +8,16 @@ namespace ClassLibrary
     public class RegonModel :BindableBase
     {
 
-        #region Properties
+        #region Private Members
 
         private string _number;
+
+        #endregion
+
+        //***********************
+
+        #region Properties
+
 
         public string Number
         {

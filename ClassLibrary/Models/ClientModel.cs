@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary 
 { 
-    public class PersonModel
+    public class ClientModel : CommissionCreatorModel
     {
         #region Properties
 
-
-        public string Name { get; set; }
-        public string Surname { get; set; }
-
         public AddressModel Address { get; set; } = new AddressModel();
-        public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel("");
+
+        public bool Company { get; set; } = false;
+       
+        public string CompanyName { get; set; }
+        public NIPModel NIP { get; set; } = new NIPModel();
+
 
         #endregion
 
