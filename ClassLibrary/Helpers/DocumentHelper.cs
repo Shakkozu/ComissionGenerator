@@ -10,7 +10,7 @@ using Xceed.Words.NET;
 
 namespace ClassLibrary.Helpers
 {
-    public class DocumentHelper
+    public static class DocumentHelper
     {
         public static int Id { get; private set; } = 0;
 
@@ -76,133 +76,133 @@ namespace ClassLibrary.Helpers
             newItem.ReplaceText("<TotalPrice>", "$ " + (unitPrice * unitQuantity).ToString("N2"));
         }
 
-        ///// <summary>
-        ///// Function Generates new Document with data passed in arguments
-        ///// </summary>
-        ///// <param name="fileName">path to output file</param>
-        ///// <param name="UserData">Data about Creator, Client and Company</param>
-        ///// <param name="Products">List of products</param>
-        //private static void GenerateNewDocument(string fileName, PersonalData UserData, List<ItemModel> Products)
-        //{
-        //    DocX doc = DocX.Create(fileName, DocumentTypes.Document);
+        /// <summary>
+        /// Function Generates new Document with data passed in arguments
+        /// </summary>
+        /// <param name="fileName">path to output file</param>
+        /// <param name="UserData">Data about Creator, Client and Company</param>
+        /// <param name="Products">List of products</param>
+        public static void GenerateNewDocument(string fileName, PersonalData UserData, List<ItemModel> Products)
+        {
+            DocX doc = DocX.Create(fileName, DocumentTypes.Document);
 
-        //    /*
-        //     Insert Actual Date
-        //     */
+            /*
+             Insert Actual Date
+             */
 
-        //    var p = doc.InsertParagraph("Generation Date:  " + DateTime.Now.ToShortDateString());
-        //    p.Alignment = Alignment.right;
+            var p = doc.InsertParagraph("Generation Date:  " + DateTime.Now.ToShortDateString());
+            p.Alignment = Alignment.right;
 
-        //    p.SpacingLine(10);
+            p.SpacingLine(10);
 
-        //    p = doc.InsertParagraph("Commission");
-        //    p.Alignment = Alignment.center;
-        //    p.FontSize(32);
-        //    p.Bold(true);
-        //    p.SpacingLine(15);
-
-
-
-        //    /*
-        //     Insert Table with Creator and Client info
-        //     */
-
-        //    var table = doc.InsertTable(2, 2);
-        //    table.AutoFit = AutoFit.Window;
-
-        //    //Fill the first row of table
-        //    var row = table.Rows.First();
-        //    row.Height = 24;
-        //    row.Cells[0].Paragraphs.First().Append("Company Data");
-        //    row.Cells[1].Paragraphs.First().Append("Client Data");
-
-        //    //foreach col in cow
-        //    //Change it to LINQ in future
-        //    foreach (var cell in row.Cells)
-        //    {
-        //        cell.Paragraphs.First().Alignment = Alignment.center;
-        //        cell.VerticalAlignment = VerticalAlignment.Center;
-        //        cell.Paragraphs.First().FontSize(14);
-        //    }
-
-        //    //Fill the second row with actual Company + Client Data
-        //    row = table.Rows[1];
-        //    row.Cells[0].Paragraphs.First().Append(UserData.CompanyData);
-
-        //    row.Cells[1].Paragraphs.First().Append(UserData.ClientData);
-
-        //    p = doc.InsertParagraph("Products Info");
-        //    p.FontSize(22);
-        //    p.Bold(true);
-        //    p.Alignment = Alignment.center;
-        //    p.SpacingBefore(30);
-        //    p.SpacingAfter(10);
-
-
-        //    Table waresTable = doc.InsertTable(1, 5);
-        //    var r = waresTable.Rows.First();
-
-        //    waresTable.AutoFit = AutoFit.Contents;
-        //    r.Cells[0].Paragraphs.First().Append("Id");
-        //    r.Cells[1].Paragraphs.First().Append("Product Name");
-        //    r.Cells[2].Paragraphs.First().Append("Product Price");
-        //    r.Cells[3].Paragraphs.First().Append("Quantity");
-        //    r.Cells[4].Paragraphs.First().Append("Price Total");
-        //    r.Cells.ForEach(x => x.Paragraphs.First().Bold(true));
-
-
-        //    foreach (Product product in Products)
-        //    {
-        //        r = waresTable.InsertRow();
-        //        r.Cells[0].Paragraphs.First().Append(product.Id.ToString());
-        //        r.Cells[1].Paragraphs.First().Append(product.ProductName);
-        //        r.Cells[2].Paragraphs.First().Append(product.PricePerItem.ToString() + "$");
-        //        r.Cells[3].Paragraphs.First().Append(product.Quantity.ToString());
-        //        r.Cells[4].Paragraphs.First().Append(product.TotalPrice.ToString() + "$");
-        //    }
-
-        //    waresTable.Rows.ForEach(x => x.Cells.ForEach(y => y.Paragraphs.First().Alignment = Alignment.center));
-        //    waresTable.SetColumnWidth(0, 30);
-        //    waresTable.SetColumnWidth(3, 60);
-        //    waresTable.Design = TableDesign.ColorfulList;
-
-        //    waresTable.Alignment = Alignment.center;
-
-
-        //    decimal totalPrice = 0;
-        //    foreach (Product prod in Products)
-        //    {
-        //        totalPrice += prod.TotalPrice;
-        //    }
-
-        //    p = doc.InsertParagraph($"Total Cost :{totalPrice}$");
-        //    p.Alignment = Alignment.right;
-        //    p.LineSpacingBefore = 15;
-        //    p.LineSpacingAfter = 30;
-        //    p.FontSize(12);
-
-        //    p = doc.InsertParagraph($"Document Generated By:\n{UserData.CreatorName}\n{UserData.CreatorEmail}\n" +
-        //        $"Phone Number:{UserData.CreatorPhoneNumber}");
-
-        //    p.Alignment = Alignment.left;
-        //    p.FontSize(12);
-
-        //    doc.Save();
-
-        //    Process.Start("WINWORD.EXE", fileName);
+            p = doc.InsertParagraph("Commission");
+            p.Alignment = Alignment.center;
+            p.FontSize(32);
+            p.Bold(true);
+            p.SpacingLine(15);
 
 
 
-        //}
+            /*
+             Insert Table with Creator and Client info
+             */
 
-        ///// <summary>
-        ///// Function Generates new Document using file template 
-        ///// </summary>
-        ///// <param name="template">path to file template</param>
-        ///// <param name="fileName">path to result file</param>
-        ///// <param name="UserData">Data about Creator, Client and Company</param>
-        ///// <param name="Products">List of products</param>
-        //private static void GenerateDocumentFromTemplate(string template, string fileName,PersonalData  UserData, List<ItemModel> Products)
+            var table = doc.InsertTable(2, 2);
+            table.AutoFit = AutoFit.Window;
+
+            //Fill the first row of table
+            var row = table.Rows.First();
+            row.Height = 24;
+            row.Cells[0].Paragraphs.First().Append("Company Data");
+            row.Cells[1].Paragraphs.First().Append("Client Data");
+
+            //foreach col in cow
+            //Change it to LINQ in future
+            foreach (var cell in row.Cells)
+            {
+                cell.Paragraphs.First().Alignment = Alignment.center;
+                cell.VerticalAlignment = VerticalAlignment.Center;
+                cell.Paragraphs.First().FontSize(14);
+            }
+
+            //Fill the second row with actual Company + Client Data
+            row = table.Rows[1];
+            row.Cells[0].Paragraphs.First().Append(UserData.Company.ToString());
+
+            row.Cells[1].Paragraphs.First().Append(UserData.Client.ToString());
+
+            p = doc.InsertParagraph("Products Info");
+            p.FontSize(22);
+            p.Bold(true);
+            p.Alignment = Alignment.center;
+            p.SpacingBefore(30);
+            p.SpacingAfter(10);
+
+
+            Table waresTable = doc.InsertTable(1, 6);
+            var r = waresTable.Rows.First();
+
+            waresTable.AutoFit = AutoFit.Contents;
+            r.Cells[0].Paragraphs.First().Append("Id");
+            r.Cells[1].Paragraphs.First().Append("Product Name");
+            r.Cells[2].Paragraphs.First().Append("Product Price");
+            r.Cells[3].Paragraphs.First().Append("Product Description");
+            r.Cells[4].Paragraphs.First().Append("Quantity");
+            r.Cells[5].Paragraphs.First().Append("Price Total");
+            r.Cells.ForEach(x => x.Paragraphs.First().Bold(true));
+
+
+            foreach (ItemModel product in Products)
+            {
+                r = waresTable.InsertRow();
+                r.Cells[0].Paragraphs.First().Append(product.Id.ToString());
+                r.Cells[1].Paragraphs.First().Append(product.ItemName);
+                r.Cells[2].Paragraphs.First().Append(product.ItemPrice.ToString() + "zł");
+                r.Cells[3].Paragraphs.First().Append(product.Quantity.ToString());
+                r.Cells[4].Paragraphs.First().Append(product.TotalPrice.ToString() + "zł");
+            }
+
+            waresTable.Rows.ForEach(x => x.Cells.ForEach(y => y.Paragraphs.First().Alignment = Alignment.center));
+            waresTable.SetColumnWidth(0, 30);
+            waresTable.SetColumnWidth(3, 60);
+            waresTable.Design = TableDesign.ColorfulList;
+
+            waresTable.Alignment = Alignment.center;
+
+
+            decimal totalPrice = 0;
+            foreach (ItemModel prod in Products)
+            {
+                totalPrice += prod.TotalPrice;
+            }
+
+            p = doc.InsertParagraph($"Total Cost :{totalPrice}$");
+            p.Alignment = Alignment.right;
+            p.LineSpacingBefore = 15;
+            p.LineSpacingAfter = 30;
+            p.FontSize(12);
+
+            p = doc.InsertParagraph($"Document Generated By:{UserData.CommissionCreator}");
+
+            p.Alignment = Alignment.left;
+            p.FontSize(12);
+
+            doc.Save();
+
+            Process.Start("WINWORD.EXE", fileName);
+
+
+
+        }
+
+        /// <summary>
+        /// Function Generates new Document using file template 
+        /// </summary>
+        /// <param name="template">path to file template</param>
+        /// <param name="fileName">path to result file</param>
+        /// <param name="UserData">Data about Creator, Client and Company</param>
+        /// <param name="Products">List of products</param>
+        //private static void GenerateDocumentFromTemplate(string template, string fileName, PersonalData UserData, List<ItemModel> Products)
         //{
         //    File.Copy(template, fileName, true);
         //    string tableDescription = "PRODUCT_LIST_TABLE";

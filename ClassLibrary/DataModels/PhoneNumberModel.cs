@@ -80,7 +80,7 @@ namespace ClassLibrary
         }
         public override string ToString()
         {
-            return Number;
+            return $"Tel: {Number}";
         }
 
         #endregion

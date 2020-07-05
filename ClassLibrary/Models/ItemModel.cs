@@ -35,10 +35,9 @@ namespace ClassLibrary
             get { return $"{_itemPrice}zł"; }
             set
             {
-                decimal result;
                 if (value.Contains("zł"))
                     value = value.Substring(0, value.Length - 2);
-                if (decimal.TryParse(value.Replace('.', ','), out result))
+                if (decimal.TryParse(value.Replace('.', ','), out decimal result))
                     _itemPrice = result;
 
                 OnPropertyChanged();
@@ -53,6 +52,10 @@ namespace ClassLibrary
             } 
         }
         [DataMember] public int Id { get; private set; }
+
+        public int Quantity { get; set; }
+
+        public decimal TotalPrice { get { return Quantity * _itemPrice; } }
 
         #endregion
 

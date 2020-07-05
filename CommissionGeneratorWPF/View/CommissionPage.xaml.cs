@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ClassLibrary;
+using ClassLibrary.Events;
 
 namespace CommissionGeneratorWPF.View
 {
@@ -22,6 +23,7 @@ namespace CommissionGeneratorWPF.View
     public partial class CommissionPage : Page
     {
         public CommissionViewModel viewModel = new CommissionViewModel();
+        public event EventHandler<CommissionEventArgs> CommissionGenerated;
 
         public CommissionPage()
         {
@@ -44,13 +46,15 @@ namespace CommissionGeneratorWPF.View
 
         private void generateCommissionButton_Click(object sender, RoutedEventArgs e)
         {
-            string result = "";
-            foreach(var item in viewModel.ItemList)
-            {
-                if(item.ItemName != "")
-                    result += $"{item.Id}: {item.ItemName} costs {item.ItemPrice}" + Environment.NewLine;
-            }
-            MessageBox.Show(result);
+            CommissionGenerated.Invoke(this, new CommissionEventArgs(viewModel.ItemList.ToList()));
+
+            //string result = "";
+            //foreach(var item in viewModel.ItemList)
+            //{
+            //    if(item.ItemName != "")
+            //        result += $"{item.Id}: {item.ItemName} costs {item.ItemPrice}" + Environment.NewLine;
+            //}
+            //MessageBox.Show(result);
         }
     }
 }

@@ -34,7 +34,10 @@ namespace ClassLibrary
 
         #region Methods
 
-
+        public override string ToString()
+        {
+            return $"{Name} {LastName}\n{EmailAddress}\n{PhoneNumber}";
+        }
 
         #endregion
     }

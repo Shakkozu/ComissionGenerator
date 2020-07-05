@@ -16,5 +16,10 @@ namespace ClassLibrary.Models
         [DataMember] public RegonModel REGON { get; set; } = new RegonModel();
 
         [DataMember] public string CompanyName { get; set; }
+
+        public override string ToString()
+        {
+            return $"{CompanyName}\n{Address}\n{EmailAddress}\n{PhoneNumber}\n{NIP}\n{REGON}";
+        }
     }
 }

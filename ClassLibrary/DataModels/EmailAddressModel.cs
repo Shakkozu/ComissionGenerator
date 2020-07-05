@@ -83,7 +83,7 @@ namespace ClassLibrary
         }
         public override string ToString()
         {
-            return Address;
+            return $"Email: {Address}";
         }
 
         #endregion

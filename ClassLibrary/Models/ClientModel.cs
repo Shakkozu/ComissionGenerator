@@ -33,6 +33,22 @@ namespace ClassLibrary
 
         #region Methods
 
+        public override string ToString()
+        {
+            string header;
+            string footer="";
+            if(Company)
+            {
+                header = $"{CompanyName}";
+                footer = $"{NIP}";
+            }
+            else
+            {
+                header = $"{Name} {LastName}";
+                
+            }
+            return $"{header}\n{Address}\n{EmailAddress}\n{PhoneNumber}\n{footer}";
+        }
 
 
         #endregion

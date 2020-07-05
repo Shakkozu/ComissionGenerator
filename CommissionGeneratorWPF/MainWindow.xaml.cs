@@ -1,4 +1,7 @@
-﻿using CommissionGeneratorWPF.View;
+﻿using ClassLibrary.Events;
+using ClassLibrary.Helpers;
+using ClassLibrary.Models;
+using CommissionGeneratorWPF.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +30,8 @@ namespace CommissionGeneratorWPF
         private ClientPage _clientPage = new ClientPage();
         private CommissionPage _commissionPage = new CommissionPage();
 
+        private PersonalData PersonalData;
+
         #endregion
 
         #region Constructors
@@ -35,8 +40,15 @@ namespace CommissionGeneratorWPF
         {
             InitializeComponent();
             InitializeMainWindow();
+            PersonalData = new PersonalData(_companyPage.viewModel, _clientPage.viewModel);
+            _commissionPage.CommissionGenerated += _commissionPage_CommissionGenerated;
+
         }
 
+        private void _commissionPage_CommissionGenerated(object sender, CommissionEventArgs e)
+        {
+            DocumentHelper.GenerateNewDocument(@"C:\Users\user\Desktop\firstTest.docx", PersonalData,e.Items);
+        }
 
         private void InitializeMainWindow()
         {
@@ -51,6 +63,10 @@ namespace CommissionGeneratorWPF
         #endregion
 
         #region Methods
+
+        
+
+        
 
         protected override void OnDeactivated(EventArgs e)
         {

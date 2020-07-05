@@ -43,9 +43,9 @@ namespace ClassLibrary
 
         public override string ToString()
         {
-            return $"ul. {Street}" +
+            return $"Ul. {Street}" +
                 Environment.NewLine +
-                $"{City}, {PostalCode}";
+                $"{PostalCode}, {City}";
         }
 
         #endregion
