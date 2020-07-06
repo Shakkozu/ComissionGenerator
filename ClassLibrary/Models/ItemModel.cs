@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text;
+using Windows.UI.WebUI;
 
 namespace ClassLibrary
 {
@@ -16,6 +17,9 @@ namespace ClassLibrary
         private decimal _itemPrice;
         private string _itemDescription;
         private string _itemName;
+
+        private string _quantityStr;
+        private int _quantity;
 
         #endregion
 
@@ -32,11 +36,13 @@ namespace ClassLibrary
         [DataMember]
         public string ItemPrice
         {
-            get { return $"{_itemPrice}zł"; }
+            get { return $"{_itemPrice}$"; }
             set
             {
                 if (value.Contains("zł"))
                     value = value.Substring(0, value.Length - 2);
+                else if (value.Contains("$"))
+                    value = value.Substring(0, value.Length - 1);
                 if (decimal.TryParse(value.Replace('.', ','), out decimal result))
                     _itemPrice = result;
 
@@ -53,11 +59,39 @@ namespace ClassLibrary
         }
         [DataMember] public int Id { get; private set; }
 
-        public int Quantity { get; set; }
+        public string Quantity
+        {
+            get
+            {
+                return _quantityStr;
+            }
+            set
+            {
+                if (value.Contains("m"))
+                {
+                    if (int.TryParse(value.Remove(value.IndexOf("m")), out _quantity))
+                    {
 
-        public decimal TotalPrice { get { return Quantity * _itemPrice; } }
+                        _quantityStr = _quantity.ToString() + "m";
+                    }
+
+                }
+                else
+                {
+                    if (int.TryParse(value, out _quantity))
+                    {
+                        _quantityStr = _quantity.ToString();
+                    }
+                }
+            }
+        }
+
+       
+
+        public decimal TotalPrice { get { return _quantity * _itemPrice; } }
 
         #endregion
+
 
         #region Constructors
 
@@ -67,6 +101,8 @@ namespace ClassLibrary
             _itemName = "";
             _itemPrice = 0;
             _itemDescription = "";
+            _quantity = 1;
+            _quantityStr = "";
         }
 
         #endregion
