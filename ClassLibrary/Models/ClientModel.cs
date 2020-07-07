@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
 
 namespace ClassLibrary 
-{ 
+{
     public class ClientModel : CommissionCreatorModel
     {
         #region Properties
@@ -14,10 +15,12 @@ namespace ClassLibrary
         public AddressModel Address { get; set; } = new AddressModel();
 
         public bool Company { get; set; } = false;
-       
+
         public string CompanyName { get; set; }
         public NIPModel NIP { get; set; } = new NIPModel();
 
+        public override string FullName => Company ? CompanyName : $"{Name} {LastName}";
+         
 
         #endregion
 
@@ -35,19 +38,8 @@ namespace ClassLibrary
 
         public override string ToString()
         {
-            string header;
-            string footer="";
-            if(Company)
-            {
-                header = $"{CompanyName}";
-                footer = $"{NIP}";
-            }
-            else
-            {
-                header = $"{Name} {LastName}";
-                
-            }
-            return $"{header}\n{Address}\n{EmailAddress}\n{PhoneNumber}\n{footer}";
+            string footer = Company ? $"{NIP}" : "";
+            return $"{FullName}\n{Address}\n{EmailAddress}\n{PhoneNumber}\n{footer}";
         }
 
 

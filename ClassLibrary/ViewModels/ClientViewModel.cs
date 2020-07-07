@@ -90,38 +90,37 @@ namespace ClassLibrary
         /// Save current properties to file in xml format
         /// </summary>
         /// <returns></returns>
-        internal bool SaveXml()
+        public bool SaveXml()
         {
-            return base.Save(this,ExtensionType.Xml);
+            return Save(this, ExtensionType.Xml);
         }
 
 
-
         /// <summary>
-        /// Load clientViewModel from File in xml format
+        /// Load CompanyViewModel from File in xml format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        internal bool LoadXml()
+        public bool LoadXml()
         {
-            return Load(this,ExtensionType.Xml);
+            return Load(this, ExtensionType.Xml);
         }
 
         /// <summary>
-        /// Loads clientViewModel from File in json format
+        /// Load CompanyViewModel from File in json format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        internal bool LoadJson()
+        public bool LoadJson()
         {
-            return  Load(this, ExtensionType.Json);
+            return Load(this, ExtensionType.Json);
         }
 
         /// <summary>
-        /// Saves clientViewModel to file in json format
+        /// Save current properties to file in json format
         /// </summary>
-        /// <returns>true if saving is succesful, false otherwise</returns>
-        internal bool SaveJson()
+        /// <returns></returns>
+        public bool SaveJson()
         {
-            return Save(this,ExtensionType.Json);
+            return Save(this, ExtensionType.Json);
         }
 
 

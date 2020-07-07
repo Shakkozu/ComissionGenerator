@@ -25,7 +25,7 @@ namespace ClassLibrary
 
         #region Properties
 
-        [DataMember] public string ItemName { get { return _itemName; }
+        public string ItemName { get { return _itemName; }
             set 
             {
                 _itemName = value;
@@ -33,7 +33,7 @@ namespace ClassLibrary
             }
         }
 
-        [DataMember]
+        
         public string ItemPrice
         {
             get { return $"{_itemPrice}$"; }
@@ -50,14 +50,15 @@ namespace ClassLibrary
             }
         }
         
-        [DataMember] public string ItemDescription { get { return _itemDescription; } 
+        public string ItemDescription { get { return _itemDescription; } 
             set 
             { 
                 _itemDescription = value; 
                 OnPropertyChanged(); 
             } 
         }
-        [DataMember] public int Id { get; private set; }
+
+        public int Id { get; private set; }
 
         public string Quantity
         {
@@ -71,7 +72,7 @@ namespace ClassLibrary
                 {
                     if (int.TryParse(value.Remove(value.IndexOf("m")), out _quantity))
                     {
-
+                        if (_quantity < 1) _quantity = 1;
                         _quantityStr = _quantity.ToString() + "m";
                     }
 
@@ -80,6 +81,7 @@ namespace ClassLibrary
                 {
                     if (int.TryParse(value, out _quantity))
                     {
+                        if (_quantity < 1) _quantity = 1;
                         _quantityStr = _quantity.ToString();
                     }
                 }

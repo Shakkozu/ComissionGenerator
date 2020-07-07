@@ -12,6 +12,8 @@ namespace ClassLibrary
         public string Name { get; set; }
         public string LastName { get; set; }
 
+        virtual public string FullName { get { return $"{Name} {LastName}"; } }
+
         public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
         public EmailAddressModel EmailAddress { get; set; } = new EmailAddressModel();
 
@@ -36,7 +38,7 @@ namespace ClassLibrary
 
         public override string ToString()
         {
-            return $"{Name} {LastName}\n{EmailAddress}\n{PhoneNumber}";
+            return $"{FullName}\n{EmailAddress}\n{PhoneNumber}";
         }
 
         #endregion

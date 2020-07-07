@@ -33,9 +33,9 @@ namespace ClassLibrary
         /// Save current properties to file in xml format
         /// </summary>
         /// <returns></returns>
-        internal bool SaveXml()
+        public bool SaveXml()
         {
-            return  Save(this, ExtensionType.Xml);
+            return Save(this, ExtensionType.Xml);
         }
 
 
@@ -43,21 +43,16 @@ namespace ClassLibrary
         /// Load CompanyViewModel from File in xml format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        internal bool LoadXml()
+        public bool LoadXml()
         {
             return Load(this, ExtensionType.Xml);
-        }
-
-        internal void GenerateDocument()
-        {
-           
         }
 
         /// <summary>
         /// Load CompanyViewModel from File in json format
         /// </summary>
         /// <returns>true if loading is succesful, false otheriwse</returns>
-        internal bool LoadJson()
+        public bool LoadJson()
         {
             return Load(this, ExtensionType.Json);
         }
@@ -66,13 +61,13 @@ namespace ClassLibrary
         /// Save current properties to file in json format
         /// </summary>
         /// <returns></returns>
-        internal bool SaveJson()
+        public bool SaveJson()
         {
             return Save(this, ExtensionType.Json);
         }
-        
+
         /// <summary>
-        /// Todo dokonczyć
+        /// Todo finish!
         /// </summary>
         /// <param name="viewModel"></param>
         protected override void LoadProperties(object viewModel)
@@ -91,6 +86,7 @@ namespace ClassLibrary
                             ItemList[i].ItemDescription = model.ItemList[i].ItemDescription;
                             ItemList[i].ItemName = model.ItemList[i].ItemName;
                             ItemList[i].ItemPrice = model.ItemList[i].ItemPrice;
+                            ItemList[i].Quantity = model.ItemList[i].Quantity;
                         }
                         else
                         {

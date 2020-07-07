@@ -73,8 +73,6 @@ namespace CommissionGeneratorWPF.View
             {
                 if (companyStackPanel != null && personStackPanel != null)
                 {
-
-
                     companyStackPanel.Visibility = Visibility.Collapsed;
                     personStackPanel.Visibility = Visibility.Visible;
                 }

@@ -46,15 +46,7 @@ namespace CommissionGeneratorWPF.View
 
         private void generateCommissionButton_Click(object sender, RoutedEventArgs e)
         {
-            CommissionGenerated.Invoke(this, new CommissionEventArgs(viewModel.ItemList.ToList()));
-
-            //string result = "";
-            //foreach(var item in viewModel.ItemList)
-            //{
-            //    if(item.ItemName != "")
-            //        result += $"{item.Id}: {item.ItemName} costs {item.ItemPrice}" + Environment.NewLine;
-            //}
-            //MessageBox.Show(result);
+            CommissionGenerated?.Invoke(this, new CommissionEventArgs(viewModel.ItemList.ToList()));
         }
     }
 }

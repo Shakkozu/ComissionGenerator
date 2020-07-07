@@ -4,6 +4,7 @@ using ClassLibrary.Models;
 using CommissionGeneratorWPF.View;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,11 +27,11 @@ namespace CommissionGeneratorWPF
     {
         #region Private Members
 
-        private CompanyPage _companyPage = new CompanyPage();
-        private ClientPage _clientPage = new ClientPage();
-        private CommissionPage _commissionPage = new CommissionPage();
+        private readonly CompanyPage _companyPage = new CompanyPage();
+        private readonly ClientPage _clientPage = new ClientPage();
+        private readonly CommissionPage _commissionPage = new CommissionPage();
 
-        private PersonalData PersonalData;
+        private readonly PersonalData PersonalData;
 
         #endregion
 
@@ -47,7 +48,26 @@ namespace CommissionGeneratorWPF
 
         private void _commissionPage_CommissionGenerated(object sender, CommissionEventArgs e)
         {
-            DocumentHelper.GenerateNewDocument(@"C:\Users\user\Desktop\firstTest.docx", PersonalData,e.Items);
+            try
+            {
+                if (File.Exists(@"C:\Users\user\Desktop\testHydroDoc.docx"))
+                {
+                    DocumentHelper.GenerateDocumentFromTemplate(@"C:\Users\user\Desktop\testHydroDoc.docx",
+                        @"C:\Users\user\Desktop\result.docx", PersonalData, e.Items);
+                }
+                else
+                {
+                    DocumentHelper.GenerateNewDocument(@"C:\Users\user\Desktop\firstTest.docx", PersonalData, e.Items);
+                }
+            }
+            catch(FileLoadException)
+            {
+                MessageBox.Show("Please close your generated Commission before you will create new one!");
+            }
+            catch(Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
 
         private void InitializeMainWindow()
@@ -76,10 +96,15 @@ namespace CommissionGeneratorWPF
         private void LoadCompanyPage()
         {
             _companyPage.viewModel.LoadJson();
+            //FOR TEST PURPOSES ; TODO DELETE
+            _clientPage.viewModel.LoadJson();
+            _commissionPage.viewModel.LoadJson();
         }
         private void SaveCompanyPage()
         {
             _companyPage.viewModel.SaveJson();
+            _clientPage.viewModel.SaveJson();
+            _commissionPage.viewModel.SaveJson();
         }
 
         

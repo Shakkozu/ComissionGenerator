@@ -65,10 +65,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="Converters\CollapsedIfConverter.cs" />
     <Compile Include="Converters\CollpsedIfNotConverter.cs" />
-    <Compile Include="ViewModel\DocumentGeneratorHelper.cs" />
     <Compile Include="View\ClientPage.xaml.cs">
       <DependentUpon>ClientPage.xaml</DependentUpon>
     </Compile>
@@ -142,5 +140,6 @@
       <Name>ClassLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
