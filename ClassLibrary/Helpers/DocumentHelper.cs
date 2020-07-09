@@ -210,10 +210,13 @@ namespace ClassLibrary.Helpers
                 List<int> rowsToRemove = new List<int>();
                 for (int i = 0; i < dataTable.RowCount; i++)
                 {
-                    if (dataTable.Rows[i].Cells.Any(x => x.Paragraphs.FirstOrDefault().Text.Length < 1))
+                    bool result = dataTable.Rows[i].Cells.Any(x => x.Paragraphs.Any(y => y.Text.Length > 0));
+                    if(result == false)
                     {
                         rowsToRemove.Add(i);
                     }
+                    
+                    
 
                 }
 
@@ -225,33 +228,86 @@ namespace ClassLibrary.Helpers
                 }
 
 
-
+                //Find rows that contains Tags
                 if (dataTable.RowCount > 0)
                 {
-                    Row rowPattern = dataTable.Rows[dataTable.RowCount - 1];
+                   int numerator = 0;
+                   foreach(Row row in dataTable.Rows)
+                    {
+                        var result = row.FindUniqueByPattern(@"<\w*>", System.Text.RegularExpressions.RegexOptions.Compiled);
+                        if (result.Count > 0)
+                            numerator++;
+                      
+                    }
+                   
+                    
+                   
 
                     foreach (var prod in Products.Where(product => product.ItemName != "" && !product.ItemPrice.Equals("0$")))
                     {
+                        for (int i = 0; i < numerator; i++)
+                        {
+                            Row rowPattern = dataTable.Rows[dataTable.RowCount - numerator];
+                            var newItem = dataTable.InsertRow(rowPattern);
+                        }
                         // Insert a copy of the rowPattern at the last index in the table.
-                        var newItem = dataTable.InsertRow(rowPattern, dataTable.RowCount - 1);
+
 
                         // Replace the default values of the newly inserted row.
-                        newItem.ReplaceText("<ItemName>", prod.ItemName);
-                        newItem.ReplaceText("<ItemId>", Id++.ToString());
-                        newItem.ReplaceText("<ItemPrice>",prod.ItemPrice);
-                        if (int.TryParse(prod.Quantity, out int quantity))
+
+                        var row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemName>", 
+                            System.Text.RegularExpressions.RegexOptions.Compiled).Count>0);
+                        if (row != null)
                         {
-                            newItem.ReplaceText("<ItemQuantity>", prod.Quantity);
+                            row.ReplaceText("<ItemName>", prod.ItemName);
                         }
-                        else
-                            newItem.ReplaceText("<ItemQuantity>", "1");
-                       
-                        newItem.ReplaceText("<ItemDescription>",prod.ItemDescription);
-                        newItem.ReplaceText("<ItemTotalPrice>",prod.TotalPrice.ToString()+"$");
+
+
+                         row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemId>", 
+                            System.Text.RegularExpressions.RegexOptions.Compiled).Count>0);
+                        if (row != null)
+                        {
+                            row.ReplaceText("<ItemId>", Id++.ToString());
+                        }
+
+                         row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemPrice>", 
+                            System.Text.RegularExpressions.RegexOptions.Compiled).Count>0);
+                        if (row != null)
+                        {
+                            row.ReplaceText("<ItemPrice>", prod.ItemPrice);
+                        }
+                        
+
+                        row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemQuantity>", 
+                            System.Text.RegularExpressions.RegexOptions.Compiled).Count>0);
+                        if (row != null)
+                        {
+                                row.ReplaceText("<ItemQuantity>", prod.Quantity);   
+                        }
+
+                        row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemDescription>",
+                          System.Text.RegularExpressions.RegexOptions.Compiled).Count > 0);
+                        if (row != null)
+                        {
+                            row.ReplaceText("<ItemDescription>", prod.ItemDescription);
+                        }
+                        row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemTotalPrice>",
+                          System.Text.RegularExpressions.RegexOptions.Compiled).Count > 0);
+                        if (row != null)
+                        {
+                            row.ReplaceText("<ItemTotalPrice>", prod.TotalPrice.ToString() + "$");
+                        }
+
+
+                      
                     }
+                    
 
-
-                    dataTable.RemoveRow();
+                    for (int i = 1; i <= numerator; i++)
+                    {
+                        dataTable.RemoveRow();
+                    }
+                    
                     decimal totalPrice = Products.Sum(x => x.TotalPrice);
                     doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + "$");
 
@@ -346,16 +402,7 @@ namespace ClassLibrary.Helpers
                 r.Cells[1].Paragraphs.First().Append(product.ItemName);
                 r.Cells[2].Paragraphs.First().Append(product.ItemPrice);
                 r.Cells[3].Paragraphs.First().Append(product.ItemDescription);
-                if (int.TryParse(product.Quantity, out int quantity))
-                {
-                    if (quantity > 0)
-                        r.Cells[4].Paragraphs.First().Append(product.Quantity.ToString());
-                    else
-                        r.Cells[4].Paragraphs.First().Append("1");
-                }
-                else
-                    r.Cells[4].Paragraphs.First().Append("1");
-
+                r.Cells[4].Paragraphs.First().Append(product.Quantity);
                 r.Cells[5].Paragraphs.First().Append(product.TotalPrice.ToString() + "$");
             }
 

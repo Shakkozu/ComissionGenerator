@@ -104,7 +104,7 @@ namespace ClassLibrary
             _itemPrice = 0;
             _itemDescription = "";
             _quantity = 1;
-            _quantityStr = "";
+            _quantityStr = "1";
         }
 
         #endregion
