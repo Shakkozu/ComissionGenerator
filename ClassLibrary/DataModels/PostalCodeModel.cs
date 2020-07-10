@@ -30,15 +30,8 @@ namespace ClassLibrary
 
             set
             {
-                _number = value;
-                if (Validate(value) == true)
-                {
-                    IsValid = true;
-                }
-                else
-                {
-                    IsValid = false;
-                }
+                IsValid = Validate(value, out _number);
+
                 OnPropertyChanged("IsValid");
                 OnPropertyChanged("Number");
             }
@@ -69,10 +62,31 @@ namespace ClassLibrary
         /// valid formats: {xx-xxx; xx xxx; xxxxx}
         /// </summary>
         /// <returns>true if number is valid postal-code format, false otherwise</returns>
-        public static bool Validate(string number)
+        public static bool Validate(string number, out string _number)
         {
-            Regex rx = new Regex(@"^\d{2}[\-\s]?\d{3}$");
-            return rx.Match(number).Success;
+            Regex rx_ = new Regex(@"^\d{2}[\-]\d{3}$");
+            Regex rxS = new Regex(@"^\d{2}[\s]\d{3}$");
+            Regex rx = new Regex(@"^\d{5}$");
+            _number = number;
+            if(rx_.Match(number).Success)
+            {
+                
+                return true;
+            }
+            else if(rxS.Match(number).Success)
+            {
+                _number = _number.Replace(" ", "-");
+                
+            } 
+            else if(rx.Match(number).Success)
+            {
+                _number = _number.Insert(2, "-");
+            }
+            else
+            {
+                return false;
+            }
+            return rx_.Match(_number).Success;
         }
        
         public override string ToString()
