@@ -11,7 +11,7 @@ namespace ClassLibrary
         #region Properties
 
         [DataMember]public ObservableCollection<ItemModel> ItemList = new ObservableCollection<ItemModel>();
-
+        public bool ReplaceOnlyValues { get; set; } = false;
 
 
         #endregion

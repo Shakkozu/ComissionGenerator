@@ -143,7 +143,7 @@ namespace ClassLibrary.Helpers
         /// <param name="fileName">path to result file</param>
         /// <param name="UserData">Data about Creator, Client and Company</param>
         /// <param name="Products">List of products</param>
-        public static void GenerateDocumentFromTemplate(string template, string fileName, PersonalData UserData, List<ItemModel> Products)
+        public static void GenerateDocumentFromTemplate(string template, string fileName, PersonalData UserData, List<ItemModel> Products, bool replaceOnlyValues)
         {
             Id = 1;
             File.Copy(template, fileName, true);
@@ -152,11 +152,11 @@ namespace ClassLibrary.Helpers
             DocX doc = DocX.Load(fileName);
 
             //Replace Personal Info
-            ReplaceCompanyInfo(UserData, doc);
+            ReplaceCompanyInfo(UserData, doc,replaceOnlyValues);
 
-            ReplaceClientInfo(UserData, doc);
+            ReplaceClientInfo(UserData, doc, replaceOnlyValues);
 
-            ReplaceCreatorInfo(UserData, doc);
+            ReplaceCreatorInfo(UserData, doc, replaceOnlyValues);
 
             var dataTables = doc.Tables.Where(x => x.TableCaption == tableCaption);
             if (dataTables.Count() == 0)
@@ -175,7 +175,7 @@ namespace ClassLibrary.Helpers
                 {
                     int numerator = FindRowsContainingTags(dataTable);
 
-                    foreach (var prod in Products.Where(product => product.ItemName != "" && (!product.ItemPrice.Equals("0$"))))
+                    foreach (var prod in Products.Where(product => product.ItemName != "" && (!product.ItemPrice.Equals("0"))))
                     {
                         // Insert a copies of the rowPatterns containing tags at end of the table.
                         InsertRowsContainingTemplate(dataTable, numerator);
@@ -184,10 +184,23 @@ namespace ClassLibrary.Helpers
                         // Replace the default values of the newly inserted rows
                         ReplaceRowInfo(dataTable, "<ItemName>", prod.ItemName);
                         ReplaceRowInfo(dataTable, "<ItemId>", Id++.ToString());
-                        ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
+
+                        
                         ReplaceRowInfo(dataTable, "<ItemQuantity>", prod.Quantity);
                         ReplaceRowInfo(dataTable, "<ItemDescription>", prod.ItemDescription);
-                        ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString()+"$");
+                        if(replaceOnlyValues==true)
+                        {
+                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString());
+                            ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice + "$");
+                        }
+                        else
+                        {
+                            ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
+                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString() + "$");
+                        }
+                       
+
+
                     }
 
                     //Remove rows containing tags
@@ -199,8 +212,14 @@ namespace ClassLibrary.Helpers
                     decimal totalPrice = Products.Sum(x => x.TotalPrice);
 
                     //Replace TotalPrice Info
-                    doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + "$");
-
+                    if (replaceOnlyValues == true)
+                    {
+                        doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + "$");
+                    }
+                    else
+                    {
+                        doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2"));
+                    }
                     //Replace TodayDate Info
                     doc.ReplaceText("<TodayDate>", DateTime.Now.ToLongDateString());
 
@@ -222,27 +241,33 @@ namespace ClassLibrary.Helpers
 
         #region Personal Data Table Methods 
 
-        private static void ReplaceCreatorInfo(PersonalData UserData, DocX doc)
+        private static void ReplaceCreatorInfo(PersonalData UserData, DocX doc, bool replaceOnlyValues)
         {
             if (doc.FindAll("<CreatorInfo>").Count > 0)
             {
                 doc.ReplaceText("<CreatorInfo>", UserData.CommissionCreator.ToString());
             }
-            else
+            else if(replaceOnlyValues==false)
             {
                 doc.ReplaceText("<CreatorName>", UserData.CommissionCreator.FullName);
                 doc.ReplaceText("<CreatorEmail>", UserData.CommissionCreator.EmailAddress.ToString());
                 doc.ReplaceText("<CreatorPhoneNumber>", UserData.CommissionCreator.PhoneNumber.ToString());
             }
+            else
+            {
+                doc.ReplaceText("<CreatorName>", UserData.CommissionCreator.FullName);
+                doc.ReplaceText("<CreatorEmail>", UserData.CommissionCreator.EmailAddress.Address);
+                doc.ReplaceText("<CreatorPhoneNumber>", UserData.CommissionCreator.PhoneNumber.Number);
+            }
         }
 
-        private static void ReplaceClientInfo(PersonalData UserData, DocX doc)
+        private static void ReplaceClientInfo(PersonalData UserData, DocX doc, bool replaceOnlyValues)
         {
             if (doc.FindAll("<ClientInfo>").Count > 0)
             {
                 doc.ReplaceText("<ClientInfo>", UserData.Client.ToString());
             }
-            else
+            else if(replaceOnlyValues==false)
             {
                 doc.ReplaceText("<ClientName>", UserData.Client.FullName);
                 doc.ReplaceText("<ClientEmail>", UserData.Client.EmailAddress.ToString());
@@ -257,15 +282,33 @@ namespace ClassLibrary.Helpers
                     doc.ReplaceText("<ClientNIP>", "");
                 }
             }
+            else
+            {
+                doc.ReplaceText("<ClientName>", UserData.Client.FullName);
+                doc.ReplaceText("<ClientEmail>", UserData.Client.EmailAddress.Address);
+                doc.ReplaceText("<ClientAddress>", UserData.Client.Address.ToString()); 
+                doc.ReplaceText("<CompanyAddressPostalCode>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyAddressStreet>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyAddressCity>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<ClientPhoneNumber>", UserData.Client.PhoneNumber.Number);
+                if (UserData.Client.Company)
+                {
+                    doc.ReplaceText("<ClientNIP>", UserData.Client.NIP.Number);
+                }
+                else
+                {
+                    doc.ReplaceText("<ClientNIP>", "");
+                }
+            }
         }
 
-        private static void ReplaceCompanyInfo(PersonalData UserData, DocX doc)
+        private static void ReplaceCompanyInfo(PersonalData UserData, DocX doc, bool replaceOnlyValues)
         {
             if (doc.FindAll("<CompanyInfo>").Count > 0)
             {
                 doc.ReplaceText("<CompanyInfo>", UserData.Company.ToString());
             }
-            else
+            else if(replaceOnlyValues==false)
             {
                 doc.ReplaceText("<CompanyName>", UserData.Company.CompanyName);
                 doc.ReplaceText("<CompanyEmail>", UserData.Company.EmailAddress.ToString());
@@ -273,6 +316,18 @@ namespace ClassLibrary.Helpers
                 doc.ReplaceText("<CompanyPhoneNumber>", UserData.Company.PhoneNumber.ToString());
                 doc.ReplaceText("<CompanyNIP>", UserData.Company.NIP.ToString());
                 doc.ReplaceText("<CompanyREGON>", UserData.Company.REGON.ToString());
+            }
+            else
+            {
+                doc.ReplaceText("<CompanyName>", UserData.Company.CompanyName);
+                doc.ReplaceText("<CompanyEmail>", UserData.Company.EmailAddress.Address);
+                doc.ReplaceText("<CompanyAddressPostalCode>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyAddressStreet>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyAddressCity>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyAddress>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyPhoneNumber>", UserData.Company.PhoneNumber.Number);
+                doc.ReplaceText("<CompanyNIP>", UserData.Company.NIP.Number);
+                doc.ReplaceText("<CompanyREGON>", UserData.Company.REGON.Number);
             }
         }
 

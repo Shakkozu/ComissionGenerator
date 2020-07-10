@@ -25,12 +25,20 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-
+    
+        
         <TextBlock Grid.Row="1" Grid.Column="1" FontSize="24" FontWeight="Bold" Text="Zlecenie" />
 
-        <Button Grid.Row="1" Grid.Column="1" Content="Generuj Zlecenie!" 
-                HorizontalAlignment="Right" FontSize="20" Click="generateCommissionButton_Click"/>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" 
+                    HorizontalAlignment="Right">
+            <CheckBox Content="Podmień tylko wartości w szablonie" 
+                      x:Name="changeOnlyValuesCheckbox" IsChecked="{Binding ReplaceOnlyValues, Mode=TwoWay}"
+                      FontSize="20" Margin="0,10"/>
+            <Button  Content="Generuj Zlecenie!" MaxWidth="180"
+                 FontSize="20" Click="generateCommissionButton_Click"/>
 
+        </StackPanel>
+       
 
 
         <ListView x:Name="itemsList" Grid.Column="1" Grid.Row="3">
@@ -105,13 +113,6 @@
 
 
 
-
-                <!--<DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding ItemName}"/>
-                        <TextBlock Text="{Binding ItemPrice}"/>
-                    </StackPanel>
-                </DataTemplate>-->
                
             </ListView.ItemTemplate>
             

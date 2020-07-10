@@ -53,7 +53,7 @@ namespace CommissionGeneratorWPF
                 if (File.Exists(@"C:\Users\user\Desktop\testHydroDoc.docx"))
                 {
                     DocumentHelper.GenerateDocumentFromTemplate(@"C:\Users\user\Desktop\testHydroDoc.docx",
-                        @"C:\Users\user\Desktop\result.docx", PersonalData, e.Items);
+                        @"C:\Users\user\Desktop\result.docx", PersonalData, e.Items, _commissionPage.viewModel.ReplaceOnlyValues);
                 }
                 else
                 {

@@ -40,9 +40,13 @@ namespace ClassLibrary
             set
             {
                 if (value.Contains("zł"))
+                {
                     value = value.Substring(0, value.Length - 2);
+                }
                 else if (value.Contains("$"))
+                {
                     value = value.Substring(0, value.Length - 1);
+                }
                 if (decimal.TryParse(value.Replace('.', ','), out decimal result))
                     _itemPrice = result;
 
