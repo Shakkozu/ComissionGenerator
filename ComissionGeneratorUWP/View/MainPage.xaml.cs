@@ -79,8 +79,7 @@ namespace ComissionGeneratorUWP
             if (args.SelectedItemContainer != null)
             {
                 //NavigationViewControl.SelectedItem = args.SelectedItemContainer.Tag.ToString();
-                NavigationViewControl_Navigate(args.SelectedItemContainer.Tag.ToString(),
-                    args.RecommendedNavigationTransitionInfo);
+                NavigationViewControl_Navigate(args.SelectedItemContainer.Tag.ToString());
             }
         }
 
@@ -88,7 +87,7 @@ namespace ComissionGeneratorUWP
         /// If selectedItemTag is valid _NavigationItem Tag, and if it points to diffrent frame than current,
         /// navigate to it
         /// </summary>
-        private void NavigationViewControl_Navigate(string selectedItemTag, NavigationTransitionInfo recommendedNavigationTransitionInfo = null)
+        private void NavigationViewControl_Navigate(string selectedItemTag)
         {
 
             var item = _navigationPages.FirstOrDefault(p => p.Tag.Equals(selectedItemTag));

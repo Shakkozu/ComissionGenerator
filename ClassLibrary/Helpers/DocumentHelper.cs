@@ -137,7 +137,7 @@ namespace ClassLibrary.Helpers
         }
 
         /// <summary>
-        /// Function Generates new Document using file template 
+        /// Function Generates new Document using file template. Table containing products MUST HAVE Caption == "WARES_TABLE"!!
         /// </summary>
         /// <param name="template">path to file template</param>
         /// <param name="fileName">path to result file</param>
@@ -147,10 +147,120 @@ namespace ClassLibrary.Helpers
         {
             Id = 1;
             File.Copy(template, fileName, true);
-            string tableDescription = "WARES_TABLE";
+            string tableCaption = "WARES_TABLE";
 
             DocX doc = DocX.Load(fileName);
 
+            //Replace Personal Info
+            ReplaceCompanyInfo(UserData, doc);
+
+            ReplaceClientInfo(UserData, doc);
+
+            ReplaceCreatorInfo(UserData, doc);
+
+            var dataTables = doc.Tables.Where(x => x.TableCaption == tableCaption);
+            if (dataTables.Count() == 0)
+            {
+                throw new Exception("Couldn't find table with 'WARES_TABLE' description!");
+            }
+            else
+            {
+                Table dataTable = dataTables.FirstOrDefault();
+
+                RemoveEmptyTableRows(dataTable);
+
+
+                //Find rows containing Tags
+                if (dataTable.RowCount > 0)
+                {
+                    int numerator = FindRowsContainingTags(dataTable);
+
+                    foreach (var prod in Products.Where(product => product.ItemName != "" && (!product.ItemPrice.Equals("0$"))))
+                    {
+                        // Insert a copies of the rowPatterns containing tags at end of the table.
+                        InsertRowsContainingTemplate(dataTable, numerator);
+                       
+
+                        // Replace the default values of the newly inserted rows
+                        ReplaceRowInfo(dataTable, "<ItemName>", prod.ItemName);
+                        ReplaceRowInfo(dataTable, "<ItemId>", Id++.ToString());
+                        ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
+                        ReplaceRowInfo(dataTable, "<ItemQuantity>", prod.Quantity);
+                        ReplaceRowInfo(dataTable, "<ItemDescription>", prod.ItemDescription);
+                        ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString()+"$");
+                    }
+
+                    //Remove rows containing tags
+                    for (int i = 0; i < numerator; i++)
+                    {
+                        dataTable.RemoveRow();
+                    }
+                    
+                    decimal totalPrice = Products.Sum(x => x.TotalPrice);
+
+                    //Replace TotalPrice Info
+                    doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + "$");
+
+                    //Replace TodayDate Info
+                    doc.ReplaceText("<TodayDate>", DateTime.Now.ToLongDateString());
+
+
+
+                    doc.Save();
+                    Process.Start("WINWORD.EXE", fileName);
+                }
+            }
+
+
+
+
+
+        }
+
+
+        #region Generate Document From Template
+
+        #region Personal Data Table Methods 
+
+        private static void ReplaceCreatorInfo(PersonalData UserData, DocX doc)
+        {
+            if (doc.FindAll("<CreatorInfo>").Count > 0)
+            {
+                doc.ReplaceText("<CreatorInfo>", UserData.CommissionCreator.ToString());
+            }
+            else
+            {
+                doc.ReplaceText("<CreatorName>", UserData.CommissionCreator.FullName);
+                doc.ReplaceText("<CreatorEmail>", UserData.CommissionCreator.EmailAddress.ToString());
+                doc.ReplaceText("<CreatorPhoneNumber>", UserData.CommissionCreator.PhoneNumber.ToString());
+            }
+        }
+
+        private static void ReplaceClientInfo(PersonalData UserData, DocX doc)
+        {
+            if (doc.FindAll("<ClientInfo>").Count > 0)
+            {
+                doc.ReplaceText("<ClientInfo>", UserData.Client.ToString());
+            }
+            else
+            {
+                doc.ReplaceText("<ClientName>", UserData.Client.FullName);
+                doc.ReplaceText("<ClientEmail>", UserData.Client.EmailAddress.ToString());
+                doc.ReplaceText("<ClientAddress>", UserData.Client.Address.ToString());
+                doc.ReplaceText("<ClientPhoneNumber>", UserData.Client.PhoneNumber.ToString());
+                if (UserData.Client.Company)
+                {
+                    doc.ReplaceText("<ClientNIP>", UserData.Client.NIP.ToString());
+                }
+                else
+                {
+                    doc.ReplaceText("<ClientNIP>", "");
+                }
+            }
+        }
+
+        private static void ReplaceCompanyInfo(PersonalData UserData, DocX doc)
+        {
             if (doc.FindAll("<CompanyInfo>").Count > 0)
             {
                 doc.ReplaceText("<CompanyInfo>", UserData.Company.ToString());
@@ -164,171 +274,80 @@ namespace ClassLibrary.Helpers
                 doc.ReplaceText("<CompanyNIP>", UserData.Company.NIP.ToString());
                 doc.ReplaceText("<CompanyREGON>", UserData.Company.REGON.ToString());
             }
-
-            if (doc.FindAll("<ClientInfo>").Count > 0)
-            {
-                doc.ReplaceText("<ClientInfo>", UserData.Client.ToString());
-            }
-            else
-            {
-                doc.ReplaceText("<ClientName>", UserData.Client.FullName);
-                doc.ReplaceText("<ClientEmail>", UserData.Client.EmailAddress.ToString());
-                doc.ReplaceText("<ClientAddress>", UserData.Client.Address.ToString());
-                doc.ReplaceText("<ClientPhoneNumber>", UserData.Client.PhoneNumber.ToString());
-                if(UserData.Client.Company)
-                {
-                    doc.ReplaceText("<ClientNIP>", UserData.Client.NIP.ToString());
-                }
-                else
-                {
-                    doc.ReplaceText("<ClientNIP>","");
-                }
-            }
-
-            if (doc.FindAll("<CreatorInfo>").Count > 0)
-            {
-                doc.ReplaceText("<CreatorInfo>", UserData.CommissionCreator.ToString());
-            }
-            else
-            {
-                doc.ReplaceText("<CreatorName>", UserData.CommissionCreator.FullName);
-                doc.ReplaceText("<CreatorEmail>", UserData.CommissionCreator.EmailAddress.ToString());
-                doc.ReplaceText("<CreatorPhoneNumber>", UserData.CommissionCreator.PhoneNumber.ToString());
-            }
-
-            var dataTables = doc.Tables.Where(x => x.TableCaption == tableDescription);
-            if (dataTables.Count() == 0)
-            {
-                throw new Exception("Couldn't find table with 'WARES_TABLE' description!");
-            }
-            else
-            {
-                Table dataTable = dataTables.FirstOrDefault();
-
-
-                //Remove empty Rows //TODO REFACTOR
-                List<int> rowsToRemove = new List<int>();
-                for (int i = 0; i < dataTable.RowCount; i++)
-                {
-                    bool result = dataTable.Rows[i].Cells.Any(x => x.Paragraphs.Any(y => y.Text.Length > 0));
-                    if(result == false)
-                    {
-                        rowsToRemove.Add(i);
-                    }
-                    
-                    
-
-                }
-
-                for (int i = 0; i < rowsToRemove.Count; i++)
-                {
-                    dataTable.RemoveRow(rowsToRemove[i]);
-                    for (int j = 0; j < rowsToRemove.Count; j++)
-                        rowsToRemove[j]--;
-                }
-
-
-                //Find rows that contains Tags
-                if (dataTable.RowCount > 0)
-                {
-                   int numerator = 0;
-                   foreach(Row row in dataTable.Rows)
-                    {
-                        var result = row.FindUniqueByPattern(@"<\w*>", System.Text.RegularExpressions.RegexOptions.Compiled);
-                        if (result.Count > 0)
-                            numerator++;
-                      
-                    }
-                   
-                    
-                   
-
-                    foreach (var prod in Products.Where(product => product.ItemName != "" && !product.ItemPrice.Equals("0$")))
-                    {
-                        for (int i = 0; i < numerator; i++)
-                        {
-                            Row rowPattern = dataTable.Rows[dataTable.RowCount - numerator];
-                            var newItem = dataTable.InsertRow(rowPattern);
-                        }
-                        // Insert a copy of the rowPattern at the last index in the table.
-
-
-                        // Replace the default values of the newly inserted row.
-
-                        var row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemName>", 
-                            System.Text.RegularExpressions.RegexOptions.Compiled).Count>0);
-                        if (row != null)
-                        {
-                            row.ReplaceText("<ItemName>", prod.ItemName);
-                        }
-
-
-                         row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemId>", 
-                            System.Text.RegularExpressions.RegexOptions.Compiled).Count>0);
-                        if (row != null)
-                        {
-                            row.ReplaceText("<ItemId>", Id++.ToString());
-                        }
-
-                         row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemPrice>", 
-                            System.Text.RegularExpressions.RegexOptions.Compiled).Count>0);
-                        if (row != null)
-                        {
-                            row.ReplaceText("<ItemPrice>", prod.ItemPrice);
-                        }
-                        
-
-                        row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemQuantity>", 
-                            System.Text.RegularExpressions.RegexOptions.Compiled).Count>0);
-                        if (row != null)
-                        {
-                                row.ReplaceText("<ItemQuantity>", prod.Quantity);   
-                        }
-
-                        row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemDescription>",
-                          System.Text.RegularExpressions.RegexOptions.Compiled).Count > 0);
-                        if (row != null)
-                        {
-                            row.ReplaceText("<ItemDescription>", prod.ItemDescription);
-                        }
-                        row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern("<ItemTotalPrice>",
-                          System.Text.RegularExpressions.RegexOptions.Compiled).Count > 0);
-                        if (row != null)
-                        {
-                            row.ReplaceText("<ItemTotalPrice>", prod.TotalPrice.ToString() + "$");
-                        }
-
-
-                      
-                    }
-                    
-
-                    for (int i = 1; i <= numerator; i++)
-                    {
-                        dataTable.RemoveRow();
-                    }
-                    
-                    decimal totalPrice = Products.Sum(x => x.TotalPrice);
-                    doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + "$");
-
-                    doc.ReplaceText("<TodayDate>", DateTime.Now.ToLongDateString());
-
-
-
-                    doc.Save();
-                    Process.Start("WINWORD.EXE", fileName);
-                }
-            }
-
-
-            
-
-
         }
 
 
+        #endregion
 
 
+        #region Wares Table Methods
+
+        private static Row ReplaceRowInfo(Table dataTable, string pattern, string replacingValue)
+        {
+            var row = dataTable.Rows.FirstOrDefault(x => x.FindUniqueByPattern(pattern,
+                                        System.Text.RegularExpressions.RegexOptions.Compiled).Count > 0);
+            if (row != null)
+            {
+                row.ReplaceText(pattern, replacingValue);
+            }
+            return row;
+        }
+
+        private static void InsertRowsContainingTemplate(Table dataTable, int numerator)
+        {
+            for (int i = 0; i < numerator; i++)
+            {
+                Row rowPattern = dataTable.Rows[dataTable.RowCount - numerator];
+                dataTable.InsertRow(rowPattern);
+            }
+        }
+
+        private static int FindRowsContainingTags(Table dataTable)
+        {
+            int numerator = 0;
+            foreach (Row row in dataTable.Rows)
+            {
+                var result = row.FindUniqueByPattern(@"<\w*>", System.Text.RegularExpressions.RegexOptions.Compiled);
+                if (result.Count > 0)
+                    numerator++;
+
+            }
+
+            return numerator;
+        }
+
+        private static void RemoveEmptyTableRows(Table dataTable)
+        {
+            List<int> rowsToRemove = new List<int>();
+            for (int i = 0; i < dataTable.RowCount; i++)
+            {
+                bool result = dataTable.Rows[i].Cells.Any(x => x.Paragraphs.Any(y => y.Text.Length > 0));
+                if (result == false)
+                {
+                    rowsToRemove.Add(i);
+                }
+
+
+
+            }
+
+            for (int i = 0; i < rowsToRemove.Count; i++)
+            {
+                dataTable.RemoveRow(rowsToRemove[i]);
+                for (int j = 0; j < rowsToRemove.Count; j++)
+                    rowsToRemove[j]--;
+            }
+        }
+
+
+        #endregion
+
+        #endregion
+
+
+
+
+        #region Generate New Document
 
         #region Personal Data Table Methods
 
@@ -476,6 +495,6 @@ namespace ClassLibrary.Helpers
             return p;
         }
 
-
+        #endregion
     }
 }
