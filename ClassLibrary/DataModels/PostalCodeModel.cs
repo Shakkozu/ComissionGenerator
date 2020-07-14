@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 
 namespace ClassLibrary
@@ -43,7 +38,7 @@ namespace ClassLibrary
                 OnPropertyChanged("Number");
             }
         }
-        
+
         public bool IsValid { get; private set; } = true;
 
 
@@ -74,7 +69,7 @@ namespace ClassLibrary
             Regex rx = new Regex(@"^\d{2}[\-\s]?\d{3}$");
             return rx.Match(number).Success;
         }
-       
+
         public override string ToString()
         {
             return this.Number;

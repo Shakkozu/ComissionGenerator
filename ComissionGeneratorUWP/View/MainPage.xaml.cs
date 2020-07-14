@@ -1,28 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Windows.UI;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Documents;
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Appointments.DataProvider;
-using System.ComponentModel;
-using Windows.UI.ViewManagement;
-using ComissionGeneratorUWP.View;
-using System.ServiceModel.Channels;
-using System.Diagnostics;
-using System.ComponentModel.DataAnnotations;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -71,7 +54,7 @@ namespace ComissionGeneratorUWP
         /// </summary>
         private void NavigationViewControl_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            
+
             sender.UpdateLayout();
             FocusManager.FindNextElement(FocusNavigationDirection.Next);
             //OnPointerCaptureLost(new PointerRoutedEventArgs("this"));
@@ -203,6 +186,6 @@ namespace ComissionGeneratorUWP
 
         #endregion
 
-       
+
     }
 }

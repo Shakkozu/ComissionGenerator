@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using ClassLibrary;
+using System;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using System.Security.AccessControl;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Media.Animation;
-using ClassLibrary;
 
 namespace ComissionGeneratorUWP.ViewModel
 {

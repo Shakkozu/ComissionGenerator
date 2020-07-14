@@ -1,8 +1,4 @@
-﻿using ClassLibrary;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
-
-namespace ClassLibrary
+﻿namespace ClassLibrary
 {
     public class ClientViewModel : BaseViewModel
     {
@@ -16,18 +12,18 @@ namespace ClassLibrary
 
         #region Constructors
 
-        public ClientViewModel():base("clientViewModel")
+        public ClientViewModel() : base("clientViewModel")
         {
 
         }
 
         #endregion
 
-        
+
 
         #region Methods
 
-        
+
         /// <summary>
         /// Check if any of properties is incorrect
         /// </summary>
@@ -41,7 +37,7 @@ namespace ClassLibrary
             return true;
         }
 
-        
+
 
         /// <summary>
         /// Load Properties from parameter to current clientViewModel
@@ -82,7 +78,7 @@ namespace ClassLibrary
                 }
 
             }
-            
+
         }
 
 

@@ -1,12 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
-
-namespace ClassLibrary 
+﻿namespace ClassLibrary
 {
     public class ClientModel : CommissionCreatorModel
     {
@@ -20,7 +12,7 @@ namespace ClassLibrary
         public NIPModel NIP { get; set; } = new NIPModel();
 
         public override string FullName => Company ? CompanyName : $"{Name} {LastName}";
-         
+
 
         #endregion
 

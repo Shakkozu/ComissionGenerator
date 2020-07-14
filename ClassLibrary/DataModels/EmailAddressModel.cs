@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ClassLibrary
@@ -36,7 +34,7 @@ namespace ClassLibrary
             }
         }
         public bool IsValid { get; private set; } = true;
-       
+
 
         #endregion
 

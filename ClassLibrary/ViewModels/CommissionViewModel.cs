@@ -1,7 +1,5 @@
-﻿using ClassLibrary;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
@@ -10,7 +8,7 @@ namespace ClassLibrary
     {
         #region Properties
 
-        [DataMember]public ObservableCollection<ItemModel> ItemList = new ObservableCollection<ItemModel>();
+        [DataMember] public ObservableCollection<ItemModel> ItemList = new ObservableCollection<ItemModel>();
         public bool ReplaceOnlyValues { get; set; } = false;
 
 
@@ -72,16 +70,16 @@ namespace ClassLibrary
         /// <param name="viewModel"></param>
         protected override void LoadProperties(object viewModel)
         {
-            if(viewModel is CommissionViewModel model)
+            if (viewModel is CommissionViewModel model)
             {
-                if(model.ItemList != null)
+                if (model.ItemList != null)
                 {
                     //ItemList = model.ItemList;
-                    for(int i=0; i < model.ItemList.Count; i++)
+                    for (int i = 0; i < model.ItemList.Count; i++)
                     {
-                        if(model.ItemList[i].ItemDescription != null &&
+                        if (model.ItemList[i].ItemDescription != null &&
                             model.ItemList[i].ItemName != null
-                            && model.ItemList[i].ItemPrice!=null)
+                            && model.ItemList[i].ItemPrice != null)
                         {
                             ItemList[i].ItemDescription = model.ItemList[i].ItemDescription;
                             ItemList[i].ItemName = model.ItemList[i].ItemName;
@@ -92,7 +90,7 @@ namespace ClassLibrary
                         {
                             ItemList[i] = new ItemModel(ItemList[i].Id);
                         }
-                        
+
 
                     }
                     OnCollectionChanged(ItemList);

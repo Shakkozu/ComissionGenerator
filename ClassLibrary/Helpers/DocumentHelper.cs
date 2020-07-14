@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 
@@ -108,8 +107,8 @@ namespace ClassLibrary.Helpers
 
             /* Wares Table */
             var validProducts = from product in Products
-                      where product.ItemName != "" && product.ItemPrice != "0$"
-                      select product;
+                                where product.ItemName != "" && product.ItemPrice != "0$"
+                                select product;
 
             //if There are product filled properly
             //Add table containing products and their price
@@ -133,7 +132,7 @@ namespace ClassLibrary.Helpers
 
                 Process.Start("WINWORD.EXE", fileName);
             }
-           
+
         }
 
         /// <summary>
@@ -152,7 +151,7 @@ namespace ClassLibrary.Helpers
             DocX doc = DocX.Load(fileName);
 
             //Replace Personal Info
-            ReplaceCompanyInfo(UserData, doc,replaceOnlyValues);
+            ReplaceCompanyInfo(UserData, doc, replaceOnlyValues);
 
             ReplaceClientInfo(UserData, doc, replaceOnlyValues);
 
@@ -179,16 +178,16 @@ namespace ClassLibrary.Helpers
                     {
                         // Insert a copies of the rowPatterns containing tags at end of the table.
                         InsertRowsContainingTemplate(dataTable, numerator);
-                       
+
 
                         // Replace the default values of the newly inserted rows
                         ReplaceRowInfo(dataTable, "<ItemName>", prod.ItemName);
                         ReplaceRowInfo(dataTable, "<ItemId>", Id++.ToString());
 
-                        
+
                         ReplaceRowInfo(dataTable, "<ItemQuantity>", prod.Quantity);
                         ReplaceRowInfo(dataTable, "<ItemDescription>", prod.ItemDescription);
-                        if(replaceOnlyValues==true)
+                        if (replaceOnlyValues == true)
                         {
                             ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString());
                             ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice + "PLN");
@@ -198,7 +197,7 @@ namespace ClassLibrary.Helpers
                             ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
                             ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString() + "PLN");
                         }
-                       
+
 
 
                     }
@@ -208,12 +207,12 @@ namespace ClassLibrary.Helpers
                     {
                         dataTable.RemoveRow();
                     }
-                    
+
                     decimal totalPrice = Products.Sum(x => x.TotalPrice);
 
                     //Replace TotalPrice Info
-                    
-                        doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + " PLN");
+
+                    doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + " PLN");
 
                     //Replace TodayDate Info
                     doc.ReplaceText("<TodayDate>", DateTime.Now.ToLongDateString());
@@ -242,7 +241,7 @@ namespace ClassLibrary.Helpers
             {
                 doc.ReplaceText("<CreatorInfo>", UserData.CommissionCreator.ToString());
             }
-            else if(replaceOnlyValues==false)
+            else if (replaceOnlyValues == false)
             {
                 doc.ReplaceText("<CreatorName>", UserData.CommissionCreator.FullName);
                 doc.ReplaceText("<CreatorEmail>", UserData.CommissionCreator.EmailAddress.ToString());
@@ -262,7 +261,7 @@ namespace ClassLibrary.Helpers
             {
                 doc.ReplaceText("<ClientInfo>", UserData.Client.ToString());
             }
-            else if(replaceOnlyValues==false)
+            else if (replaceOnlyValues == false)
             {
                 doc.ReplaceText("<ClientName>", UserData.Client.FullName);
                 doc.ReplaceText("<ClientEmail>", UserData.Client.EmailAddress.ToString());
@@ -281,7 +280,7 @@ namespace ClassLibrary.Helpers
             {
                 doc.ReplaceText("<ClientName>", UserData.Client.FullName);
                 doc.ReplaceText("<ClientEmail>", UserData.Client.EmailAddress.Address);
-                doc.ReplaceText("<ClientAddress>", UserData.Client.Address.ToString()); 
+                doc.ReplaceText("<ClientAddress>", UserData.Client.Address.ToString());
                 doc.ReplaceText("<CompanyAddressPostalCode>", UserData.Company.Address.ToString());
                 doc.ReplaceText("<CompanyAddressStreet>", UserData.Company.Address.ToString());
                 doc.ReplaceText("<CompanyAddressCity>", UserData.Company.Address.ToString());
@@ -303,7 +302,7 @@ namespace ClassLibrary.Helpers
             {
                 doc.ReplaceText("<CompanyInfo>", UserData.Company.ToString());
             }
-            else if(replaceOnlyValues==false)
+            else if (replaceOnlyValues == false)
             {
                 doc.ReplaceText("<CompanyName>", UserData.Company.CompanyName);
                 doc.ReplaceText("<CompanyEmail>", UserData.Company.EmailAddress.ToString());

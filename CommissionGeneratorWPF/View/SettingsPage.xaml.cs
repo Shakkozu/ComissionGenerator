@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClassLibrary;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ClassLibrary;
 
 namespace CommissionGeneratorWPF.View
 {
@@ -26,8 +15,8 @@ namespace CommissionGeneratorWPF.View
 
         public SettingsPage()
         {
-             
-             InitializeComponent();
+
+            InitializeComponent();
             InitializeBinding();
         }
 
@@ -50,7 +39,7 @@ namespace CommissionGeneratorWPF.View
                     templateFilepathBox.ToolTip = file;
                     break;
                 case System.Windows.Forms.DialogResult.Cancel:
-                    MessageBox.Show("Nie wybrano pliku szablonu",  "Template Loading Error");
+                    MessageBox.Show("Nie wybrano pliku szablonu", "Template Loading Error");
                     break;
                 default:
                     viewModel.TemplateFilePath = "";

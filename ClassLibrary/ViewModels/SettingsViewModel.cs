@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace ClassLibrary
 {
@@ -9,7 +6,7 @@ namespace ClassLibrary
     {
         public SettingsViewModel() : base("settingsViewModel")
         {
-           
+
         }
 
         private string _templateFilePath = "";
@@ -22,7 +19,7 @@ namespace ClassLibrary
             }
             set
             {
-                if(File.Exists(value) && value.Contains(".docx"))
+                if (File.Exists(value) && value.Contains(".docx"))
                 {
                     _templateFilePath = value;
                     OnPropertyChanged();
@@ -32,7 +29,7 @@ namespace ClassLibrary
 
         protected override void LoadProperties(object viewModel)
         {
-            if(viewModel is SettingsViewModel settingsViewModel)
+            if (viewModel is SettingsViewModel settingsViewModel)
             {
                 if (settingsViewModel.TemplateFilePath != null)
                 {

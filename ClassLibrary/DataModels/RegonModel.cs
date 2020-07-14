@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ClassLibrary
 {
-    public class RegonModel :BindableBase
+    public class RegonModel : BindableBase
     {
 
         #region Private Members

@@ -20,18 +20,18 @@ namespace ComissionGeneratorUWP.ViewModel
 
         #region Constructors
 
-        public ClientViewModel():base("clientViewModel")
+        public ClientViewModel() : base("clientViewModel")
         {
 
         }
 
         #endregion
 
-        
+
 
         #region Methods
 
-        
+
         /// <summary>
         /// Check if any of properties is incorrect
         /// </summary>
@@ -45,7 +45,7 @@ namespace ComissionGeneratorUWP.ViewModel
             return true;
         }
 
-        
+
 
         /// <summary>
         /// Load Properties from parameter to current clientViewModel
@@ -64,7 +64,7 @@ namespace ComissionGeneratorUWP.ViewModel
                     OnPropertyChanged("Address");
                 }
                 if (model.PhoneNumber.IsValid)
-                { 
+                {
                     PhoneNumber = model.PhoneNumber;
                     OnPropertyChanged("PhoneNumber");
                 }
@@ -81,7 +81,7 @@ namespace ComissionGeneratorUWP.ViewModel
                 }
 
             }
-            
+
         }
 
 
@@ -91,7 +91,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns></returns>
         async internal Task<bool> SaveXml()
         {
-            return await base.Save(this,ExtensionType.Xml);
+            return await base.Save(this, ExtensionType.Xml);
         }
 
 
@@ -102,7 +102,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns>true if loading is succesful, false otheriwse</returns>
         async internal Task<bool> LoadXml()
         {
-            return await base.Load(this,ExtensionType.Xml);
+            return await base.Load(this, ExtensionType.Xml);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace ComissionGeneratorUWP.ViewModel
         /// <returns>true if saving is succesful, false otherwise</returns>
         async internal Task<bool> SaveJson()
         {
-            return await base.Save(this,ExtensionType.Json);
+            return await base.Save(this, ExtensionType.Json);
         }
 
 

@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ClassLibrary;
+using ClassLibrary.Events;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ClassLibrary;
-using ClassLibrary.Events;
 
 namespace CommissionGeneratorWPF.View
 {
@@ -32,7 +22,7 @@ namespace CommissionGeneratorWPF.View
         }
 
         public void InitializeBinding()
-        { 
+        {
             mainGrid.DataContext = viewModel;
             itemsList.ItemsSource = viewModel.ItemList;
         }
@@ -42,7 +32,7 @@ namespace CommissionGeneratorWPF.View
 
         }
 
-       
+
 
         private void generateCommissionButton_Click(object sender, RoutedEventArgs e)
         {
@@ -61,7 +51,7 @@ namespace CommissionGeneratorWPF.View
                     MessageBox.Show("Nie wybrano miejsca zapisu", "Commission Creating Error");
                     break;
             }
-            
+
         }
     }
 }

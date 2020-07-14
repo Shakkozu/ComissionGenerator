@@ -1,6 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using ClassLibrary;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using ClassLibrary;
 
 namespace ComissionGeneratorUWP.ViewModel
 {
@@ -10,7 +10,7 @@ namespace ComissionGeneratorUWP.ViewModel
 
     {
         #region Properties
-     
+
         [DataMember] public AddressModel Address { get; set; } = new AddressModel();
         [DataMember] public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
 
@@ -30,7 +30,7 @@ namespace ComissionGeneratorUWP.ViewModel
 
         public CompanyViewModel() : base("companyViewModel")
         {
-            
+
         }
 
         #endregion
@@ -54,7 +54,7 @@ namespace ComissionGeneratorUWP.ViewModel
             return true;
         }
 
-        
+
         /// <summary>
         /// Load Properties from parameter to current CompanyViewModel
         /// Function loads only valid data
@@ -109,7 +109,7 @@ namespace ComissionGeneratorUWP.ViewModel
                     OnPropertyChanged("REGON");
                 }
             }
-         }
+        }
 
         /// <summary>
         /// Save current properties to file in xml format

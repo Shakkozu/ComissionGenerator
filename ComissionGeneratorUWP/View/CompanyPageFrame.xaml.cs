@@ -1,24 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
+﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using ComissionGeneratorUWP.ViewModel;
-using ComissionGeneratorUWP.View;
-using Windows.UI.Xaml.Documents;
-using System.ServiceModel.Channels;
-using Windows.UI.Input.Spatial;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,7 +13,7 @@ namespace ComissionGeneratorUWP
 
         #region Properties
 
-      
+
         /// <summary>
         /// Checks if data entered on this page is correct
         /// </summary>
@@ -55,7 +36,7 @@ namespace ComissionGeneratorUWP
         //****************************
 
         #region Methods
-          
+
         /// <summary>
         /// During frame change saves actual data
         /// </summary>
@@ -76,7 +57,7 @@ namespace ComissionGeneratorUWP
             base.OnNavigatedTo(e);
         }
 
-        
+
 
 
 

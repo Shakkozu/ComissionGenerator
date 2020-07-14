@@ -1,7 +1,5 @@
-﻿using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using ClassLibrary;
-using ClassLibrary.Models;
+﻿using ClassLibrary.Models;
+using System.Runtime.Serialization;
 
 namespace ClassLibrary
 {
@@ -11,8 +9,8 @@ namespace ClassLibrary
 
     {
         #region Properties
-     
-        
+
+
         [DataMember] public CommissionCreatorModel Creator { get; set; } = new CommissionCreatorModel();
         [DataMember] public CompanyModel Company { get; set; } = new CompanyModel();
         #endregion
@@ -23,7 +21,7 @@ namespace ClassLibrary
 
         public CompanyViewModel() : base("companyViewModel")
         {
-            
+
         }
 
         #endregion
@@ -47,7 +45,7 @@ namespace ClassLibrary
             return true;
         }
 
-        
+
         /// <summary>
         /// Load Properties from parameter to current CompanyViewModel
         /// Function loads only valid data
@@ -104,7 +102,7 @@ namespace ClassLibrary
                     OnPropertyChanged("REGON");
                 }
             }
-         }
+        }
 
         /// <summary>
         /// Save current properties to file in xml format
@@ -131,16 +129,16 @@ namespace ClassLibrary
         /// <returns>true if loading is succesful, false otheriwse</returns>
         public bool LoadJson()
         {
-            return  Load(this, ExtensionType.Json);
+            return Load(this, ExtensionType.Json);
         }
 
         /// <summary>
         /// Save current properties to file in json format
         /// </summary>
         /// <returns></returns>
-       public bool SaveJson()
+        public bool SaveJson()
         {
-            return  Save(this, ExtensionType.Json);
+            return Save(this, ExtensionType.Json);
         }
 
 

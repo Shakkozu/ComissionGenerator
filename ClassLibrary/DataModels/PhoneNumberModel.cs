@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ClassLibrary
 {
@@ -9,7 +6,7 @@ namespace ClassLibrary
     {
 
         #region Private Members
-        
+
         string _number;
 
         #endregion
@@ -37,7 +34,7 @@ namespace ClassLibrary
             }
         }
         public bool IsValid { get; private set; } = true;
-       
+
 
         #endregion
 
@@ -89,5 +86,5 @@ namespace ClassLibrary
 
 
     }
-        
+
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Runtime.Serialization;
-using System.Text;
-using Windows.UI.WebUI;
+﻿using System.Runtime.Serialization;
 
 namespace ClassLibrary
 {
@@ -25,15 +19,17 @@ namespace ClassLibrary
 
         #region Properties
 
-        public string ItemName { get { return _itemName; }
-            set 
+        public string ItemName
+        {
+            get { return _itemName; }
+            set
             {
                 _itemName = value;
                 OnPropertyChanged();
             }
         }
 
-        
+
         public string ItemPrice
         {
             get { return $"{_itemPrice} PLN"; }
@@ -53,13 +49,15 @@ namespace ClassLibrary
                 OnPropertyChanged();
             }
         }
-        
-        public string ItemDescription { get { return _itemDescription; } 
-            set 
-            { 
-                _itemDescription = value; 
-                OnPropertyChanged(); 
-            } 
+
+        public string ItemDescription
+        {
+            get { return _itemDescription; }
+            set
+            {
+                _itemDescription = value;
+                OnPropertyChanged();
+            }
         }
 
         public int Id { get; private set; }
@@ -92,7 +90,7 @@ namespace ClassLibrary
             }
         }
 
-       
+
 
         public decimal TotalPrice { get { return _quantity * _itemPrice; } }
 

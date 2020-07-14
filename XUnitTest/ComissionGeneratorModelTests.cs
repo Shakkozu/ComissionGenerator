@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using ClassLibrary;
+﻿using ClassLibrary;
 using Xunit;
 
 namespace XUnitTest
@@ -18,10 +14,10 @@ namespace XUnitTest
             Assert.Equal(6, sum);
         }
 
-       
+
         /// PhoneNumberModel
-       
-      
+
+
 
         [Theory]
         [InlineData("111 11 1111")]
@@ -62,7 +58,7 @@ namespace XUnitTest
         void TestPostalCodeInvalidRegex(string postalCode)
         {
             Assert.False(PostalCodeModel.Validate(postalCode));
-        }      
+        }
 
         [Theory]
         [InlineData("10-100")]

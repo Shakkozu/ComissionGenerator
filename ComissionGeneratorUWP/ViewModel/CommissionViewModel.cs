@@ -10,7 +10,7 @@ namespace ComissionGeneratorUWP.ViewModel
     {
         #region Properties
 
-        [DataMember]public ObservableCollection<ItemModel> ItemList = new ObservableCollection<ItemModel>();
+        [DataMember] public ObservableCollection<ItemModel> ItemList = new ObservableCollection<ItemModel>();
 
 
 
@@ -50,7 +50,7 @@ namespace ComissionGeneratorUWP.ViewModel
 
         internal void GenerateDocument()
         {
-           
+
         }
 
         /// <summary>
@@ -70,23 +70,23 @@ namespace ComissionGeneratorUWP.ViewModel
         {
             return await base.Save(this, ExtensionType.Json);
         }
-        
+
         /// <summary>
         /// Todo dokonczyć
         /// </summary>
         /// <param name="viewModel"></param>
         protected override void LoadProperties(object viewModel)
         {
-            if(viewModel is CommissionViewModel model)
+            if (viewModel is CommissionViewModel model)
             {
-                if(model.ItemList != null)
+                if (model.ItemList != null)
                 {
                     //ItemList = model.ItemList;
-                    for(int i=0; i < model.ItemList.Count; i++)
+                    for (int i = 0; i < model.ItemList.Count; i++)
                     {
-                        if(model.ItemList[i].ItemDescription != null &&
+                        if (model.ItemList[i].ItemDescription != null &&
                             model.ItemList[i].ItemName != null
-                            && model.ItemList[i].ItemPrice!=null)
+                            && model.ItemList[i].ItemPrice != null)
                         {
                             ItemList[i].ItemDescription = model.ItemList[i].ItemDescription;
                             ItemList[i].ItemName = model.ItemList[i].ItemName;
@@ -96,7 +96,7 @@ namespace ComissionGeneratorUWP.ViewModel
                         {
                             ItemList[i] = new ItemModel(ItemList[i].Id);
                         }
-                        
+
 
                     }
                     OnCollectionChanged(ItemList);
@@ -104,7 +104,7 @@ namespace ComissionGeneratorUWP.ViewModel
             }
         }
 
-       
+
 
         #endregion
 

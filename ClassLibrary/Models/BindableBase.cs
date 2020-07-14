@@ -22,15 +22,10 @@
 //  THE SOFTWARE.
 //  ---------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
@@ -59,10 +54,10 @@ namespace ClassLibrary
         /// Notifies listeners that a collection member has changed.
         /// </summary>
         /// <param name="changedItem">Name of the member used to notify listeners. 
-        protected void OnCollectionChanged(object changedItem) => 
-            CollectionChanged?.Invoke(this, 
+        protected void OnCollectionChanged(object changedItem) =>
+            CollectionChanged?.Invoke(this,
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, changedItem));
 
-        
+
     }
 }

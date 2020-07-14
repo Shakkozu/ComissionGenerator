@@ -3,20 +3,11 @@ using ClassLibrary.Helpers;
 using ClassLibrary.Models;
 using CommissionGeneratorWPF.View;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CommissionGeneratorWPF
 {
@@ -61,18 +52,18 @@ namespace CommissionGeneratorWPF
                     DocumentHelper.GenerateNewDocument(e.ResultPath, PersonalData, e.Items);
                 }
             }
-            catch(FileLoadException)
+            catch (FileLoadException)
             {
-                MessageBox.Show("Please close your generated Commission before you will create new one!","Commission Creating Error");
+                MessageBox.Show("Please close your generated Commission before you will create new one!", "Commission Creating Error");
             }
-            
-            catch(ArgumentException exc)
+
+            catch (ArgumentException exc)
             {
-                MessageBox.Show(exc.Message,"Invalid Template file",MessageBoxButton.OK);
+                MessageBox.Show(exc.Message, "Invalid Template file", MessageBoxButton.OK);
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
-                MessageBox.Show(exc.Message,"Document Creation Error",MessageBoxButton.OK);
+                MessageBox.Show(exc.Message, "Document Creation Error", MessageBoxButton.OK);
             }
         }
 
@@ -90,9 +81,9 @@ namespace CommissionGeneratorWPF
 
         #region Methods
 
-        
 
-        
+
+
 
         protected override void OnDeactivated(EventArgs e)
         {
@@ -115,7 +106,7 @@ namespace CommissionGeneratorWPF
             _settingsPage.viewModel.SaveJson();
         }
 
-        
+
         private void TextBlock_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is TextBlock block)
