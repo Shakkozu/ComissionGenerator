@@ -75,9 +75,9 @@ namespace ClassLibrary.Helpers
             // Replace the default values of the newly inserted row.
             newItem.ReplaceText("<ProductName>", productName);
             newItem.ReplaceText("<ProductId>", Id++.ToString());
-            newItem.ReplaceText("<ProductPrice>", "$ " + unitPrice.ToString("N2"));
+            newItem.ReplaceText("<ProductPrice>", "PLN " + unitPrice.ToString("N2"));
             newItem.ReplaceText("<ProductQuantity>", unitQuantity.ToString());
-            newItem.ReplaceText("<TotalPrice>", "$ " + (unitPrice * unitQuantity).ToString("N2"));
+            newItem.ReplaceText("<TotalPrice>", "PLN " + (unitPrice * unitQuantity).ToString("N2"));
         }
 
         /// <summary>
@@ -191,12 +191,12 @@ namespace ClassLibrary.Helpers
                         if(replaceOnlyValues==true)
                         {
                             ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString());
-                            ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice + "$");
+                            ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice + "PLN");
                         }
                         else
                         {
                             ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
-                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString() + "$");
+                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString() + "PLN");
                         }
                        
 
@@ -212,14 +212,9 @@ namespace ClassLibrary.Helpers
                     decimal totalPrice = Products.Sum(x => x.TotalPrice);
 
                     //Replace TotalPrice Info
-                    if (replaceOnlyValues == true)
-                    {
-                        doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + "$");
-                    }
-                    else
-                    {
-                        doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2"));
-                    }
+                    
+                        doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + " PLN");
+
                     //Replace TodayDate Info
                     doc.ReplaceText("<TodayDate>", DateTime.Now.ToLongDateString());
 
@@ -477,7 +472,7 @@ namespace ClassLibrary.Helpers
                 r.Cells[2].Paragraphs.First().Append(product.ItemPrice);
                 r.Cells[3].Paragraphs.First().Append(product.ItemDescription);
                 r.Cells[4].Paragraphs.First().Append(product.Quantity);
-                r.Cells[5].Paragraphs.First().Append(product.TotalPrice.ToString() + "$");
+                r.Cells[5].Paragraphs.First().Append(product.TotalPrice.ToString() + "PLN");
             }
 
             return r;
@@ -542,7 +537,7 @@ namespace ClassLibrary.Helpers
 
         private static Paragraph InsertTotalPriceParagraph(DocX doc, decimal totalPrice)
         {
-            Paragraph p = doc.InsertParagraph($"Total Cost :{totalPrice}$");
+            Paragraph p = doc.InsertParagraph($"Total Cost :{totalPrice}PLN");
             p.Alignment = Alignment.right;
             p.LineSpacingBefore = 15;
             p.LineSpacingAfter = 30;
