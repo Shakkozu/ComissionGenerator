@@ -34,24 +34,20 @@ namespace XUnitTest
         [InlineData("123-43534 678")]
         [InlineData("xx123-435 678xx")]
         [InlineData("xx 123-435 678 xx")]
-        [InlineData("+48987987987")]
-        [InlineData("+48_987987987")]
-        [InlineData("+48_ 987987987")]
         void TestPhoneNumberInvalidRegex(string number)
         {
-            Assert.False(PhoneNumberModel.Validate(number, out string res));
+            Assert.False(PhoneNumberModel.Validate(number));
         }
 
         [Theory]
         [InlineData("111 111 111")]
         [InlineData("111-111-111")]
-        [InlineData("111111111")]
-        [InlineData("+00 665-971-122")]
+        [InlineData("+00 665 971 122")]
+        [InlineData("123 123 123")]
         [InlineData("+48 123 123 123")]
-        [InlineData("+48 123123123")]
         void TestPhoneNumberValidRegex(string number)
         {
-            Assert.True(PhoneNumberModel.Validate(number,out string res));
+            Assert.True(PhoneNumberModel.Validate(number));
         }
 
         //PostalCodeModel
@@ -65,7 +61,7 @@ namespace XUnitTest
         [InlineData("x99-311x")]
         void TestPostalCodeInvalidRegex(string postalCode)
         {
-            Assert.False(PostalCodeModel.Validate(postalCode, out string number));
+            Assert.False(PostalCodeModel.Validate(postalCode));
         }      
 
         [Theory]
@@ -74,7 +70,7 @@ namespace XUnitTest
         [InlineData("10 100")]
         void TestPostalCodeValidRegex(string postalCode)
         {
-            Assert.True(PostalCodeModel.Validate(postalCode,out string number));
+            Assert.True(PostalCodeModel.Validate(postalCode));
         }
 
         [Theory]
