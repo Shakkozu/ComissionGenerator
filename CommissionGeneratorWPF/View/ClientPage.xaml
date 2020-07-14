@@ -26,7 +26,6 @@
 
 
 
-        <Button Click="Button_Click"></Button>
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Dane Klienta" FontSize="24" FontWeight="Black" Grid.ColumnSpan="2"/>
 
         <StackPanel  Orientation="Vertical" Grid.Row="3" Grid.Column="1">

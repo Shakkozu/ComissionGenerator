@@ -36,6 +36,9 @@ namespace ClassLibrary
                     case "commissionViewModel":
                         ViewModelType = ViewModelTypeEnumerator.CommisionViewModelType;
                         break;
+                    case "settingsViewModel":
+                        ViewModelType = ViewModelTypeEnumerator.SettingsViewModelType;
+                        break;
                 }
 
             }
@@ -159,7 +162,8 @@ namespace ClassLibrary
             {
                 CompanyViewModelType,
                 ClientViewModelType,
-                CommisionViewModelType
+                CommisionViewModelType,
+                SettingsViewModelType,
             };
 
             protected enum ExtensionType

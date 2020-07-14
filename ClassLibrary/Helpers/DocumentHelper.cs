@@ -161,7 +161,7 @@ namespace ClassLibrary.Helpers
             var dataTables = doc.Tables.Where(x => x.TableCaption == tableCaption);
             if (dataTables.Count() == 0)
             {
-                throw new Exception("Couldn't find table with 'WARES_TABLE' description!");
+                throw new ArgumentException("Couldn't find table with 'WARES_TABLE' description!");
             }
             else
             {

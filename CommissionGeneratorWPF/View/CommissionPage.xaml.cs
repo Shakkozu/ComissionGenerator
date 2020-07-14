@@ -46,7 +46,22 @@ namespace CommissionGeneratorWPF.View
 
         private void generateCommissionButton_Click(object sender, RoutedEventArgs e)
         {
-            CommissionGenerated?.Invoke(this, new CommissionEventArgs(viewModel.ItemList.ToList()));
+            var saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.Filter = ("Pliki tekstowe (*.docx) | *.docx");
+            saveFileDialog.DefaultExt = "*.docx";
+            saveFileDialog.InitialDirectory = Environment.SpecialFolder.Desktop.ToString();
+            var result = saveFileDialog.ShowDialog();
+            switch (result)
+            {
+                case System.Windows.Forms.DialogResult.OK:
+                    string filePath = saveFileDialog.FileName;
+                    CommissionGenerated?.Invoke(this, new CommissionEventArgs(viewModel.ItemList.ToList(), filePath));
+                    break;
+                default:
+                    MessageBox.Show("Nie wybrano miejsca zapisu", "Commission Creating Error");
+                    break;
+            }
+            
         }
     }
 }

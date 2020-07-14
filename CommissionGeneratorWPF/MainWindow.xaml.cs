@@ -30,6 +30,7 @@ namespace CommissionGeneratorWPF
         private readonly CompanyPage _companyPage = new CompanyPage();
         private readonly ClientPage _clientPage = new ClientPage();
         private readonly CommissionPage _commissionPage = new CommissionPage();
+        private readonly SettingsPage _settingsPage = new SettingsPage();
 
         private readonly PersonalData PersonalData;
 
@@ -50,23 +51,28 @@ namespace CommissionGeneratorWPF
         {
             try
             {
-                if (File.Exists(@"C:\Users\user\Desktop\testHydroDoc.docx"))
+                if (File.Exists(_settingsPage.viewModel.TemplateFilePath))
                 {
-                    DocumentHelper.GenerateDocumentFromTemplate(@"C:\Users\user\Desktop\testHydroDoc.docx",
-                        @"C:\Users\user\Desktop\result.docx", PersonalData, e.Items, _commissionPage.viewModel.ReplaceOnlyValues);
+                    DocumentHelper.GenerateDocumentFromTemplate(_settingsPage.viewModel.TemplateFilePath,
+                        e.ResultPath, PersonalData, e.Items, _commissionPage.viewModel.ReplaceOnlyValues);
                 }
                 else
                 {
-                    DocumentHelper.GenerateNewDocument(@"C:\Users\user\Desktop\firstTest.docx", PersonalData, e.Items);
+                    DocumentHelper.GenerateNewDocument(e.ResultPath, PersonalData, e.Items);
                 }
             }
             catch(FileLoadException)
             {
-                MessageBox.Show("Please close your generated Commission before you will create new one!");
+                MessageBox.Show("Please close your generated Commission before you will create new one!","Commission Creating Error");
+            }
+            
+            catch(ArgumentException exc)
+            {
+                MessageBox.Show(exc.Message,"Invalid Template file",MessageBoxButton.OK);
             }
             catch(Exception exc)
             {
-                MessageBox.Show(exc.Message);
+                MessageBox.Show(exc.Message,"Document Creation Error",MessageBoxButton.OK);
             }
         }
 
@@ -99,12 +105,14 @@ namespace CommissionGeneratorWPF
             //FOR TEST PURPOSES ; TODO DELETE
             _clientPage.viewModel.LoadJson();
             _commissionPage.viewModel.LoadJson();
+            _settingsPage.viewModel.LoadJson();
         }
         private void SaveCompanyPage()
         {
             _companyPage.viewModel.SaveJson();
             _clientPage.viewModel.SaveJson();
             _commissionPage.viewModel.SaveJson();
+            _settingsPage.viewModel.SaveJson();
         }
 
         
@@ -144,6 +152,9 @@ namespace CommissionGeneratorWPF
                     break;
                 case "commissionPageLabel":
                     frame.Content = _commissionPage;
+                    break;
+                case "settingsPageLabel":
+                    frame.Content = _settingsPage;
                     break;
                 default:
                     break;

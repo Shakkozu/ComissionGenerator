@@ -35,12 +35,6 @@ namespace CommissionGeneratorWPF.View
             mainGrid.DataContext = viewModel;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //MessageBox.Show($"Is Company True: { viewModel.Company}\nCompany Name: {viewModel.CompanyName}");
-            MessageBox.Show($"{viewModel.Client.Address}\n{viewModel.Client.EmailAddress}\n{viewModel.Client.PhoneNumber}" +
-                $"\n{viewModel.Client.Name} \n{viewModel.Client.NIP}");
-        }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {

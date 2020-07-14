@@ -1,0 +1,55 @@
+﻿<Page x:Class="CommissionGeneratorWPF.View.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CommissionGeneratorWPF.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SettingsPage">
+
+    <Grid x:Name="mainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="15*"/>
+
+
+            </Grid.RowDefinitions>
+
+
+
+            <TextBlock  FontWeight="Bold" FontSize="30" Text="Ustawienia" 
+                   Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="1"/>
+
+
+            
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
+
+            <!-- Template Filepath -->
+            <TextBlock Text="Ścieżka pliku wzorcowego"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <Button Content="..." FontSize="16" Width="30" Margin="0,10" Click="Button_Click"></Button>
+                <TextBox Margin="10,10" IsEnabled="False" MinWidth="300" 
+                         HorizontalAlignment="Stretch" Name="templateFilepathBox"
+                         Text="{Binding TemplateFilePath}" />
+
+            </StackPanel>
+           
+            
+           
+           
+        </StackPanel>
+    </Grid>
+</Page>

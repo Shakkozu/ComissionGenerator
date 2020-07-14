@@ -26,6 +26,14 @@
         </Grid.RowDefinitions>
 
 
+        
+        <TextBlock Grid.Column="3" Text="Settings" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                   Padding="15" FontSize="16"
+                       Name="settingsPageLabel" 
+                       MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                       MouseEnter="TextBlock_MouseEnter" 
+                   MouseLeave="TextBlock_MouseLeave"/>
+
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="4">
           
             <TextBlock Text="Company Page" Name="companyPageLabel" 
@@ -46,7 +54,9 @@
                        MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                        MouseEnter="TextBlock_MouseEnter" 
                    MouseLeave="TextBlock_MouseLeave"/>
+
             
+
         </StackPanel>
         <Line Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" StrokeThickness="3"/>
         <Frame NavigationUIVisibility="Hidden"

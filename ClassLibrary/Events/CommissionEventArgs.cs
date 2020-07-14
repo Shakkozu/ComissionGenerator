@@ -11,12 +11,14 @@ namespace ClassLibrary.Events
 
         }
 
-        public CommissionEventArgs(List<ItemModel> items)
+        public CommissionEventArgs(List<ItemModel> items, string resultPath)
         {
             Items = items;
+            ResultPath = resultPath;
         }
 
         public List<ItemModel> Items { get; }
+        public string ResultPath { get; }
 
     }
 }
