@@ -8,10 +8,28 @@
 
         public bool Company { get; set; } = false;
 
-        public string CompanyName { get; set; }
+        public string CompanyName { get; set; } = "";
         public NIPModel NIP { get; set; } = new NIPModel();
 
         public override string FullName => Company ? CompanyName : $"{Name} {LastName}";
+
+        //I Assume that valid client has Addres, FirstName + LastName or CompanyName, 
+        // and valid email Address or valid Phone number
+        public bool IsValid
+        {
+            get
+            {
+                if (Address.IsValid && 
+                    ((Company==false && Name != "" && LastName != "") || (Company==true && CompanyName != "" && (NIP.IsValid && NIP.Number != ""))) &&
+                    ((PhoneNumber.Number != "" && PhoneNumber.IsValid ) ||
+                    (EmailAddress.Address != "" && EmailAddress.IsValid)))
+                {
+                    return true;
+                }
+                else 
+                    return false;
+            }
+        }
 
 
         #endregion
@@ -20,7 +38,27 @@
 
         #region Constructors
 
+        public ClientModel()
+        {
 
+        }
+
+        public ClientModel(string nip, string postalCode, string city, string street,string emailAddress, string companyName, string name, string lastName, string phoneNumber)
+        {
+            PhoneNumber.Number = phoneNumber;
+            NIP.Number = nip;
+            Address.PostalCode.Number = postalCode;
+            Address.City = city;
+            Address.Street = street;
+            EmailAddress.Address = emailAddress;
+            CompanyName = companyName;
+            Name = name;
+            LastName = lastName;
+            if (companyName != "")
+                Company = true;
+            else
+                Company = false;
+        }
 
         #endregion
 

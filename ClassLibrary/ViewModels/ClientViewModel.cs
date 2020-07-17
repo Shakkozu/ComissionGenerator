@@ -1,4 +1,10 @@
-﻿namespace ClassLibrary
+﻿using ClassLibrary.Data;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Windows.UI.Xaml;
+
+namespace ClassLibrary
 {
     public class ClientViewModel : BaseViewModel
     {
@@ -7,6 +13,15 @@
 
         public ClientModel Client { get; set; } = new ClientModel();
 
+        public ObservableCollection<ClientModel> Clients { get; set; } = GetClientsFromDataBase();
+
+
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler ClientLoaded;
 
         #endregion
 
@@ -14,7 +29,6 @@
 
         public ClientViewModel() : base("clientViewModel")
         {
-
         }
 
         #endregion
@@ -81,6 +95,45 @@
 
         }
 
+
+        /// <summary>
+        /// Remove client given in parameter from database and reload it.
+        /// </summary>
+        /// <param name="selectedClient"></param>
+        public void RemoveClient(ClientModel selectedClient)
+        {
+            SQLiteDataAccess.RemoveClient(selectedClient);
+            Clients = GetClientsFromDataBase();
+            OnPropertyChanged("Clients");
+        }
+
+        //Load clients from database
+        private static ObservableCollection<ClientModel> GetClientsFromDataBase()
+        {
+            ObservableCollection<ClientModel> result = new ObservableCollection<ClientModel>(SQLiteDataAccess.LoadClients());
+            return result;
+        }
+
+        /// <summary>
+        /// Save client into Clients database 
+        /// </summary>
+        public void AddClient()
+        {   
+            SQLiteDataAccess.SaveClient(Client);
+            Clients = GetClientsFromDataBase();
+            OnPropertyChanged("Clients");
+        }
+
+        /// <summary>
+        /// Load selected client
+        /// </summary>
+        /// <param name="selectedClient"></param>
+        public void LoadClient(ClientModel selectedClient)
+        {
+            Client = selectedClient;
+            OnPropertyChanged("Client");
+            ClientLoaded?.Invoke(this, new EventArgs());
+        }
 
         /// <summary>
         /// Save current properties to file in xml format
