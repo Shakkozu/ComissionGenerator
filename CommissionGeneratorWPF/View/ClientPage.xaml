@@ -13,6 +13,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="6*"/>
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -123,5 +124,26 @@
         <TextBox Margin="0,10" HorizontalAlignment="Left" MaxWidth="150" MinWidth="80"
                    Text="{Binding Client.Address.PostalCode.Number,Mode=TwoWay}" />
         </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.RowSpan="3" Grid.Column="2">
+            <TextBlock HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="22" FontWeight="Bold">Klienci</TextBlock>
+            <ListBox ItemsSource="{Binding Clients}" Height="600" x:Name="clientsList">
+                
+            </ListBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Dodaj Klienta" Padding="2" Margin="5,20" Name="addClientToDatabaseButton"
+                        Click="addClientToDatabaseButton_Click"/>
+
+
+                <Button Content="Załaduj Klienta" Padding="2" Margin="5,20" Name="loadClientFromDatabaseButton"
+                        Click="loadClientFromDatabaseButton_Click"/>
+                
+
+                <Button x:Name="removeClientFromDatabaseButton" Padding="2" Content="Usuń Klienta" 
+                        Margin="5,20" Click="removeClientFromDatabaseButton_Click"/>
+
+            </StackPanel>
+        </StackPanel>
+        
     </Grid>
 </Page>

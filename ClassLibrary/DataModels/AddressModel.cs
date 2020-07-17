@@ -9,7 +9,14 @@ namespace ClassLibrary
         public PostalCodeModel PostalCode { get; set; } = new PostalCodeModel();
         public string Street { get; set; }
         public string City { get; set; }
-
+        public bool IsValid { get
+            {
+                if (Street != "" && City != "" && PostalCode.IsValid)
+                    return true;
+                else
+                    return false;
+            }
+        }
         #endregion
 
         //***********************
@@ -38,7 +45,7 @@ namespace ClassLibrary
 
         public override string ToString()
         {
-            return $"Ul. {Street}" +
+            return $"{Street}" +
                 Environment.NewLine +
                 $"{PostalCode}, {City}";
         }

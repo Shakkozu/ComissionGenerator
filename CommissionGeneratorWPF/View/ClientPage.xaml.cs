@@ -1,4 +1,5 @@
 ﻿using ClassLibrary;
+using ClassLibrary.Data;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,7 +17,15 @@ namespace CommissionGeneratorWPF.View
             InitializeComponent();
             InitializeBinding();
             companyStackPanel.Visibility = Visibility.Collapsed;
+            viewModel.ClientLoaded += ViewModel_ClientLoaded;
+
         }
+
+        private void ViewModel_ClientLoaded(object sender, System.EventArgs e)
+        {
+            UpdateStackPanelsVisibility();
+        }
+
 
         public void InitializeBinding()
         {
@@ -26,6 +35,7 @@ namespace CommissionGeneratorWPF.View
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
+
         }
 
         ///I had to use those functions, because using Visibility Converters doesn't work with stackPanels
@@ -36,12 +46,28 @@ namespace CommissionGeneratorWPF.View
         /// </summary>
         private void companyRadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (companyRadioButton.IsChecked == true)
+            UpdateStackPanelsVisibility();
+        }
+
+        private void UpdateStackPanelsVisibility()
+        {
+            //viewModel.Client.Company = (bool)companyRadioButton.IsChecked;
+            if (viewModel.Client.Company)
             {
+                companyRadioButton.IsChecked = true;
                 if (companyStackPanel != null && personStackPanel != null)
                 {
                     personStackPanel.Visibility = Visibility.Collapsed;
                     companyStackPanel.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                personRadioButton.IsChecked = true;
+                if (companyStackPanel != null && personStackPanel != null)
+                {
+                    personStackPanel.Visibility = Visibility.Visible;
+                    companyStackPanel.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -61,5 +87,26 @@ namespace CommissionGeneratorWPF.View
             }
         }
         #endregion
+
+        private void removeClientFromDatabaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(clientsList.SelectedItem is ClientModel selectedClient)
+            {
+                viewModel.RemoveClient(selectedClient);
+            }
+        }
+
+        private void loadClientFromDatabaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (clientsList.SelectedItem is ClientModel selectedClient)
+            {
+                viewModel.LoadClient(selectedClient);
+            }
+        }
+
+        private void addClientToDatabaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.AddClient();
+        }
     }
 }

@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ClassLibrary.Data;
 
 namespace CommissionGeneratorWPF
 {
@@ -41,8 +40,6 @@ namespace CommissionGeneratorWPF
 
         private void _commissionPage_CommissionGenerated(object sender, CommissionEventArgs e)
         {
-            _clientPage.viewModel.AddClient();
-            //try to generate document
             try
             {
                 if (File.Exists(_settingsPage.viewModel.TemplateFilePath))
@@ -91,7 +88,6 @@ namespace CommissionGeneratorWPF
         protected override void OnDeactivated(EventArgs e)
         {
             SaveCompanyPage();
-
         }
 
         private void LoadCompanyPage()
@@ -101,8 +97,6 @@ namespace CommissionGeneratorWPF
             _clientPage.viewModel.LoadJson();
             _commissionPage.viewModel.LoadJson();
             _settingsPage.viewModel.LoadJson();
-
-           
         }
         private void SaveCompanyPage()
         {

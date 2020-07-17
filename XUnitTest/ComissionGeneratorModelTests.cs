@@ -139,5 +139,35 @@ namespace XUnitTest
         }
 
 
+        [Theory]
+        [InlineData("a","a","","123123123","", "a", "12312", "a", "")]
+        [InlineData("","","a","123-123-123","", "a", "12321", "a", "1231231212")]
+        [InlineData("a","a","a","123-123-123","", "a", "12321", "a","1231231212")]
+        [InlineData("","","a","","aa@wp.pl", "a", "12321", "a", "1231231212")]
+        [InlineData("a","a","","","aa@wp.pl", "a", "12321", "a", "321213121221")]
+        void TestClientIsValidPropertyValidData(string name, string lastName, string companyName, string phoneNumber, string emailAddress, string city, string postalcode, string street,string nip)
+        {
+            ClientModel client = new ClientModel(nip, postalcode, city, street, emailAddress, companyName, name, lastName,phoneNumber);
+            Assert.True(client.IsValid);
+        }
+
+        [Theory]
+        [InlineData("a", "a", "", "123 123 12 3", "", "a", "12312", "a","1111111111")]
+        [InlineData("", "", "", "123-123-123", "", "a", "12321", "a","")]
+        [InlineData("a", "a", "a", "", "a@ww", "a", "12321", "a", "")]
+        [InlineData("", "", "a", "", "", "a", "12321", "a", "11111111")]
+        [InlineData("a", "a", "", "", "aa@wp.pl", "a", "", "a", "")]
+        [InlineData("a", "a", "", "123-123-123", "aa@wp.pl", "", "", "", "1111111111")]
+        [InlineData("a", "a", "a", "123-123-123", "aa@wp.pl", "", "", "", "")]
+        void TestClientIsValidPropertyInvalidData(string name, string lastName, string companyName, string phoneNumber, string emailAddress, string city, string postalcode, string street, string nip)
+        {
+            ClientModel client = new ClientModel(nip, postalcode, city, street, emailAddress, companyName, name, lastName, phoneNumber);
+
+            Assert.False(client.IsValid);
+        }
+
+
+
+
     }
 }
