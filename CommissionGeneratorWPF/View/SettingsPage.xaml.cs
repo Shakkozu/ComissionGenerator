@@ -47,5 +47,10 @@ namespace CommissionGeneratorWPF.View
                     break;
             }
         }
+
+        private void removeFilePathButton_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.RemoveFilePath();
+        }
     }
 }

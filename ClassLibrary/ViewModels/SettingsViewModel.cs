@@ -38,6 +38,12 @@ namespace ClassLibrary
             }
         }
 
+        public void RemoveFilePath()
+        {
+            _templateFilePath = "";
+            OnPropertyChanged("TemplateFilePath");
+        }
+
         /// <summary>
         /// Save current properties to file in xml format
         /// </summary>

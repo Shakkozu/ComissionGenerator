@@ -44,6 +44,9 @@
                 <TextBox Margin="10,10" IsEnabled="False" MinWidth="300" 
                          HorizontalAlignment="Stretch" Name="templateFilepathBox"
                          Text="{Binding TemplateFilePath}" />
+                <Button Content="Usuń" Name="removeFilePathButton" 
+                        Click="removeFilePathButton_Click" FontSize="16" 
+                        Margin="0,10"></Button>
 
             </StackPanel>
            

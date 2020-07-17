@@ -35,9 +35,9 @@ namespace ClassLibrary
             get { return $"{_itemPrice} PLN"; }
             set
             {
-                if (value.Contains("zł"))
+                if (value.Contains("PLN"))
                 {
-                    value = value.Substring(0, value.Length - 2);
+                    value = value.Substring(0, value.Length - 3);
                 }
                 else if (value.Contains("$"))
                 {

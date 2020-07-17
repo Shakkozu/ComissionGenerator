@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using Xceed.Document.NET;
@@ -189,13 +190,13 @@ namespace ClassLibrary.Helpers
                         ReplaceRowInfo(dataTable, "<ItemDescription>", prod.ItemDescription);
                         if (replaceOnlyValues == true)
                         {
-                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString());
-                            ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice + "PLN");
+                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString("N2")+ " PLN");
+                            ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
                         }
                         else
                         {
                             ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
-                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString() + "PLN");
+                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString("N2") + " PLN");
                         }
 
 
@@ -235,8 +236,11 @@ namespace ClassLibrary.Helpers
 
         #region Personal Data Table Methods 
 
+        
+
         private static void ReplaceCreatorInfo(PersonalData UserData, DocX doc, bool replaceOnlyValues)
         {
+            
             if (doc.FindAll("<CreatorInfo>").Count > 0)
             {
                 doc.ReplaceText("<CreatorInfo>", UserData.CommissionCreator.ToString());
@@ -249,10 +253,20 @@ namespace ClassLibrary.Helpers
             }
             else
             {
+
+                ReplaceEmail("<CreatorEmail>", UserData.CommissionCreator.EmailAddress.Address, doc);
                 doc.ReplaceText("<CreatorName>", UserData.CommissionCreator.FullName);
-                doc.ReplaceText("<CreatorEmail>", UserData.CommissionCreator.EmailAddress.Address);
                 doc.ReplaceText("<CreatorPhoneNumber>", UserData.CommissionCreator.PhoneNumber.Number);
             }
+        }
+
+        private static void ReplaceEmail(string tag, string email, DocX doc)
+        {
+            var link = doc.AddHyperlink(email, new Uri($"mailto:{email}"));
+            var p = doc.InsertParagraph("");
+            p.AppendHyperlink(link).Color(Color.Blue).UnderlineStyle(UnderlineStyle.singleLine);
+            doc.ReplaceTextWithObject(tag, p.Hyperlinks.FirstOrDefault());
+            doc.RemoveParagraph(p);
         }
 
         private static void ReplaceClientInfo(PersonalData UserData, DocX doc, bool replaceOnlyValues)
@@ -278,8 +292,8 @@ namespace ClassLibrary.Helpers
             }
             else
             {
+                ReplaceEmail("<ClientEmail>", UserData.Client.EmailAddress.Address, doc);
                 doc.ReplaceText("<ClientName>", UserData.Client.FullName);
-                doc.ReplaceText("<ClientEmail>", UserData.Client.EmailAddress.Address);
                 doc.ReplaceText("<ClientAddress>", UserData.Client.Address.ToString());
                 doc.ReplaceText("<CompanyAddressPostalCode>", UserData.Company.Address.ToString());
                 doc.ReplaceText("<CompanyAddressStreet>", UserData.Company.Address.ToString());
@@ -313,8 +327,8 @@ namespace ClassLibrary.Helpers
             }
             else
             {
+                ReplaceEmail("<CompanyEmail>", UserData.Company.EmailAddress.Address, doc);
                 doc.ReplaceText("<CompanyName>", UserData.Company.CompanyName);
-                doc.ReplaceText("<CompanyEmail>", UserData.Company.EmailAddress.Address);
                 doc.ReplaceText("<CompanyAddressPostalCode>", UserData.Company.Address.ToString());
                 doc.ReplaceText("<CompanyAddressStreet>", UserData.Company.Address.ToString());
                 doc.ReplaceText("<CompanyAddressCity>", UserData.Company.Address.ToString());
@@ -471,7 +485,7 @@ namespace ClassLibrary.Helpers
                 r.Cells[2].Paragraphs.First().Append(product.ItemPrice);
                 r.Cells[3].Paragraphs.First().Append(product.ItemDescription);
                 r.Cells[4].Paragraphs.First().Append(product.Quantity);
-                r.Cells[5].Paragraphs.First().Append(product.TotalPrice.ToString() + "PLN");
+                r.Cells[5].Paragraphs.First().Append(product.TotalPrice.ToString("N2") + "PLN");
             }
 
             return r;
