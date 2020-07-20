@@ -28,7 +28,7 @@ namespace CommissionGeneratorWPF.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var fileDialog = new System.Windows.Forms.OpenFileDialog();
-            fileDialog.Filter = "Dokumenty (*.docx) | *.docx";
+            fileDialog.Filter = "Documents (*.docx) | *.docx";
             fileDialog.InitialDirectory = Environment.SpecialFolder.Desktop.ToString();
             var result = fileDialog.ShowDialog();
             switch (result)
@@ -39,7 +39,7 @@ namespace CommissionGeneratorWPF.View
                     templateFilepathBox.ToolTip = file;
                     break;
                 case System.Windows.Forms.DialogResult.Cancel:
-                    MessageBox.Show("Nie wybrano pliku szablonu", "Template Loading Error");
+                    MessageBox.Show("Template File Wasn't Selected", "Template Loading Error");
                     break;
                 default:
                     viewModel.TemplateFilePath = "";

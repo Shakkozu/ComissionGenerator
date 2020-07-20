@@ -29,7 +29,7 @@
 
 
 
-            <TextBlock  FontWeight="Bold" FontSize="30" Text="Ustawienia" 
+            <TextBlock  FontWeight="Bold" FontSize="30" Text="Settings" 
                    Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="1"/>
 
 
@@ -37,14 +37,14 @@
         <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
 
             <!-- Template Filepath -->
-            <TextBlock Text="Ścieżka pliku wzorcowego"/>
+            <TextBlock Text="Template Filepath"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <Button Content="..." FontSize="16" Width="30" Margin="0,10" Click="Button_Click"></Button>
                 <TextBox Margin="10,10" IsEnabled="False" MinWidth="300" 
                          HorizontalAlignment="Stretch" Name="templateFilepathBox"
                          Text="{Binding TemplateFilePath}" />
-                <Button Content="Usuń" Name="removeFilePathButton" 
+                <Button Content="Delete" Name="removeFilePathButton" 
                         Click="removeFilePathButton_Click" FontSize="16" 
                         Margin="0,10"></Button>
 

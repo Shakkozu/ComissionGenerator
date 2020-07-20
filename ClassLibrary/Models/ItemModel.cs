@@ -32,7 +32,7 @@ namespace ClassLibrary
 
         public string ItemPrice
         {
-            get { return $"{_itemPrice} PLN"; }
+            get { return $"{_itemPrice} $"; }
             set
             {
                 if (value.Contains("PLN"))

@@ -18,7 +18,7 @@ namespace ClassLibrary
 
         public CommissionViewModel() : base("comissionViewModel")
         {
-            for (int i = 1; i <= 20; i++)
+            for (int i = 1; i <= 100; i++)
                 ItemList.Add(new ItemModel(i));
         }
 

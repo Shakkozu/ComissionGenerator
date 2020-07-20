@@ -37,7 +37,7 @@ namespace CommissionGeneratorWPF.View
         private void generateCommissionButton_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            saveFileDialog.Filter = ("Pliki tekstowe (*.docx) | *.docx");
+            saveFileDialog.Filter = ("Documents (*.docx) | *.docx");
             saveFileDialog.DefaultExt = "*.docx";
             saveFileDialog.InitialDirectory = Environment.SpecialFolder.Desktop.ToString();
             var result = saveFileDialog.ShowDialog();
@@ -48,7 +48,7 @@ namespace CommissionGeneratorWPF.View
                     CommissionGenerated?.Invoke(this, new CommissionEventArgs(viewModel.ItemList.ToList(), filePath));
                     break;
                 default:
-                    MessageBox.Show("Nie wybrano miejsca zapisu", "Commission Creating Error");
+                    MessageBox.Show("Save Filepath Wasn't Selected", "Commission Creating Error");
                     break;
             }
 
