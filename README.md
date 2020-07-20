@@ -17,15 +17,15 @@ With project i also include prepared file template, which may be extended.
 Tag system used within documents:
 
 # Wares
-To Insert wares info into Table, Table have to has caption = 'WARES_TABLE'!!
-\<ItemId\> <\br>
-\<ItemName\> <\br>
-\<ItemQuantity\> - Acceptable formats ('x', 'xm')<\br> 
-\<ItemPrice\> > - '$', 'PLN'<\br
-\<ItemTotalPrice\> <\br>
+<b>To Insert wares info into Table, Table have to has caption = 'WARES_TABLE'!!</b> <br/>
+\<ItemId\> <br/>
+\<ItemName\> <br/>
+\<ItemQuantity\> - Acceptable formats ('x', 'xm')<br/> 
+\<ItemPrice\> > - '$', 'PLN'<br/>
+\<ItemTotalPrice\> <br/>
 
 # Creator
-\<CreatorInfo\> - "{CreatorFullName}\nEmail: {CreatorEmailAddress}\nPhone Number: {CreatorPhoneNumber}" <br/>
+\<CreatorInfo\> - "{CreatorFullName}\nEmail: {CreatorEmailAddress}\nPhone Number: {CreatorPhoneNumber}" </br>
 \<CreatorName\> - "{CreatorFullName}" <br/>
 \<CreatorEmail\> - "etc" <br/> 
 \<CreatorPhoneNumber\> - "etc" <br/>
