@@ -97,9 +97,6 @@ namespace CommissionGeneratorWPF
         private void LoadCompanyPage()
         {
             _companyPage.viewModel.LoadJson();
-            //FOR TEST PURPOSES ; TODO DELETE
-            _clientPage.viewModel.LoadJson();
-            _commissionPage.viewModel.LoadJson();
             _settingsPage.viewModel.LoadJson();
 
            
@@ -107,9 +104,6 @@ namespace CommissionGeneratorWPF
         private void SaveCompanyPage()
         {
             _companyPage.viewModel.SaveJson();
-            _clientPage.viewModel.SaveJson();
-            _commissionPage.viewModel.SaveJson();
-            _settingsPage.viewModel.SaveJson();
         }
 
 
