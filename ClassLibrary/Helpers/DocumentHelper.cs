@@ -122,13 +122,13 @@ namespace ClassLibrary.Helpers
                         ReplaceRowInfo(dataTable, "<ItemDescription>", prod.ItemDescription);
                         if (replaceOnlyValues == true)
                         {
-                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString("N2")+ " PLN");
+                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString("N2")+ " $");
                             ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
                         }
                         else
                         {
                             ReplaceRowInfo(dataTable, "<ItemPrice>", prod.ItemPrice);
-                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString("N2") + " PLN");
+                            ReplaceRowInfo(dataTable, "<ItemTotalPrice>", prod.TotalPrice.ToString("N2") + " $");
                         }
 
 
@@ -145,7 +145,7 @@ namespace ClassLibrary.Helpers
 
                     //Replace TotalPrice Info
 
-                    doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + " PLN");
+                    doc.ReplaceText("<TotalPrice>", totalPrice.ToString("N2") + " $");
 
                     //Replace TodayDate Info
                     doc.ReplaceText("<TodayDate>", DateTime.Now.ToLongDateString());
@@ -212,6 +212,9 @@ namespace ClassLibrary.Helpers
                 doc.ReplaceText("<ClientName>", UserData.Client.FullName);
                 doc.ReplaceText("<ClientEmail>", UserData.Client.EmailAddress.ToString());
                 doc.ReplaceText("<ClientAddress>", UserData.Client.Address.ToString());
+                doc.ReplaceText("<ClientAddressPostalCode>", UserData.Client.Address.PostalCode.ToString());
+                doc.ReplaceText("<ClientAddressStreet>", UserData.Client.Address.Street.ToString());
+                doc.ReplaceText("<ClientAddressCity>", UserData.Client.Address.City.ToString());
                 doc.ReplaceText("<ClientPhoneNumber>", UserData.Client.PhoneNumber.ToString());
                 if (UserData.Client.Company)
                 {
@@ -227,9 +230,9 @@ namespace ClassLibrary.Helpers
                 ReplaceEmail("<ClientEmail>", UserData.Client.EmailAddress.Address, doc);
                 doc.ReplaceText("<ClientName>", UserData.Client.FullName);
                 doc.ReplaceText("<ClientAddress>", UserData.Client.Address.ToString());
-                doc.ReplaceText("<CompanyAddressPostalCode>", UserData.Company.Address.ToString());
-                doc.ReplaceText("<CompanyAddressStreet>", UserData.Company.Address.ToString());
-                doc.ReplaceText("<CompanyAddressCity>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<ClientAddressPostalCode>", UserData.Client.Address.PostalCode.ToString());
+                doc.ReplaceText("<ClientAddressStreet>", UserData.Client.Address.Street.ToString());
+                doc.ReplaceText("<ClientAddressCity>", UserData.Client.Address.City.ToString());
                 doc.ReplaceText("<ClientPhoneNumber>", UserData.Client.PhoneNumber.Number);
                 if (UserData.Client.Company)
                 {
@@ -253,6 +256,9 @@ namespace ClassLibrary.Helpers
                 doc.ReplaceText("<CompanyName>", UserData.Company.CompanyName);
                 doc.ReplaceText("<CompanyEmail>", UserData.Company.EmailAddress.ToString());
                 doc.ReplaceText("<CompanyAddress>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyAddressPostalCode>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyAddressStreet>", UserData.Company.Address.ToString());
+                doc.ReplaceText("<CompanyAddressCity>", UserData.Company.Address.ToString());
                 doc.ReplaceText("<CompanyPhoneNumber>", UserData.Company.PhoneNumber.ToString());
                 doc.ReplaceText("<CompanyNIP>", UserData.Company.NIP.ToString());
                 doc.ReplaceText("<CompanyREGON>", UserData.Company.REGON.ToString());
@@ -417,7 +423,7 @@ namespace ClassLibrary.Helpers
                 r.Cells[2].Paragraphs.First().Append(product.ItemPrice);
                 r.Cells[3].Paragraphs.First().Append(product.ItemDescription);
                 r.Cells[4].Paragraphs.First().Append(product.Quantity);
-                r.Cells[5].Paragraphs.First().Append(product.TotalPrice.ToString("N2") + "PLN");
+                r.Cells[5].Paragraphs.First().Append(product.TotalPrice.ToString("N2") + "$");
             }
 
             return r;
@@ -482,7 +488,7 @@ namespace ClassLibrary.Helpers
 
         private static Paragraph InsertTotalPriceParagraph(DocX doc, decimal totalPrice)
         {
-            Paragraph p = doc.InsertParagraph($"Total Cost :{totalPrice.ToString("N2")}PLN");
+            Paragraph p = doc.InsertParagraph($"Total Cost :{totalPrice.ToString("N2")}$");
             p.Alignment = Alignment.right;
             p.LineSpacingBefore = 15;
             p.LineSpacingAfter = 30;
