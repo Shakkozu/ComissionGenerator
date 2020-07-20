@@ -108,5 +108,13 @@ namespace CommissionGeneratorWPF.View
         {
             viewModel.AddClient();
         }
+
+        private void clientsList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (clientsList.SelectedItem is ClientModel selectedClient)
+            {
+                viewModel.LoadClient(selectedClient);
+            }
+        }
     }
 }

@@ -125,10 +125,10 @@
                    Text="{Binding Client.Address.PostalCode.Number,Mode=TwoWay}" />
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.RowSpan="3" Grid.Column="2">
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.RowSpan="3" VerticalAlignment="Stretch" Grid.Column="2">
             <TextBlock HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="22" FontWeight="Bold">Klienci</TextBlock>
-            <ListBox ItemsSource="{Binding Clients}" Height="600" x:Name="clientsList">
-                
+            <ListBox ItemsSource="{Binding Clients}" VerticalAlignment="Stretch" MinHeight="300" x:Name="clientsList" MouseDoubleClick="clientsList_MouseDoubleClick">
+               
             </ListBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Dodaj Klienta" Padding="2" Margin="5,20" Name="addClientToDatabaseButton"
