@@ -18,74 +18,6 @@ namespace ClassLibrary.Helpers
 
         #endregion
 
-        public static void GenerateDocument()
-        {
-            string resultFileName = @"C:\Users\user\Desktop\test.docx";
-            string fileName = @"C:\Users\user\Desktop\openSourceTemplate.docx";
-            File.Copy(fileName, resultFileName, true);
-
-
-
-            using (DocX doc = DocX.Load(resultFileName))
-            {
-                var productsTable = doc.Tables.FirstOrDefault(x => x.TableCaption == "PRODUCT_LIST");
-                if (productsTable == null)
-                {
-                    throw new Exception("Cooldn't find table with caption PRODUCT_LIST");
-                }
-                else
-                {
-
-                    if (productsTable.RowCount > 1)
-                    {
-                        //Get the row pattern of the second row
-                        var rowPattern = productsTable.Rows[1];
-                        AddItemToTable(productsTable, rowPattern, "Chleb");
-                        AddItemToTable(productsTable, rowPattern, "Banan");
-                        AddItemToTable(productsTable, rowPattern, "Jabłko");
-                        AddItemToTable(productsTable, rowPattern, "Cukier");
-
-                        rowPattern.Remove();
-                    }
-                    doc.Save();
-                }
-
-
-
-
-                Process.Start("WINWORD.EXE", resultFileName);
-
-
-
-
-            }
-
-        }
-
-        private static void AddItemToTable(Table table, Row rowPattern, string productName)
-        {
-            Random rand = new Random(32432);
-            // Gets a random unit price and quantity.
-            var unitPrice = Math.Round(rand.NextDouble(), 2);
-            var unitQuantity = rand.Next(1, 10);
-
-            // Insert a copy of the rowPattern at the last index in the table.
-            var newItem = table.InsertRow(rowPattern, table.RowCount - 1);
-
-            // Replace the default values of the newly inserted row.
-            newItem.ReplaceText("<ProductName>", productName);
-            newItem.ReplaceText("<ProductId>", Id++.ToString());
-            newItem.ReplaceText("<ProductPrice>", "PLN " + unitPrice.ToString("N2"));
-            newItem.ReplaceText("<ProductQuantity>", unitQuantity.ToString());
-            newItem.ReplaceText("<TotalPrice>", "PLN " + (unitPrice * unitQuantity).ToString("N2"));
-        }
-
-        /// <summary>
-        /// Function Generates new Document with data passed in arguments
-        /// </summary>
-        /// <param name="fileName">path to output file</param>
-        /// <param name="UserData">Data about Creator, Client and Company</param>
-        /// <param name="Products">List of products</param>
         public static void GenerateNewDocument(string fileName, PersonalData UserData, List<ItemModel> Products)
         {
             Id = 1;
@@ -550,7 +482,7 @@ namespace ClassLibrary.Helpers
 
         private static Paragraph InsertTotalPriceParagraph(DocX doc, decimal totalPrice)
         {
-            Paragraph p = doc.InsertParagraph($"Total Cost :{totalPrice}PLN");
+            Paragraph p = doc.InsertParagraph($"Total Cost :{totalPrice.ToString("N2")}PLN");
             p.Alignment = Alignment.right;
             p.LineSpacingBefore = 15;
             p.LineSpacingAfter = 30;
