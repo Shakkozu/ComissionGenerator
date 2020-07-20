@@ -18,6 +18,11 @@ Tag system used within documents:
 
 # Wares
 To Insert wares info into Table, Table have to has caption = 'WARES_TABLE'!!
+\<ItemId\> <\br>
+\<ItemName\> <\br>
+\<ItemQuantity\> - Acceptable formats ('x', 'xm')<\br> 
+\<ItemPrice\> > - '$', 'PLN'<\br
+\<ItemTotalPrice\> <\br>
 
 # Creator
 \<CreatorInfo\> - "{CreatorFullName}\nEmail: {CreatorEmailAddress}\nPhone Number: {CreatorPhoneNumber}" <br/>
@@ -40,3 +45,6 @@ To Insert wares info into Table, Table have to has caption = 'WARES_TABLE'!!
 Same as Client tags +<br/>
 \<CompanyREGON\>
 
+# MISC
+\<TodayDate\> </br>
+\<TotalPrice\> Cost of all items from Wares Table<\br>
