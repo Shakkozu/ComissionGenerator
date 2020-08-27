@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.github-icon {
+    background-image:url("C:\Users\user\source\repos\ComissionGenerator\CommissionGeneratorMVC\Assets\GitHub-Mark-Light-32px.png")
+}
