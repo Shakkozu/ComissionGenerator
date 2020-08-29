@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using ClassLibrary.DataModels;
+using ClassLibrary.Models;
+using Dapper;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -8,19 +10,7 @@ using System.Linq;
 namespace ClassLibrary.Data
 {
     // Class added to load ClientModel from database properly
-    internal class TmpClientModel
-    {
-        public string NIP { get; set; }
-        public string Street { get; set; }
-        public string PostalCode{ get; set; }
-        public string City { get; set; }
-        public string PhoneNumber { get; set; }
-        public string EmailAddress { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public string CompanyName{ get; set; }
 
-    }
 
     public class SQLiteDataAccess
     {
@@ -30,12 +20,12 @@ namespace ClassLibrary.Data
             string sql = "select * from Clients";
 
             List<ClientModel> result = new List<ClientModel>();
-            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
             {
-                var output = cnn.Query<TmpClientModel>(sql, new DynamicParameters());
+                var output = cnn.Query<DBClientModel>(sql, new DynamicParameters());
                 if (output != null)
                 {
-                    foreach (TmpClientModel model in output)
+                    foreach (DBClientModel model in output)
                     {
                         result.Add(new ClientModel(model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.Name, model.LastName, model.PhoneNumber));
                     }
@@ -48,9 +38,34 @@ namespace ClassLibrary.Data
 
         }
 
+        public static List<CompanyModel> LoadCompanies()
+        {
+            string sql = "select * from Companies";
+
+            List<CompanyModel> result = new List<CompanyModel>();
+
+            string connstring = ConfigurationManager.ConnectionStrings["DBFilepath"].ConnectionString;
+            
+            using (IDbConnection cnn = new SQLiteConnection(connstring))
+            {
+                var output = cnn.Query<DBCompanyModel>(sql, new DynamicParameters());
+                if (output != null)
+                {
+                    foreach (DBCompanyModel model in output)
+                    {
+                        result.Add(new CompanyModel(model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.PhoneNumber));
+                    }
+
+                    return result;
+
+                }
+                return new List<CompanyModel>();
+            }
+        }
+
         public static void SaveClient(ClientModel client)
         {
-            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
             {
                 if (client.IsValid)
                 {
@@ -67,7 +82,7 @@ namespace ClassLibrary.Data
                         {
                             Name = client.Name,
                             LastName = client.LastName,
-                            FullName = client.FullName,  
+                            FullName = client.FullName,
                             PhoneNumber = client.PhoneNumber.Number,
                             EmailAddress = client.EmailAddress.Address,
                             Street = client.Address.Street,
@@ -83,9 +98,9 @@ namespace ClassLibrary.Data
             }
         }
 
-        public static void RemoveClient(ClientModel client)
+    public static void RemoveClient(ClientModel client)
         {
-            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
             {
                 cnn.Execute($"DELETE FROM Clients WHERE FullName='{client.FullName}' AND " +
                         $"Street='{client.Address.Street}' AND City='{client.Address.City}' AND " +
@@ -96,9 +111,5 @@ namespace ClassLibrary.Data
         }
 
 
-        private static string LoadConnectionString(string id = "Default")
-        {
-            return ConfigurationManager.ConnectionStrings[id].ConnectionString;
-        }
     }
 }

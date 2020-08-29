@@ -2,6 +2,22 @@
 {
     public class CompanyModel
     {
+        public CompanyModel()
+        {
+
+        }
+
+        public CompanyModel(string nIP, string postalCode, string city, string street, string emailAddress, string companyName, string phoneNumber)
+        {
+            NIP.Number = nIP;
+            Address.PostalCode.Number = postalCode;
+            Address.City = city;
+            Address.Street = street;
+            EmailAddress.Address = emailAddress;
+            CompanyName = companyName;
+            PhoneNumber.Number = phoneNumber;
+        }
+
         public EmailAddressModel EmailAddress { get; set; } = new EmailAddressModel();
         public AddressModel Address { get; set; } = new AddressModel();
         public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
