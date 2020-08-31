@@ -46,7 +46,6 @@ namespace ComissionGeneratorUWP
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    //TODO: Załaduj stan z wstrzymanej wcześniej aplikacji
                 }
 
                 // Umieść ramkę w bieżącym oknie
@@ -97,8 +96,7 @@ namespace ComissionGeneratorUWP
 
             }
             finally
-            {
-                //TODO: Zapisz stan aplikacji i zatrzymaj wszelkie aktywności w tle
+            { 
                 deferral.Complete();
             }
 

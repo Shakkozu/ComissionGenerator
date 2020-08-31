@@ -4,6 +4,7 @@
     {
         #region Properties
 
+        public int Id { get; set; }
         public AddressModel Address { get; set; } = new AddressModel();
 
         public bool Company { get; set; } = false;
@@ -43,8 +44,9 @@
 
         }
 
-        public ClientModel(string nip, string postalCode, string city, string street,string emailAddress, string companyName, string name, string lastName, string phoneNumber)
+        public ClientModel(int id,string nip, string postalCode, string city, string street,string emailAddress, string companyName, string name, string lastName, string phoneNumber)
         {
+            Id = id;
             PhoneNumber.Number = phoneNumber;
             NIP.Number = nip;
             Address.PostalCode.Number = postalCode;

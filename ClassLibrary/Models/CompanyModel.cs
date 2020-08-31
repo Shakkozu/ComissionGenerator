@@ -7,8 +7,9 @@
 
         }
 
-        public CompanyModel(string nIP, string postalCode, string city, string street, string emailAddress, string companyName, string phoneNumber)
+        public CompanyModel(int id,string nIP, string postalCode, string city, string street, string emailAddress, string companyName, string phoneNumber, string regon)
         {
+            Id = id;
             NIP.Number = nIP;
             Address.PostalCode.Number = postalCode;
             Address.City = city;
@@ -16,7 +17,10 @@
             EmailAddress.Address = emailAddress;
             CompanyName = companyName;
             PhoneNumber.Number = phoneNumber;
+            REGON.Number = regon;
         }
+
+        public int Id { get; set; }
 
         public EmailAddressModel EmailAddress { get; set; } = new EmailAddressModel();
         public AddressModel Address { get; set; } = new AddressModel();

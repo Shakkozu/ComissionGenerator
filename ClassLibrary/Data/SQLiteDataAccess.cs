@@ -1,6 +1,7 @@
 ﻿using ClassLibrary.DataModels;
 using ClassLibrary.Models;
 using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -27,7 +28,7 @@ namespace ClassLibrary.Data
                 {
                     foreach (DBClientModel model in output)
                     {
-                        result.Add(new ClientModel(model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.Name, model.LastName, model.PhoneNumber));
+                        result.Add(new ClientModel(model.id, model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.Name, model.LastName, model.PhoneNumber));
                     }
 
                     return result;
@@ -53,13 +54,51 @@ namespace ClassLibrary.Data
                 {
                     foreach (DBCompanyModel model in output)
                     {
-                        result.Add(new CompanyModel(model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.PhoneNumber));
+                        result.Add(new CompanyModel(model.Id,model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.PhoneNumber, model.REGON));
                     }
 
                     return result;
 
                 }
                 return new List<CompanyModel>();
+            }
+        }
+
+        public static void SaveCompany(CompanyModel company)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                if (company != null)
+                {
+                    var o = cnn.Query<object>($"SELECT * FROM Companies WHERE " +
+                        $"CompanyName='{company.CompanyName}' AND " +
+                        $"((EmailAddress='{company.EmailAddress.Address}' AND EmailAddress!='') OR " +
+                        $"(NIP='{company.NIP.Number}' AND NIP!='') OR " +
+                        $"(Street='{company.Address.Street}' AND City='{company.Address.City}') OR " +
+                        $"(PhoneNumber='{company.PhoneNumber.Number}' AND PhoneNumber!=''))",
+                        new DynamicParameters());
+                    if (!o.Any())
+                    {
+                        var obj = new
+                        {
+                            PhoneNumber = company.PhoneNumber.Number,
+                            EmailAddress = company.EmailAddress.Address,
+                            Street = company.Address.Street,
+                            City = company.Address.City,
+                            PostalCode = company.Address.PostalCode.Number,
+                            NIP = company.NIP.Number,
+                            CompanyName = company.CompanyName,
+                            REGON = company.REGON.Number,
+                        };
+
+                       
+                        cnn.Execute("insert into Companies (NIP, PostalCode, Street, City, PhoneNumber, EmailAddress, CompanyName, REGON)" +
+                            " values (@NIP, @PostalCode, @Street, @City, @PhoneNumber, @EmailAddress, @CompanyName, @REGON)", obj);
+
+                       //If storing company into db was succesful, return new record's Id
+                       company.Id = cnn.Query<int>("select Id from Companies").OrderBy(x => x).Last();
+                    }
+                }
             }
         }
 

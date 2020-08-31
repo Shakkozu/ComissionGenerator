@@ -1,30 +1,55 @@
 ﻿using ClassLibrary;
+using CommissionGeneratorMVC.Validators;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace CommissionGeneratorMVC.Models
 {
+    
     public class CompanyMVCModel
     {
+
+        public int Id { get; set; }
+
+        [Display(Name ="Email Address")]
+        [EmailAddress]
+        [Required]
         public string EmailAddress { get; set; }
-        public AddressModel Address { get; set; } = new AddressModel();
 
-        public PostalCodeModel PostalCode { get; set; } = new PostalCodeModel();
+
+        [Required]
+        [StringLength(30,MinimumLength =2)]
         public string Street { get; set; }
-        public string City { get; set; }
-        public PhoneNumberModel PhoneNumber { get; set; } = new PhoneNumberModel();
 
+        [Required]
+        [StringLength(60, MinimumLength = 2)]
+        public string City  { get; set; }
 
-        public NIPModel NIP { get; set; } = new NIPModel();
-        public RegonModel REGON { get; set; } = new RegonModel();
+        [Required]
+        [Display(Name ="Postal Code")]
+        [RegularExpression(@"\d{2}[\s\-]?\d{3}$", ErrorMessage = "Nieprawidłowy kod pocztowy, prawidłowy format:\n ##-###")]
+        public string PostalCode  { get; set; }
 
+        [Display(Name = "Contact Number")]
+        [Required]
+        [RegularExpression(@"^(\+\d{2})?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}$",ErrorMessage = "Nieprawidłowy number telefonu, prawidłowy format:\n ###-###-###")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [RegularExpression(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{2}[\-\s]?\d{2}$", ErrorMessage = "Nieprawidłowy NIP, prawidłowy format:\n ###-###-##-##")]
+        public string NIP { get; set; }
+
+        [Required]
+        [RegularExpression(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{3}$", ErrorMessage = "Nieprawidłowy REGON, prawidłowy format:\n ##########")]
+        public string REGON { get; set; }
+
+        [Display(Name = "Company Name")]
+        [Required]
+        [StringLength(50, MinimumLength = 2)]
         public string CompanyName { get; set; }
 
-        public override string ToString()
-        {
-            return $"{CompanyName}\n{Address}\n{EmailAddress}\n{PhoneNumber}\n{NIP}\n{REGON}";
-        }
     }
 }

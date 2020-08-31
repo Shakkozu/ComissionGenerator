@@ -65,7 +65,6 @@ namespace ClassLibrary
         }
 
         /// <summary>
-        /// Todo finish!
         /// </summary>
         /// <param name="viewModel"></param>
         protected override void LoadProperties(object viewModel)

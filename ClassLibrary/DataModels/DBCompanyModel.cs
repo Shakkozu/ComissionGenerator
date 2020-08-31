@@ -6,6 +6,7 @@ namespace ClassLibrary.DataModels
 {
     class DBCompanyModel
     {
+        public int Id { get; set; }
         public string NIP { get; set; }
         public string Street { get; set; }
         public string PostalCode { get; set; }

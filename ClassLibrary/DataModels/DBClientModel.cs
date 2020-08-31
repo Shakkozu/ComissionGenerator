@@ -6,7 +6,7 @@ namespace ClassLibrary.DataModels
 {
     class DBClientModel
     {
-        
+        public int id { get; set; }
         public string NIP { get; set; }
         public string Street { get; set; }
         public string PostalCode { get; set; }

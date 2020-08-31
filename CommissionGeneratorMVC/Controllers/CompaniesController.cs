@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
+using CommissionGeneratorMVC.Models;
 
 namespace CommissionGeneratorMVC.Controllers
 {
@@ -16,42 +17,96 @@ namespace CommissionGeneratorMVC.Controllers
         {
 
             List<CompanyModel> companies = SQLiteDataAccess.LoadCompanies();
+            List<CompanyMVCModel> convertedCompanies = ConvertCompaniesToMVCModels(companies);
 
-            return View(companies);
+            return View(convertedCompanies);
         }
 
-        // GET: Company/Details/5
-        public ActionResult Details(int id)
+        private List<CompanyMVCModel> ConvertCompaniesToMVCModels(List<CompanyModel> companies)
         {
-            return View();
+            List<CompanyMVCModel> output = new List<CompanyMVCModel>();
+            foreach (CompanyModel company in companies)
+            {
+                output.Add(new CompanyMVCModel
+                {
+                    PostalCode = $"{ company.Address.PostalCode.Number }",
+                    City = $"{ company.Address.City }",
+                    Street = $"{ company.Address.Street }",
+                    EmailAddress = $"{ company.EmailAddress.Address }",
+                    PhoneNumber = $"{ company.PhoneNumber.Number }",
+                    NIP = $"{ company.NIP.Number}",
+                    REGON = $"{ company.REGON.Number }",
+                    CompanyName = $"{ company.CompanyName}",
+                    Id = company.Id
+                });
+            }
+            return output;
         }
+
+        private CompanyMVCModel ConvertCompanyToMVCModel(CompanyModel company)
+        {
+            CompanyMVCModel output = new CompanyMVCModel
+            {
+                PostalCode = $"{ company.Address.PostalCode.Number }",
+                City = $"{ company.Address.City }",
+                Street = $"{ company.Address.Street }",
+                EmailAddress = $"{ company.EmailAddress.Address }",
+                PhoneNumber = $"{ company.PhoneNumber.Number }",
+                NIP = $"{ company.NIP.Number}",
+                REGON = $"{ company.REGON.Number }",
+                CompanyName = $"{ company.CompanyName}",
+                Id = company.Id
+            };
+            return output;
+        }
+
+        
 
         // GET: Company/Create
         public ActionResult Create()
         {
-            return View();
+            CompanyMVCModel input = new CompanyMVCModel();
+            return View(input);
         }
 
         // POST: Company/Create
+        [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CompanyMVCModel company)
         {
             try
             {
-                // TODO: Add insert logic here
+                if(ModelState.IsValid)
+                {
+                    CompanyModel cpn = new CompanyModel(
+                        company.Id, company.NIP, 
+                        company.PostalCode, company.City,
+                        company.Street, company.EmailAddress,
+                        company.CompanyName, company.PhoneNumber,
+                        company.REGON);
+                    SQLiteDataAccess.SaveCompany(cpn);
+                }
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Create");
             }
         }
+
 
         // GET: Company/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            CompanyModel model = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == id).FirstOrDefault();
+           
+            if (model != null)
+            {
+                CompanyMVCModel mvcModel = ConvertCompanyToMVCModel(model);
+                return View(mvcModel);
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Company/Edit/5

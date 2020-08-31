@@ -147,7 +147,7 @@ namespace XUnitTest
         [InlineData("a","a","","","aa@wp.pl", "a", "12321", "a", "321213121221")]
         void TestClientIsValidPropertyValidData(string name, string lastName, string companyName, string phoneNumber, string emailAddress, string city, string postalcode, string street,string nip)
         {
-            ClientModel client = new ClientModel(nip, postalcode, city, street, emailAddress, companyName, name, lastName,phoneNumber);
+            ClientModel client = new ClientModel(1,nip, postalcode, city, street, emailAddress, companyName, name, lastName,phoneNumber);
             Assert.True(client.IsValid);
         }
 
@@ -161,7 +161,7 @@ namespace XUnitTest
         [InlineData("a", "a", "a", "123-123-123", "aa@wp.pl", "", "", "", "")]
         void TestClientIsValidPropertyInvalidData(string name, string lastName, string companyName, string phoneNumber, string emailAddress, string city, string postalcode, string street, string nip)
         {
-            ClientModel client = new ClientModel(nip, postalcode, city, street, emailAddress, companyName, name, lastName, phoneNumber);
+            ClientModel client = new ClientModel(1,nip, postalcode, city, street, emailAddress, companyName, name, lastName, phoneNumber);
 
             Assert.False(client.IsValid);
         }
