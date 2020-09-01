@@ -64,6 +64,7 @@ namespace ClassLibrary.Data
             }
         }
 
+        //TODO ADD ID
         public static void SaveCompany(CompanyModel company)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
@@ -102,6 +103,7 @@ namespace ClassLibrary.Data
             }
         }
 
+        //TODO ADD ID
         public static void SaveClient(ClientModel client)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
@@ -137,7 +139,41 @@ namespace ClassLibrary.Data
             }
         }
 
-    public static void RemoveClient(ClientModel client)
+        public static void EditCompany(CompanyModel company)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                if (company != null)
+                {
+                    List<CompanyModel> companies = LoadCompanies();
+                    if (companies.Where(x => x.Id == company.Id).FirstOrDefault() != null)
+                    {
+                        var obj = new
+                        {
+                            PhoneNumber = company.PhoneNumber.Number,
+                            EmailAddress = company.EmailAddress.Address,
+                            Street = company.Address.Street,
+                            City = company.Address.City,
+                            PostalCode = company.Address.PostalCode.Number,
+                            NIP = company.NIP.Number,
+                            CompanyName = company.CompanyName,
+                            REGON = company.REGON.Number,
+                            Id = company.Id
+                        };
+                        cnn.Execute("UPDATE Companies SET " +
+                            "NIP = @NIP, PostalCode = @PostalCode, " +
+                            "Street = @Street, City = @City, " +
+                            "PhoneNumber = @PhoneNumber, EmailAddress = @EmailAddress, " +
+                            "CompanyName = @CompanyName, REGON = @REGON " +
+                            "WHERE Id = @Id",obj);
+
+                    }
+                }
+            }
+        }
+
+        //TODO REFACTOR 
+        public static void RemoveClient(ClientModel client)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
             {
@@ -146,6 +182,14 @@ namespace ClassLibrary.Data
                         $"PhoneNumber='{client.PhoneNumber.Number}' AND EmailAddress='{client.EmailAddress.Address}'" +
                         $" AND NIP='{client.NIP.Number}'",
                         new DynamicParameters());
+            }
+        }
+
+        public static void RemoveCompany(int id)
+        {
+            using(IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                cnn.Execute($"DELETE FROM Companies WHERE Id = {id}");
             }
         }
 

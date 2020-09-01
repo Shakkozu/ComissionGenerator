@@ -111,39 +111,60 @@ namespace CommissionGeneratorMVC.Controllers
 
         // POST: Company/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, CompanyMVCModel company)
         {
             try
             {
-                // TODO: Add update logic here
+                if(ModelState.IsValid)
+                {
+                    CompanyModel cpn = new CompanyModel(
+                    company.Id, company.NIP,
+                    company.PostalCode, company.City,
+                    company.Street, company.EmailAddress,
+                    company.CompanyName, company.PhoneNumber,
+                    company.REGON);
 
+                    SQLiteDataAccess.EditCompany(cpn);
+
+                }
                 return RedirectToAction("Index");
+
             }
             catch
             {
-                return View();
+                return RedirectToAction("Edit",id);
             }
         }
 
         // GET: Company/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            CompanyModel model = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == id).FirstOrDefault();
+
+            if (model != null)
+            {
+                CompanyMVCModel mvcModel = ConvertCompanyToMVCModel(model);
+                return View(mvcModel);
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Company/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, CompanyMVCModel company)
         {
             try
             {
-                // TODO: Add delete logic here
+                if(company != null)
+                {
+                    SQLiteDataAccess.RemoveCompany(company.Id);
+                }
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(company);
             }
         }
     }
