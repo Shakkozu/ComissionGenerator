@@ -1,6 +1,4 @@
-﻿using ClassLibrary;
-using CommissionGeneratorMVC.Validators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,34 +6,32 @@ using System.Web;
 
 namespace CommissionGeneratorMVC.Models
 {
-    
-    public class CompanyMVCModel
+    public class ClientMVCModel
     {
-
         public int Id { get; set; }
 
-        [Display(Name ="Email Address")]
+        [Display(Name = "Email Address")]
         [EmailAddress]
         [Required]
         public string EmailAddress { get; set; }
 
 
         [Required]
-        [StringLength(30,MinimumLength =2)]
+        [StringLength(30, MinimumLength = 2)]
         public string Street { get; set; }
 
         [Required]
         [StringLength(60, MinimumLength = 2)]
-        public string City  { get; set; }
+        public string City { get; set; }
 
         [Required]
-        [Display(Name ="Postal Code")]
+        [Display(Name = "Postal Code")]
         [RegularExpression(@"\d{2}[\s\-]?\d{3}$", ErrorMessage = "Nieprawidłowy kod pocztowy, prawidłowy format:\n ##-###")]
-        public string PostalCode  { get; set; }
+        public string PostalCode { get; set; }
 
         [Display(Name = "Contact Number")]
         [Required]
-        [RegularExpression(@"^(\+\d{2})?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}$",ErrorMessage = "Nieprawidłowy number telefonu, prawidłowy format:\n ###-###-###")]
+        [RegularExpression(@"^(\+\d{2})?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}$", ErrorMessage = "Nieprawidłowy number telefonu, prawidłowy format:\n ###-###-###")]
         public string PhoneNumber { get; set; }
 
         [Required]

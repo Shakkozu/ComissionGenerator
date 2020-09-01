@@ -23,12 +23,13 @@ namespace ClassLibrary.Data
             List<ClientModel> result = new List<ClientModel>();
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
             {
-                var output = cnn.Query<DBClientModel>(sql, new DynamicParameters());
+                var output = cnn.Query<ClientMVCModel>(sql, new DynamicParameters());
+
                 if (output != null)
                 {
-                    foreach (DBClientModel model in output)
+                    foreach (ClientMVCModel model in output)
                     {
-                        result.Add(new ClientModel(model.id, model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.Name, model.LastName, model.PhoneNumber));
+                        result.Add(new ClientModel(model.Id, model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.Name, model.LastName, model.PhoneNumber));
                     }
 
                     return result;
@@ -39,7 +40,7 @@ namespace ClassLibrary.Data
 
         }
 
-        public static List<CompanyModel> LoadCompanies()
+        public static List<CompanyMVCModel> LoadCompanies()
         {
             string sql = "select * from Companies";
 
@@ -49,23 +50,25 @@ namespace ClassLibrary.Data
             
             using (IDbConnection cnn = new SQLiteConnection(connstring))
             {
-                var output = cnn.Query<DBCompanyModel>(sql, new DynamicParameters());
-                if (output != null)
-                {
-                    foreach (DBCompanyModel model in output)
-                    {
-                        result.Add(new CompanyModel(model.Id,model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.PhoneNumber, model.REGON));
-                    }
+                List<CompanyMVCModel> output = cnn.Query<CompanyMVCModel>(sql, new DynamicParameters()).ToList();
+                return output;
+                //if (output != null)
+                //{
+                //    return output;
+                //    foreach (DBCompanyModel model in output)
+                //    {
+                //        result.Add(new CompanyModel(model.Id,model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.PhoneNumber, model.REGON));
+                //    }
 
-                    return result;
+                //    return result;
 
-                }
-                return new List<CompanyModel>();
+                //}
+                return new List<CompanyMVCModel>();
             }
         }
 
         //TODO ADD ID
-        public static void SaveCompany(CompanyModel company)
+        public static void SaveCompany(CompanyMVCModel company)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
             {
@@ -73,23 +76,23 @@ namespace ClassLibrary.Data
                 {
                     var o = cnn.Query<object>($"SELECT * FROM Companies WHERE " +
                         $"CompanyName='{company.CompanyName}' AND " +
-                        $"((EmailAddress='{company.EmailAddress.Address}' AND EmailAddress!='') OR " +
-                        $"(NIP='{company.NIP.Number}' AND NIP!='') OR " +
-                        $"(Street='{company.Address.Street}' AND City='{company.Address.City}') OR " +
-                        $"(PhoneNumber='{company.PhoneNumber.Number}' AND PhoneNumber!=''))",
+                        $"((EmailAddress='{company.EmailAddress}' AND EmailAddress!='') OR " +
+                        $"(NIP='{company.NIP}' AND NIP!='') OR " +
+                        $"(Street='{company.Street}' AND City='{company.City}') OR " +
+                        $"(PhoneNumber='{company.PhoneNumber}' AND PhoneNumber!=''))",
                         new DynamicParameters());
                     if (!o.Any())
                     {
                         var obj = new
                         {
-                            PhoneNumber = company.PhoneNumber.Number,
-                            EmailAddress = company.EmailAddress.Address,
-                            Street = company.Address.Street,
-                            City = company.Address.City,
-                            PostalCode = company.Address.PostalCode.Number,
-                            NIP = company.NIP.Number,
+                            PhoneNumber = company.PhoneNumber,
+                            EmailAddress = company.EmailAddress,
+                            Street = company.Street,
+                            City = company.City,
+                            PostalCode = company.PostalCode,
+                            NIP = company.NIP,
                             CompanyName = company.CompanyName,
-                            REGON = company.REGON.Number,
+                            REGON = company.REGON,
                         };
 
                        
@@ -139,25 +142,25 @@ namespace ClassLibrary.Data
             }
         }
 
-        public static void EditCompany(CompanyModel company)
+        public static void EditCompany(CompanyMVCModel company)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
             {
                 if (company != null)
                 {
-                    List<CompanyModel> companies = LoadCompanies();
+                    List<CompanyMVCModel> companies = LoadCompanies();
                     if (companies.Where(x => x.Id == company.Id).FirstOrDefault() != null)
                     {
                         var obj = new
                         {
-                            PhoneNumber = company.PhoneNumber.Number,
-                            EmailAddress = company.EmailAddress.Address,
-                            Street = company.Address.Street,
-                            City = company.Address.City,
-                            PostalCode = company.Address.PostalCode.Number,
-                            NIP = company.NIP.Number,
+                            PhoneNumber = company.PhoneNumber,
+                            EmailAddress = company.EmailAddress,
+                            Street = company.Street,
+                            City = company.City,
+                            PostalCode = company.PostalCode,
+                            NIP = company.NIP,
                             CompanyName = company.CompanyName,
-                            REGON = company.REGON.Number,
+                            REGON = company.REGON,
                             Id = company.Id
                         };
                         cnn.Execute("UPDATE Companies SET " +

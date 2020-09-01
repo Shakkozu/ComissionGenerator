@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
-using CommissionGeneratorMVC.Models;
+using ClassLibrary.DataModels;
 
 namespace CommissionGeneratorMVC.Controllers
 {
@@ -16,10 +16,9 @@ namespace CommissionGeneratorMVC.Controllers
         public ActionResult Index()
         {
 
-            List<CompanyModel> companies = SQLiteDataAccess.LoadCompanies();
-            List<CompanyMVCModel> convertedCompanies = ConvertCompaniesToMVCModels(companies);
+            List<CompanyMVCModel> companies = SQLiteDataAccess.LoadCompanies();
 
-            return View(convertedCompanies);
+            return View(companies);
         }
 
         private List<CompanyMVCModel> ConvertCompaniesToMVCModels(List<CompanyModel> companies)
@@ -78,13 +77,7 @@ namespace CommissionGeneratorMVC.Controllers
             {
                 if(ModelState.IsValid)
                 {
-                    CompanyModel cpn = new CompanyModel(
-                        company.Id, company.NIP, 
-                        company.PostalCode, company.City,
-                        company.Street, company.EmailAddress,
-                        company.CompanyName, company.PhoneNumber,
-                        company.REGON);
-                    SQLiteDataAccess.SaveCompany(cpn);
+                    SQLiteDataAccess.SaveCompany(company);
                 }
 
                 return RedirectToAction("Index");
@@ -99,12 +92,11 @@ namespace CommissionGeneratorMVC.Controllers
         // GET: Company/Edit/5
         public ActionResult Edit(int id)
         {
-            CompanyModel model = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == id).FirstOrDefault();
-           
+            CompanyMVCModel model = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == id).FirstOrDefault();
+
             if (model != null)
             {
-                CompanyMVCModel mvcModel = ConvertCompanyToMVCModel(model);
-                return View(mvcModel);
+                return View(model);
             }
             return RedirectToAction("Index");
         }
@@ -115,16 +107,9 @@ namespace CommissionGeneratorMVC.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                    CompanyModel cpn = new CompanyModel(
-                    company.Id, company.NIP,
-                    company.PostalCode, company.City,
-                    company.Street, company.EmailAddress,
-                    company.CompanyName, company.PhoneNumber,
-                    company.REGON);
-
-                    SQLiteDataAccess.EditCompany(cpn);
+                    SQLiteDataAccess.EditCompany(company);
 
                 }
                 return RedirectToAction("Index");
@@ -132,19 +117,18 @@ namespace CommissionGeneratorMVC.Controllers
             }
             catch
             {
-                return RedirectToAction("Edit",id);
+                return RedirectToAction("Edit", id);
             }
         }
 
         // GET: Company/Delete/5
         public ActionResult Delete(int id)
         {
-            CompanyModel model = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == id).FirstOrDefault();
+            CompanyMVCModel model = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == id).FirstOrDefault();
 
             if (model != null)
             {
-                CompanyMVCModel mvcModel = ConvertCompanyToMVCModel(model);
-                return View(mvcModel);
+                return View(model);
             }
             return RedirectToAction("Index");
         }
@@ -155,7 +139,7 @@ namespace CommissionGeneratorMVC.Controllers
         {
             try
             {
-                if(company != null)
+                if (company != null)
                 {
                     SQLiteDataAccess.RemoveCompany(company.Id);
                 }

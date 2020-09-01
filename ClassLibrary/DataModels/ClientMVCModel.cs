@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ClassLibrary.DataModels
 {
-    class DBClientModel
+    public class ClientMVCModel
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string NIP { get; set; }
         public string Street { get; set; }
         public string PostalCode { get; set; }
@@ -16,6 +16,18 @@ namespace ClassLibrary.DataModels
         public string Name { get; set; }
         public string LastName { get; set; }
         public string CompanyName { get; set; }
+
+        public string FullName { get
+            {
+                if(CompanyName != null && CompanyName.Length > 0)
+                {
+                    return CompanyName;
+                }
+                else
+                {
+                    return $"{ Name } { LastName }";
+                }
+            } }
 
         
     }
