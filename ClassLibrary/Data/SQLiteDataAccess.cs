@@ -52,18 +52,6 @@ namespace ClassLibrary.Data
             {
                 List<CompanyMVCModel> output = cnn.Query<CompanyMVCModel>(sql, new DynamicParameters()).ToList();
                 return output;
-                //if (output != null)
-                //{
-                //    return output;
-                //    foreach (DBCompanyModel model in output)
-                //    {
-                //        result.Add(new CompanyModel(model.Id,model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.PhoneNumber, model.REGON));
-                //    }
-
-                //    return result;
-
-                //}
-                return new List<CompanyMVCModel>();
             }
         }
 
@@ -142,6 +130,65 @@ namespace ClassLibrary.Data
             }
         }
 
+        public static void SaveClient(ClientMVCModel client)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                
+                var output = cnn.Query<object>($"SELECT * FROM Clients WHERE " +
+                    $"FullName='{client.FullName}' AND " +
+                    $"((EmailAddress='{client.EmailAddress}' AND EmailAddress!='') OR " +
+                    $"(NIP='{client.NIP}' AND NIP!='') OR " +
+                    $"(Street='{client.Street}' AND City='{client.City}') OR " +
+                    $"(PhoneNumber='{client.PhoneNumber}' AND PhoneNumber!=''))",
+                    new DynamicParameters());
+                if (!output.Any())
+                {
+                    if (client.Company == true)
+                    {
+                        var obj = new
+                        {
+
+                            Name = client.Name,
+                            LastName = client.LastName,
+                            PhoneNumber = client.PhoneNumber,
+                            EmailAddress = client.EmailAddress,
+                            Street = client.Street,
+                            City = client.City,
+                            PostalCode = client.PostalCode,
+                            NIP = client.NIP,
+                            CompanyName = client.CompanyName,
+                            FullName = client.FullName
+                        };
+                        cnn.Execute("insert into Clients (NIP, PostalCode, Street, City, PhoneNumber, EmailAddress, Name, LastName, FullName, CompanyName)" +
+                            " values (@NIP, @PostalCode, @Street, @City, @PhoneNumber, @EmailAddress,@Name,@LastName, @FullName, @CompanyName)", obj);
+                        client.Id = cnn.Query<int>("select Id from Clients").OrderBy(x => x).Last();
+                    }
+                    else
+                    {
+                        var obj = new
+                        {
+
+                            Name = client.Name,
+                            LastName = client.LastName,
+                            PhoneNumber = client.PhoneNumber,
+                            EmailAddress = client.EmailAddress,
+                            Street = client.Street,
+                            City = client.City,
+                            PostalCode = client.PostalCode,
+                            FullName = client.FullName
+                        };
+                        cnn.Execute("insert into Clients (PostalCode, Street, City, PhoneNumber, EmailAddress, Name, LastName, FullName)" +
+                            " values (@PostalCode, @Street, @City, @PhoneNumber, @EmailAddress,@Name,@LastName, @FullName)", obj);
+                        client.Id = cnn.Query<int>("select Id from Clients").OrderBy(x => x).Last();
+                    }
+                }
+                    
+                
+            }
+            
+        }
+
         public static void EditCompany(CompanyMVCModel company)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
@@ -195,6 +242,7 @@ namespace ClassLibrary.Data
                 cnn.Execute($"DELETE FROM Companies WHERE Id = {id}");
             }
         }
+
 
 
     }
