@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpressiveAnnotations.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -36,26 +37,27 @@ namespace ClassLibrary.DataModels
         [RegularExpression(@"^(\+\d{2})?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}$", ErrorMessage = "Nieprawidłowy number telefonu, prawidłowy format:\n ###-###-###")]
         public string PhoneNumber { get; set; }
 
-        //        [RegularExpression(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{2}[\-\s]?\d{2}$", ErrorMessage = "Nieprawidłowy NIP, prawidłowy format:\n ###-###-##-##")]
-        [Remote(action: "VerifyIfCompanyNIP", controller: "Clients", AdditionalFields = "Company", ErrorMessage = "Nieprawidłowy NIP, prawidłowy format:\n ###-###-##-##")]
+
+        [RequiredIf("Company == true", ErrorMessage = "Pole NIP jest wymgane, ponieważ pole Company jest zaznaczone")]
+        [AssertThat(@"IsRegexMatch(NIP, '^\\d{3}[\\-\\s]?\\d{3}[\\-\\s]?\\d{2}[\\-\\s]?\\d{2}$')", ErrorMessage = "Nieprawidłowy NIP, prawidłowy format:\n ###-###-##-##")]
         public string NIP { get; set; } = "";
-        //******
 
 
-        [Required]
+        [RequiredIf("Company == false", ErrorMessage = "Pole \"Name\" jest wymagane, gdy pole \"Company\" Nie jest zaznaczone" )]
         [StringLength(60, MinimumLength = 2)]
         public string Name { get; set; }
 
-        [Required]
+
+        [RequiredIf("Company == false", ErrorMessage = "Pole \"Last Name\" jest wymagane, gdy pole \"Company\" Nie jest zaznaczone")]
         [StringLength(60, MinimumLength = 3)]
         public string LastName { get; set; }
 
-        [Remote(action: "VerifyIfCompanyNameIsValid", controller: "Clients", AdditionalFields = "Company", ErrorMessage ="Prawidłowa nazwa firmy ma przynajmniej 2 znaki. ")]
+
+        [RequiredIf("Company == true", ErrorMessage = "Pole Company Name jest wymgane, ponieważ pole Company jest zaznaczone" )]
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; } = "";
 
 
-        [Remote(action: "VerifyIfCompany", controller: "Clients", AdditionalFields = "CompanyName, NIP", ErrorMessage ="Przy zaznaczonym polu \"Company\" Pola Company Name oraz NIP są wymagane! ")]
         public bool Company { get; set; } = false;
 
         [Display(Name = "Full Name")]

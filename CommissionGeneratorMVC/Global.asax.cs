@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ExpressiveAnnotations.Attributes;
+using ExpressiveAnnotations.MvcUnobtrusive.Validators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +14,10 @@ namespace CommissionGeneratorMVC
     {
         protected void Application_Start()
         {
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(
+        typeof(RequiredIfAttribute), typeof(RequiredIfValidator));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(
+typeof(AssertThatAttribute), typeof(AssertThatValidator));
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

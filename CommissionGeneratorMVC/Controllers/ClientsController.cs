@@ -66,6 +66,7 @@ namespace CommissionGeneratorMVC.Controllers
         }
 
         // POST: Clients/Create
+        //TODO Fix validation, if company checkBox is checked, CompanyName and NIP are needed, and if it's not checked, FirstName and LastName are needed
         [HttpPost]
         public ActionResult Create(ClientMVCModel client)
         {
@@ -128,62 +129,6 @@ namespace CommissionGeneratorMVC.Controllers
             }
         }
 
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        public JsonResult VerifyIfCompanyNameIsValid(string companyName, bool company)
-       {
-            if(company == false)
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                if(companyName != null && companyName.Length > 1)
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
-            }
 
-            return Json(false,JsonRequestBehavior.AllowGet);
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        public JsonResult VerifyIfCompany(bool company, string companyName, string nip)
-        {
-            if (company == false)
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                if (companyName != null && nip != null && companyName.Length > 0 && nip.Length > 0 )
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
-            }
-
-            return Json(false,JsonRequestBehavior.AllowGet);
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        public JsonResult VerifyIfCompanyNIP(string nip, bool company)
-        {
-            if (company == false)
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                if (nip != null && nip.Length > 0)
-                {
-
-                    return Json(NIPModel.Validate(nip), JsonRequestBehavior.AllowGet);
-                }
-            }
-
-            return Json(false, JsonRequestBehavior.AllowGet);
-        }
     }
 }
