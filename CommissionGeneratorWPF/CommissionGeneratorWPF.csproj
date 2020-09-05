@@ -54,10 +54,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>15545419D2901CFD632A851E94E09676E6FD320B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D6D2A182E202331ECAB887CF4723882477B62413</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>CommissionGeneratorWPF_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>CommissionGeneratorWPF_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -198,6 +198,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="CommissionGeneratorWPF_TemporaryKey.pfx" />
     <None Include="Template\openSourceTemplate.docx" />
     <Resource Include="pumpkin.ico" />
     <EmbeddedResource Include="Properties\Resources.resx">
