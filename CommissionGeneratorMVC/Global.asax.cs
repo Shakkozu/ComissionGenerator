@@ -2,7 +2,9 @@
 using ExpressiveAnnotations.MvcUnobtrusive.Validators;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -22,6 +24,7 @@ typeof(AssertThatAttribute), typeof(AssertThatValidator));
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
         }
     }
 }

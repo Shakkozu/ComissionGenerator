@@ -1462,7 +1462,8 @@ $.extend( $.validator, {
 
 		// https://jqueryvalidation.org/number-method/
 		number: function( value, element ) {
-			return this.optional( element ) || /^(?:-?\d+|-?\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test( value );
+			//Due to en-us numeric validator format in JQuery i had to swap it to pl-pl format (decimal coma separated)
+			return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:\.\d{3})+)?(?:,\d+)?$/.test(value);
 		},
 
 		// https://jqueryvalidation.org/digits-method/

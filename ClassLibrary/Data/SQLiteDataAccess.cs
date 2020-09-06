@@ -40,6 +40,93 @@ namespace ClassLibrary.Data
 
         }
 
+        public static void SaveProduct(ItemMVCModel item)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                if (item != null)
+                {
+                    
+                        var obj = new
+                        {
+                            Cost = item.Cost,
+                            ItemName = item.ItemName,
+                            Description  = item.Description,
+                            ItemUnit = item.ItemUnit
+                        };
+                        cnn.Execute("insert into Products (Cost, ItemName, Description, ItemUnit)" +
+                            " values (@Cost, @ItemName, @Description, @ItemUnit)", obj);
+                        item.Id = cnn.Query<int>("select Id from Products").OrderBy(x => x).Last();
+                    
+                }
+            }
+        }
+
+        public static void EditProduct(ItemMVCModel item)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                if (item != null)
+                {
+                    List<ItemMVCModel> products = LoadProducts();
+                    if (products.Where(x => x.Id == item.Id).FirstOrDefault() != null)
+                    {
+                        var obj = new
+                        {
+                            Cost = item.Cost,
+                            ItemName = item.ItemName,
+                            Description = item.Description,
+                            ItemUnit = item.ItemUnit,
+                            Id = item.Id
+                        };
+                        cnn.Execute("UPDATE Products SET " +
+                            "Cost = @Cost, ItemName = @ItemName, " +
+                            "Description = @Description, ItemUnit = @ItemUnit " +
+                            "WHERE Id = @Id", obj);
+
+                    }
+                }
+            }
+        }
+
+        public static void RemoveProduct(ItemMVCModel item)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                if (item != null)
+                {
+                    List<ItemMVCModel> products = LoadProducts();
+                    if (products.Where(x => x.Id == item.Id).FirstOrDefault() != null)
+                    {
+                        cnn.Execute($"DELETE FROM Products WHERE Id = {item.Id}");
+
+                    }
+                }
+            }
+        }
+
+        public static List<ItemMVCModel> LoadProducts()
+        {
+            string sql = "select * from Products";
+
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                List<ItemMVCModel> output = cnn.Query<ItemMVCModel>(sql, new DynamicParameters()).ToList();
+
+
+                if (output != null)
+                {
+                    return output;
+                }
+                else
+                {
+                    return new List<ItemMVCModel>();
+                }
+
+
+            }
+        }
+
         public static List<ClientMVCModel> LoadMVCClients()
         {
 
