@@ -40,6 +40,31 @@ namespace ClassLibrary.Data
 
         }
 
+        public static List<ClientMVCModel> LoadMVCClients()
+        {
+
+            string sql = "select * from Clients";
+
+            List<ClientMVCModel> result = new List<ClientMVCModel>();
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                List<ClientMVCModel> output = cnn.Query<ClientMVCModel>(sql, new DynamicParameters()).ToList();
+
+
+                if (output != null)
+                {
+                    return output;
+                }
+                else
+                {
+                    return new List<ClientMVCModel>();
+                }
+               
+
+            }
+
+        }
+
         public static List<CompanyMVCModel> LoadCompanies()
         {
             string sql = "select * from Companies";
@@ -55,7 +80,6 @@ namespace ClassLibrary.Data
             }
         }
 
-        //TODO ADD ID
         public static void SaveCompany(CompanyMVCModel company)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
@@ -94,7 +118,43 @@ namespace ClassLibrary.Data
             }
         }
 
-        //TODO ADD ID
+        public static void EditClient(ClientMVCModel client)
+        {
+                using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+                {
+                    if (client != null)
+                    {
+                        List<ClientModel> clients = LoadClients();
+                        if (clients.Where(x => x.Id == client.Id).FirstOrDefault() != null)
+                        {
+                            var obj = new
+                            {
+                                PhoneNumber = client.PhoneNumber,
+                                EmailAddress = client.EmailAddress,
+                                Street = client.Street,
+                                City = client.City,
+                                PostalCode = client.PostalCode,
+                                NIP = client.NIP,
+                                CompanyName = client.CompanyName,
+                                Name = client.Name,
+                                LastName = client.LastName,
+                                FullName = client.FullName,
+                                Id = client.Id
+                            };
+                            cnn.Execute("UPDATE Clients SET " +
+                                "NIP = @NIP, PostalCode = @PostalCode, " +
+                                "Street = @Street, City = @City, " +
+                                "PhoneNumber = @PhoneNumber, EmailAddress = @EmailAddress, " +
+                                "CompanyName = @CompanyName, Name = @Name, " +
+                                "LastName = @LastName, FullName = @FullName " +
+                                "WHERE Id = @Id", obj);
+
+                        }
+                    }
+                }
+            }
+
+
         public static void SaveClient(ClientModel client)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
@@ -125,6 +185,7 @@ namespace ClassLibrary.Data
                         };
                         cnn.Execute("insert into Clients (NIP, PostalCode, Street, City, PhoneNumber, EmailAddress, Name, LastName, FullName, CompanyName)" +
                             " values (@NIP, @PostalCode, @Street, @City, @PhoneNumber, @EmailAddress,@Name,@LastName, @FullName, @CompanyName)", obj);
+                        client.Id = cnn.Query<int>("select Id from Clients").OrderBy(x => x).Last(); 
                     }
                 }
             }
@@ -231,6 +292,15 @@ namespace ClassLibrary.Data
                         $"Street='{client.Address.Street}' AND City='{client.Address.City}' AND " +
                         $"PhoneNumber='{client.PhoneNumber.Number}' AND EmailAddress='{client.EmailAddress.Address}'" +
                         $" AND NIP='{client.NIP.Number}'",
+                        new DynamicParameters());
+            }
+        }
+
+        public static void RemoveClient(int id)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                cnn.Execute($"DELETE FROM Clients WHERE Id={id}",
                         new DynamicParameters());
             }
         }

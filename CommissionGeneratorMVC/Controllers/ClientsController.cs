@@ -15,8 +15,7 @@ namespace CommissionGeneratorMVC.Controllers
         // GET: Clients
         public ActionResult Index()
         {
-            List<ClientModel> clients = SQLiteDataAccess.LoadClients();
-            List<ClientMVCModel> mvcClients = ConvertClientsToMVCModels(clients);
+            List<ClientMVCModel> mvcClients = SQLiteDataAccess.LoadMVCClients();
             return View(mvcClients);
         }
 
@@ -88,17 +87,25 @@ namespace CommissionGeneratorMVC.Controllers
         // GET: Clients/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ClientMVCModel model = SQLiteDataAccess.LoadMVCClients().Where(x => x.Id == id).FirstOrDefault();
+
+            if (model != null)
+            {
+                return View(model);
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Clients/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, ClientMVCModel model)
         {
             try
             {
-                // TODO: Add update logic here
-
+                if(ModelState.IsValid)
+                {
+                    SQLiteDataAccess.EditClient(model);
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -110,22 +117,31 @@ namespace CommissionGeneratorMVC.Controllers
         // GET: Clients/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            ClientMVCModel model = SQLiteDataAccess.LoadMVCClients().Where(x => x.Id == id).FirstOrDefault();
+
+            if (model != null)
+            {
+                return View(model);
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Clients/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, ClientMVCModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                if (model != null)
+                {
+                    SQLiteDataAccess.RemoveClient(model.Id);
+                }
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 
