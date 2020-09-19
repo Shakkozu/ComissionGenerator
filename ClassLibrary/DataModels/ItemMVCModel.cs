@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using Windows.ApplicationModel.Activation;
 
 namespace ClassLibrary.DataModels
 {
@@ -24,6 +25,10 @@ namespace ClassLibrary.DataModels
         [Required]
         [Display(Name ="Item Unit")]
         public ItemUnit ItemUnit { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal TotalPrice { get { return Quantity * Cost; } } 
 
 
 

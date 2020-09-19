@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Windows.Storage.Search;
 
 namespace ClassLibrary
 {
@@ -98,7 +99,23 @@ namespace ClassLibrary
 
 
         #region Constructors
-
+        public ItemModel(string name, string description, decimal quantity, ItemUnit itemunit, decimal cost)
+        {
+            ItemName = name;
+            ItemPrice = cost.ToString() + "PLN";
+            ItemDescription = description;
+            switch (itemunit)
+            {
+                case ItemUnit.m:
+                    Quantity = quantity + " m";
+                    break;
+                case ItemUnit.szt:
+                    Quantity = quantity + " szt";
+                    break;
+                default:
+                    break;
+            }
+        }
         public ItemModel(int id)
         {
             Id = id;

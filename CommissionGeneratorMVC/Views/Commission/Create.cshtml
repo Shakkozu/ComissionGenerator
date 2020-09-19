@@ -1,0 +1,499 @@
+﻿@model ClassLibrary.DataModels.CommissionMVCCreateModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Generate New Commission</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<form>
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <!-- Company section -->
+    <div class="form-group">
+
+        <div class="row">
+
+            <div class="col-md-2">
+                <h3 class="text-center">Company</h3>
+            </div>
+
+
+            <div class="col-md-10">
+                <div class="accordion" id="accordionCompany">
+
+                    <!-- Select exising company -->
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Select Company Existing in Database.
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionCompany">
+                            <div class="card card-body">
+                                @Html.LabelFor(model => model.Companies, htmlAttributes: new { @class = "control-label" })
+                                <div class="btn-group-vertical">
+
+
+                                    @foreach (var company in Model.Companies)
+                                    {
+
+                                        <label class="btn btn-primary col-md-offset-2 col-md-5">
+
+                                            @Html.RadioButtonFor(model => model.SelectedCompany, company.Value)
+                                            @*<input type="radio" name="Model.SelectedCompany" SelectedValue="@company.Value" value="@company.Value" />*@
+                                            @company.Text
+                                        </label>
+
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Create new Company -->
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Create new Company
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCompany">
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationCompany.CompanyName, htmlAttributes: new { @class = "control-label", })
+                                    @Html.EditorFor(model => model.CreationCompany.CompanyName, new { htmlAttributes = new { @class = "form-control", } })
+                                    @Html.ValidationMessageFor(model => model.CreationCompany.CompanyName, "", new { @class = "text-danger", })
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.CreationCompany.NIP, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.CreationCompany.NIP, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CreationCompany.NIP, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.CreationCompany.REGON, htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.CreationCompany.REGON, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CreationCompany.REGON, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.CreationCompany.EmailAddress, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.CreationCompany.EmailAddress, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CreationCompany.EmailAddress, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.CreationCompany.PhoneNumber, htmlAttributes: new { @class = "control-label", })
+                                        @Html.EditorFor(model => model.CreationCompany.PhoneNumber, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CreationCompany.PhoneNumber, "", new { @class = "text-danger", })
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row">
+                                    <div class="form-group col-12 col-md-3">
+                                        @Html.LabelFor(model => model.CreationCompany.City, htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.CreationCompany.City, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CreationCompany.City, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group col-5 col-md-3">
+                                        @Html.LabelFor(model => model.CreationCompany.Street, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.CreationCompany.Street, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CreationCompany.Street, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group col-4 col-md-2">
+                                        @Html.LabelFor(model => model.CreationCompany.PostalCode, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.CreationCompany.PostalCode, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CreationCompany.PostalCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- Clients Section -->
+    <div class="form-group">
+
+
+        <div class="row">
+            <div class="col-md-2">
+                <h3 class="text-center">Client</h3>
+            </div>
+
+
+            <div class="col-md-10">
+                <div class="accordion" id="accordionClient">
+                    <!-- Select exising clients -->
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseClientOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Select Clients Existing in Database.
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseClientOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionClient">
+                            <div class="card card-body">
+
+                                @foreach (var item in Model.Clients)
+                                {
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="SelectedClients"
+                                                   value="@item.Value"
+                                                   @if (Model.SelectedClients.Contains(int.Parse(item.Value))) { <text> checked </text> } /> @item.Text
+                                            </label>
+                                        </div>
+                                    }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Create new Client -->
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseClientTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Create new Client
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseClientTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionClient">
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreationClient.EmailAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.Street, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreationClient.Street, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.City, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreationClient.City, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.PostalCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreationClient.PostalCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreationClient.PhoneNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreationClient.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreationClient.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.Company, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.CreationClient.Company)
+                                            @Html.ValidationMessageFor(model => model.CreationClient.Company, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+
+                                        @Html.ValidationMessageFor(model => model.CreationClient.CompanyName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreationClient.NIP, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreationClient.NIP, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreationClient.NIP, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <hr />
+    <!-- Products Section -->
+    <div class="form-group">
+
+        <div class="row">
+            <div class="col-md-2">
+                <h3 class="text-center">Products</h3>
+            </div>
+
+
+            <div class="col-md-10">
+                <div class="accordion" id="accordionProduct">
+                    <!-- Select exising products -->
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Select Products Existing in Database.
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionProduct">
+                            <div class="card card-body">
+                                <table class="table" table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Product</th>
+                                            <th scope="col">Product Quantity</th>
+                                            <th scope="col">Change Product price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Products.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox"
+                                                                   name="SelectedProducts"
+                                                                   value="@Model.Products[i].Value"
+                                                                   @if (Model.SelectedProducts.Contains(int.Parse(Model.Products[i].Value))) { <text> checked </text> } /> @Model.Products[i].Text
+                                                            </label>
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.EditorFor(x => x.ProductQuantities[i], new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(x => x.ProductQuantities[i], "", new { @class = "text-danger" })
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.EditorFor(x => x.ProductPrices[i], new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(x => x.ProductPrices[i], "", new { @class = "text-danger" })
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        <tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <hr />
+
+    <!-- Creator Section -->
+    <div class="form-group">
+
+        <div class="row">
+
+            <div class="col-md-2">
+                <h3 class="text-center">Creator</h3>
+            </div>
+
+
+            <div class="col-md-10">
+                <div class="accordion" id="accordionCreator">
+
+                    <!-- Select exising creator -->
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCreatorOne" aria-expanded="true" aria-controls="collapseCreatorOne">
+                                    Select Creator Existing in Database.
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseCreatorOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionCreator">
+                            <div class="card card-body">
+                                @Html.LabelFor(model => model.Creators, htmlAttributes: new { @class = "control-label" })
+                                <div class="btn-group-vertical">
+
+
+                                    @foreach (var creator in Model.Creators)
+                                    {
+
+                                        <label class="btn btn-primary col-md-offset-2 col-md-5">
+
+                                            @Html.RadioButtonFor(model => model.SelectedCreator, creator.Value)
+                                            @creator.Text
+                                        </label>
+
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Create new Creator -->
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseCreatorTwo" aria-expanded="false" aria-controls="collapseCreatorTwo">
+                                     New Creator
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseCreatorTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCreator">
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CommissionCreator.Name, htmlAttributes: new { @class = "control-label", })
+                                    @Html.EditorFor(model => model.CommissionCreator.Name, new { htmlAttributes = new { @class = "form-control", } })
+                                    @Html.ValidationMessageFor(model => model.CommissionCreator.Name, "", new { @class = "text-danger", })
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.CommissionCreator.LastName, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.CommissionCreator.LastName, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CommissionCreator.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.CommissionCreator.EmailAddress, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.CommissionCreator.EmailAddress, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CommissionCreator.EmailAddress, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        @Html.LabelFor(model => model.CommissionCreator.PhoneNumber, htmlAttributes: new { @class = "control-label", })
+                                        @Html.EditorFor(model => model.CommissionCreator.PhoneNumber, new { htmlAttributes = new { @class = "form-control col-md-12", } })
+                                        @Html.ValidationMessageFor(model => model.CommissionCreator.PhoneNumber, "", new { @class = "text-danger", })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <hr />
+
+    <hr />
+
+    <!-- Submit -->
+    <div class="form-group text-center">
+
+        <input type="submit" value="Generate Commission" class="btn btn-outline-primary" />
+    </div>
+
+</form>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Home")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

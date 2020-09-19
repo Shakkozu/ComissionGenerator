@@ -1,4 +1,6 @@
-﻿namespace ClassLibrary.Models
+﻿using ClassLibrary.DataModels;
+
+namespace ClassLibrary.Models
 {
     public class PersonalData
     {
@@ -12,6 +14,13 @@
             Company = companyViewModel.Company;
             CommissionCreator = companyViewModel.Creator;
             Client = clientViewModel.Client;
+        }
+
+        public PersonalData(CompanyModel company, ClientModel client, CommissionCreatorModel creator)
+        {
+            Company = company;
+            Client = client;
+            CommissionCreator = creator;
         }
 
 

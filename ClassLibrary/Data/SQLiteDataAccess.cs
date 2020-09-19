@@ -40,6 +40,25 @@ namespace ClassLibrary.Data
 
         }
 
+        public static List<CreatorMVCModel> LoadCreators()
+        {
+            string sql = "select * from Creators";
+
+            List<CreatorMVCModel> result = new List<CreatorMVCModel>();
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                var output = cnn.Query<CreatorMVCModel>(sql, new DynamicParameters()).ToList();
+                if (output != null)
+                {
+                    return output;
+                }
+                else
+                {
+                    return new List<CreatorMVCModel>();
+                }
+            }
+        }
+
         public static void SaveProduct(ItemMVCModel item)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
@@ -124,6 +143,28 @@ namespace ClassLibrary.Data
                 }
 
 
+            }
+        }
+
+        public static void SaveCreator(CreatorMVCModel commissionCreator)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                if (commissionCreator != null)
+                {
+
+                    var obj = new
+                    {
+                        Name = commissionCreator.Name,
+                        LastName = commissionCreator.LastName,
+                        PhoneNumber = commissionCreator.PhoneNumber,
+                        EmailAddress = commissionCreator.EmailAddress
+                    };
+                    cnn.Execute("insert into Creators (Name, LastName, PhoneNumber, EmailAddress)" +
+                        " values (@Name, @LastName, @PhoneNumber, @EmailAddress)", obj);
+                    commissionCreator.Id = cnn.Query<int>("select Id from Creators").OrderBy(x => x).Last();
+
+                }
             }
         }
 

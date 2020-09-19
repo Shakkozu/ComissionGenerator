@@ -1,4 +1,6 @@
-﻿namespace ClassLibrary
+﻿using System.Transactions;
+
+namespace ClassLibrary
 {
     public class CommissionCreatorModel
     {
@@ -24,6 +26,14 @@
         {
             Name = "";
             LastName = "";
+        }
+
+        public CommissionCreatorModel(string name, string lastName, string phoneNumber, string emailAddress)
+        {
+            Name = name;
+            LastName = lastName;
+            PhoneNumber.Number = phoneNumber;
+            EmailAddress.Address = emailAddress;
         }
 
         #endregion

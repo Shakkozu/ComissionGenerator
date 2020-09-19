@@ -6,7 +6,12 @@ namespace ClassLibrary
 {
     public enum ItemUnit
     {
-        PerMeter,
-        PerUnit
+        m,
+        szt
+
     }
+
+
+
+
 }
