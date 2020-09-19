@@ -63,7 +63,7 @@ namespace ClassLibrary.Helpers
 
                 doc.Save();
 
-                Process.Start("WINWORD.EXE", fileName);
+                //Process.Start("WINWORD.EXE", fileName);
             }
 
         }
@@ -161,6 +161,56 @@ namespace ClassLibrary.Helpers
 
 
 
+        }
+
+        public static DocX Test(string fileName, PersonalData UserData, List<ItemModel> Products)
+        {
+
+            Id = 1;
+            DocX doc = DocX.Create(fileName, DocumentTypes.Document);
+
+
+            Paragraph p = InsertActualDate(doc);
+
+
+            /* Personal Data Table */
+            InsertPersonalDataTable(doc, out Table personalDataTable, out Row row);
+            PrettyPersonalDataTable(row);
+
+            //Fill the second row of Personal Data table with actual Company + Client Data
+            row = personalDataTable.Rows[1];
+            row.Cells[0].Paragraphs.First().Append(UserData.Company.ToString());
+
+            row.Cells[1].Paragraphs.First().Append(UserData.Client.ToString());
+
+
+            /* Wares Table */
+            var validProducts = from product in Products
+                                where product.ItemName != "" && product.ItemPrice != "0$"
+                                select product;
+
+            //if There are product filled properly
+            //Add table containing products and their price
+            if (validProducts.Count() > 0)
+            {
+                p = InsertProductInfoParagraph(doc);
+                InsertWaresTable(doc, out Table waresTable, out Row r);
+
+                r = InsertWares(Products, waresTable, r);
+                PrettyWaresTable(waresTable, TableDesign.ColorfulList);
+                decimal totalPrice = CalculateWaresTotalPrice(Products);
+
+                if (totalPrice > 0)
+                {
+                    p = InsertTotalPriceParagraph(doc, totalPrice);
+                }
+
+                InsertCommissionGeneratorTable(UserData, doc);
+
+                //doc.Save();
+
+            }
+            return doc;
         }
 
 

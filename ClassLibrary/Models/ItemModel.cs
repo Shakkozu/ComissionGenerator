@@ -110,7 +110,7 @@ namespace ClassLibrary
                     Quantity = quantity + " m";
                     break;
                 case ItemUnit.szt:
-                    Quantity = quantity + " szt";
+                    Quantity = quantity.ToString();
                     break;
                 default:
                     break;

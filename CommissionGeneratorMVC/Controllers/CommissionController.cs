@@ -9,6 +9,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ClassLibrary.Helpers;
+using System.IO.Compression;
+using System.IO;
+
 namespace CommissionGeneratorMVC.Controllers
 {
     public class CommissionController : Controller
@@ -65,7 +68,6 @@ namespace CommissionGeneratorMVC.Controllers
                 else
                 {
                     documentCompany = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == commissionModel.SelectedCompany).FirstOrDefault();
-
                 }
 
                 //Get Clients information
@@ -106,21 +108,69 @@ namespace CommissionGeneratorMVC.Controllers
                     documentCreator = creators.Where(x => x.Id == commissionModel.SelectedCreator).FirstOrDefault();
                 }
 
-              
+
                 //TODO Add template selection page
-                foreach (var item in documentClients)
+                if (documentClients.Count > 1)
                 {
-                    PersonalData personalData = new PersonalData(documentCompany.ConvertToCompanyModel(),item.ConvertToClientModel(),documentCreator.ConvertToCommissionCreatorModel());
+
+                    foreach (var item in documentClients)
+                    {
+                        PersonalData personalData = new PersonalData(documentCompany.ConvertToCompanyModel(), item.ConvertToClientModel(), documentCreator.ConvertToCommissionCreatorModel());
+
+                        //TODO Download generated file
+                        string path = $"{ Server.MapPath("~") }\\GeneratedDocuments\\{ documentCompany.CompanyName }_{ item.FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
+                        path.Trim();
+                        DocumentHelper.GenerateNewDocument(path,
+                            personalData, products.ConvertToItemModel());
+                    }
+
+                    string zipPath = $"{ Server.MapPath("~") }result.zip";
+                    string folderPath = $"{ Server.MapPath("~") }\\GeneratedDocuments";
+                    ZipFile.CreateFromDirectory(folderPath, zipPath);
+
+                    // Append headers
+                    Response.AppendHeader("content-disposition", $"attachment; filename={ documentCompany.CompanyName }_{ DateTime.Today.ToShortDateString() }.zip");
+                    // Open/Save dialog
+                    Response.ContentType = "application/octet-stream";
+                    // Push it!
+                    Response.TransmitFile(zipPath);
+
+                }
+                else
+                {
+                    PersonalData personalData = new PersonalData(documentCompany.ConvertToCompanyModel(), documentClients.First().ConvertToClientModel(), documentCreator.ConvertToCommissionCreatorModel());
 
                     //TODO Download generated file
-                    //DocumentHelper.GenerateNewDocument("test.docx",personalData, products.ConvertToItemModel());
+                    string path = $"{ Server.MapPath("~") }{ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
+                    path.Trim();
+                    DocumentHelper.GenerateNewDocument(path,
+                        personalData, products.ConvertToItemModel());
+
+                    // Append headers
+                    Response.AppendHeader("content-disposition", $"attachment; filename={ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx");
+                    // Open/Save dialog
+                    Response.ContentType = "application/octet-stream";
+                    // Push it!
+                    Response.TransmitFile(path);
                 }
+
+                Response.End();
+
+                //Remove generated Files from directory
+                foreach (var file in Directory.EnumerateFiles($"{ Server.MapPath("~") }\\GeneratedDocuments"))
+                {
+                    System.IO.File.Delete(file);
+                }
+                //Remove generated ZIP
+                System.IO.File.Delete($"{ Server.MapPath("~") }result.zip");
+
                 return RedirectToAction("Index","Home");
             }
             catch(Exception e)
             {
                 string msg = e.Message;
-                return RedirectToAction("Index", "Home");
+
+                return RedirectToAction("Create", "Commission");
             }
         }
 
