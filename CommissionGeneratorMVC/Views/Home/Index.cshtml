@@ -5,7 +5,7 @@
 <div class="jumbotron">
     <h1>Commission Generator</h1>
     <p class="lead">Commission Generator is a free web application to generating commissions for your clients. You can use your own template, or default one. Infomations about creating templates can be found under "Templates" Page</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Generate Comission &raquo;</a></p>
+    <p>@Html.ActionLink("Generate Commission", "Create", "Commission", new { area = "" }, new { @class = "btn btn-primary btn-lg" })</p>
 </div>
 
 <div class="row">

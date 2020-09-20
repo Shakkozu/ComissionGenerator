@@ -59,6 +59,49 @@ namespace ClassLibrary.Data
             }
         }
 
+        public static void EditCreator(CreatorMVCModel model)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                if (model != null)
+                {
+                    List<CreatorMVCModel> creators = LoadCreators();
+                    if (creators.Where(x => x.Id == model.Id).FirstOrDefault() != null)
+                    {
+                        var obj = new
+                        {
+                            EmailAddress = model.EmailAddress,
+                            LastName = model.LastName, 
+                            Name = model.Name,
+                            PhoneNumber = model.PhoneNumber,
+                            Id = model.Id
+                        };
+                        cnn.Execute("UPDATE Creators SET " +
+                            "EmailAddress = @EmailAddress, LastName = @LastName, " +
+                            "Name = @Name, PhoneNumber = @PhoneNumber " +
+                            "WHERE Id = @Id", obj);
+
+                    }
+                }
+            }
+        }
+
+        public static void RemoveCreator(CreatorMVCModel model)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            {
+                if (model != null)
+                {
+                    List<CreatorMVCModel> creators = LoadCreators();
+                    if (creators.Where(x => x.Id == model.Id).FirstOrDefault() != null)
+                    {
+                        cnn.Execute($"DELETE FROM Creators WHERE Id = {model.Id}");
+
+                    }
+                }
+            }
+        }
+
         public static void SaveProduct(ItemMVCModel item)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))

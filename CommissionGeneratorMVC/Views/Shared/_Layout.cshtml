@@ -8,26 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @*<div class="navbar navbar-expand-lg">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Commission Generator", "Index", "Home", new { area = "" }, new { @class = "navbar-expand-lg" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>*@        <div class="container">
+        <div class="container">
 
         <nav class="navbar navbar-expand-lg container-lg">
 
@@ -46,8 +27,9 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">@Html.ActionLink("Generate Commission", "Create", "Commission", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Clients", "Index", "Clients", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Products", "Index", "Items", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Companies", "Index", "Companies", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Creators", "Index", "Creators", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Products", "Index", "Items", new { area = "" }, new { @class = "nav-link" })</li>
 
                 </ul>
             </div>

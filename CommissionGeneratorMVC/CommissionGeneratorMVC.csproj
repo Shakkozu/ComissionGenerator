@@ -203,6 +203,7 @@
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\CommissionController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\CreatorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -378,6 +379,10 @@
     <Content Include="Views\Items\Delete.cshtml" />
     <Content Include="Views\Commission\Create.cshtml" />
     <Content Include="Views\Shared\_CreateCompany.cshtml" />
+    <Content Include="Views\Creators\Index.cshtml" />
+    <Content Include="Views\Creators\Create.cshtml" />
+    <Content Include="Views\Creators\Edit.cshtml" />
+    <Content Include="Views\Creators\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
