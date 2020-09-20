@@ -411,7 +411,6 @@ namespace ClassLibrary.Data
             }
         }
 
-        //TODO REFACTOR 
         public static void RemoveClient(ClientModel client)
         {
             using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))

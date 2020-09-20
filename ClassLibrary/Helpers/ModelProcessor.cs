@@ -24,7 +24,6 @@ namespace ClassLibrary.Helpers
             return new CommissionCreatorModel(model.Name, model.LastName, model.PhoneNumber, model.EmailAddress);
         }
 
-        //TODO check if it's fine
         public static List<ItemModel> ConvertToItemModel(this List<ItemMVCModel> products)
         {
             List<ItemModel> result = new List<ItemModel>();

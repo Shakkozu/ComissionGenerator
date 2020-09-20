@@ -48,7 +48,10 @@
         {
             Id = id;
             PhoneNumber.Number = phoneNumber;
-            NIP.Number = nip;
+            if (nip != null)
+            {
+                NIP.Number = nip;
+            }
             Address.PostalCode.Number = postalCode;
             Address.City = city;
             Address.Street = street;

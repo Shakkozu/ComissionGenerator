@@ -46,7 +46,6 @@ namespace CommissionGeneratorMVC.Controllers
         [HttpPost]
         public ActionResult Create(CommissionMVCCreateModel commissionModel)
         {
-            //TODO Solve bug that sometimes more clients seems to be checked than expected.
             try
             {
                 
@@ -117,11 +116,10 @@ namespace CommissionGeneratorMVC.Controllers
                     {
                         PersonalData personalData = new PersonalData(documentCompany.ConvertToCompanyModel(), item.ConvertToClientModel(), documentCreator.ConvertToCommissionCreatorModel());
 
-                        //TODO Download generated file
                         string path = $"{ Server.MapPath("~") }\\GeneratedDocuments\\{ documentCompany.CompanyName }_{ item.FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
                         path.Trim();
                         DocumentHelper.GenerateNewDocument(path,
-                            personalData, products.ConvertToItemModel());
+                            personalData, documentsProducts.ConvertToItemModel());
                     }
 
                     string zipPath = $"{ Server.MapPath("~") }result.zip";
@@ -140,7 +138,6 @@ namespace CommissionGeneratorMVC.Controllers
                 {
                     PersonalData personalData = new PersonalData(documentCompany.ConvertToCompanyModel(), documentClients.First().ConvertToClientModel(), documentCreator.ConvertToCommissionCreatorModel());
 
-                    //TODO Download generated file
                     string path = $"{ Server.MapPath("~") }{ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
                     path.Trim();
                     DocumentHelper.GenerateNewDocument(path,

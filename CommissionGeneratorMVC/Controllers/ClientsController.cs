@@ -65,7 +65,6 @@ namespace CommissionGeneratorMVC.Controllers
         }
 
         // POST: Clients/Create
-        //TODO Fix validation, if company checkBox is checked, CompanyName and NIP are needed, and if it's not checked, FirstName and LastName are needed
         [HttpPost]
         public ActionResult Create(ClientMVCModel client)
         {
