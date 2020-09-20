@@ -12,7 +12,7 @@
         public string CompanyName { get; set; } = "";
         public NIPModel NIP { get; set; } = new NIPModel();
 
-        public override string FullName => Company ? CompanyName : $"{Name} {LastName}";
+        public override string FullName => Company ? $"\"{CompanyName}\" {Name} {LastName}" : $"{Name} {LastName}";
 
         //I Assume that valid client has Addres, FirstName + LastName or CompanyName, 
         // and valid email Address or valid Phone number
@@ -48,7 +48,7 @@
         {
             Id = id;
             PhoneNumber.Number = phoneNumber;
-            if (nip != null)
+            if (nip != null && nip != "")
             {
                 NIP.Number = nip;
             }
@@ -56,7 +56,10 @@
             Address.City = city;
             Address.Street = street;
             EmailAddress.Address = emailAddress;
-            CompanyName = companyName;
+            if (companyName != null && companyName != "")
+            {
+                CompanyName = companyName;
+            }
             Name = name;
             LastName = lastName;
             if (companyName != "")

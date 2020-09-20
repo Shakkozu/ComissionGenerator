@@ -73,6 +73,11 @@ namespace CommissionGeneratorMVC.Controllers
                 if(commissionModel.CreationClient.PhoneNumber != null)
                 {
                     SQLiteDataAccess.SaveClient(commissionModel.CreationClient);
+                    if(commissionModel.CreationClient.Company == false)
+                    {
+                        commissionModel.CreationClient.NIP = "";
+                        commissionModel.CreationClient.CompanyName = "";
+                    }
                     documentClients.Add(commissionModel.CreationClient);
                 }
                 foreach (int id in commissionModel.SelectedClients)
