@@ -34,7 +34,7 @@ namespace ClassLibrary.DataModels
 
         [Display(Name = "Contact Number")]
         [Required]
-        [RegularExpression(@"^(\+\d{2})?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}$", ErrorMessage = "Nieprawidłowy number telefonu, prawidłowy format:\n ###-###-###")]
+        [RegularExpression(@"^(\+\d{2})?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}$", ErrorMessage = "Nieprawidłowy numer telefonu, prawidłowy format:\n ###-###-###")]
         public string PhoneNumber { get; set; }
 
 

@@ -153,7 +153,6 @@ namespace ClassLibrary.Helpers
 
 
                     doc.Save();
-                    Process.Start("WINWORD.EXE", fileName);
                 }
             }
 

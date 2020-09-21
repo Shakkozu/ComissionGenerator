@@ -1617,7 +1617,7 @@ $.extend( $.validator, {
 		}
 	}
 
-} );
+});
 
 // Ajax mode: abort
 // usage: $.ajax({ mode: "abort"[, port: "uniqueport"]});

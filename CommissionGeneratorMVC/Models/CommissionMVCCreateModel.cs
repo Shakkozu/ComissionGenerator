@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
+using ClassLibrary.DataModels;
 
-namespace ClassLibrary.DataModels
+namespace CommissionGeneratorMVC.Models
 {
     public class CommissionMVCCreateModel
     {
@@ -39,6 +41,9 @@ namespace ClassLibrary.DataModels
         public List<SelectListItem> Creators { get; set; }
         public CreatorMVCModel CommissionCreator { get; set; }
         public int SelectedCreator { get; set; }
+
+        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.docx|.doc|.odt)$", ErrorMessage = "Only doc files allowed.")]
+        public HttpPostedFileBase PostedFile { get; set; }
 
 
     }

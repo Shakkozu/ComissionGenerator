@@ -11,7 +11,7 @@ using System.Web.Mvc;
 using ClassLibrary.Helpers;
 using System.IO.Compression;
 using System.IO;
-
+using CommissionGeneratorMVC.Models;
 namespace CommissionGeneratorMVC.Controllers
 {
     public class CommissionController : Controller
@@ -21,6 +21,7 @@ namespace CommissionGeneratorMVC.Controllers
         public ActionResult Create()
         {
             CommissionMVCCreateModel commission = new CommissionMVCCreateModel();
+            
 
             List<CompanyMVCModel> companies = SQLiteDataAccess.LoadCompanies();
             commission.Companies = companies.Select(x => new SelectListItem { Text = x.CompanyName, Value = x.Id.ToString() }).ToList();
@@ -48,18 +49,17 @@ namespace CommissionGeneratorMVC.Controllers
         {
             try
             {
-                
                 CompanyMVCModel documentCompany = new CompanyMVCModel();
                 CreatorMVCModel documentCreator = new CreatorMVCModel();
-                List <ClientMVCModel> documentClients = new List<ClientMVCModel>();
+                List<ClientMVCModel> documentClients = new List<ClientMVCModel>();
                 List<ItemMVCModel> documentsProducts = new List<ItemMVCModel>();
 
-                List <ClientMVCModel> clients = SQLiteDataAccess.LoadMVCClients();
-                List <ItemMVCModel> products = SQLiteDataAccess.LoadProducts();
+                List<ClientMVCModel> clients = SQLiteDataAccess.LoadMVCClients();
+                List<ItemMVCModel> products = SQLiteDataAccess.LoadProducts();
                 List<CreatorMVCModel> creators = SQLiteDataAccess.LoadCreators();
-                
+
                 // Get Company information
-                if(commissionModel.CreationCompany.CompanyName != null)
+                if (commissionModel.CreationCompany.CompanyName != null)
                 {
                     SQLiteDataAccess.SaveCompany(commissionModel.CreationCompany);
                     documentCompany = commissionModel.CreationCompany;
@@ -70,10 +70,10 @@ namespace CommissionGeneratorMVC.Controllers
                 }
 
                 //Get Clients information
-                if(commissionModel.CreationClient.PhoneNumber != null)
+                if (commissionModel.CreationClient.PhoneNumber != null)
                 {
                     SQLiteDataAccess.SaveClient(commissionModel.CreationClient);
-                    if(commissionModel.CreationClient.Company == false)
+                    if (commissionModel.CreationClient.Company == false)
                     {
                         commissionModel.CreationClient.NIP = "";
                         commissionModel.CreationClient.CompanyName = "";
@@ -89,13 +89,13 @@ namespace CommissionGeneratorMVC.Controllers
                 foreach (int id in commissionModel.SelectedProducts)
                 {
                     ItemMVCModel product = products.Where(x => x.Id == id).FirstOrDefault();
-                    
+
                     product.Quantity = commissionModel.ProductQuantities[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())];
                     if (commissionModel.ProductPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())] != 0)
                     {
                         product.Cost = commissionModel.ProductPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())];
                     }
-                    
+
                     documentsProducts.Add(product);
                 }
 
@@ -111,7 +111,13 @@ namespace CommissionGeneratorMVC.Controllers
                 {
                     documentCreator = creators.Where(x => x.Id == commissionModel.SelectedCreator).FirstOrDefault();
                 }
-
+                string fileName;
+                // Saving uploaded file
+                if(commissionModel.PostedFile != null)
+                {
+                    fileName = Path.GetFileName(commissionModel.PostedFile.FileName);
+                    commissionModel.PostedFile.SaveAs(Server.MapPath("~/Uploads") + fileName);
+                }
 
                 //TODO Add template selection page
                 if (documentClients.Count > 1)
@@ -123,8 +129,17 @@ namespace CommissionGeneratorMVC.Controllers
 
                         string path = $"{ Server.MapPath("~") }\\GeneratedDocuments\\{ documentCompany.CompanyName }_{ item.FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
                         path.Trim();
-                        DocumentHelper.GenerateNewDocument(path,
-                            personalData, documentsProducts.ConvertToItemModel());
+                        if (commissionModel.PostedFile != null)
+                        {
+                            //TODO CHANGE FALSE TO BOOL PARAM
+                            DocumentHelper.GenerateDocumentFromTemplate(Server.MapPath("~/Uploads") + Path.GetFileName(commissionModel.PostedFile.FileName),
+                                path, personalData, documentsProducts.ConvertToItemModel(),false);
+                        }
+                        else
+                        {
+                            DocumentHelper.GenerateNewDocument(path,
+                                                            personalData, documentsProducts.ConvertToItemModel());
+                        }
                     }
 
                     string zipPath = $"{ Server.MapPath("~") }result.zip";
@@ -137,6 +152,7 @@ namespace CommissionGeneratorMVC.Controllers
                     Response.ContentType = "application/octet-stream";
                     // Push it!
                     Response.TransmitFile(zipPath);
+                    Response.End();
 
                 }
                 else
@@ -145,30 +161,46 @@ namespace CommissionGeneratorMVC.Controllers
 
                     string path = $"{ Server.MapPath("~") }{ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
                     path.Trim();
-                    DocumentHelper.GenerateNewDocument(path,
-                        personalData, products.ConvertToItemModel());
-
+                    if (commissionModel.PostedFile != null)
+                    {
+                        //TODO CHANGE FALSE TO BOOL PARAM
+                        DocumentHelper.GenerateDocumentFromTemplate(Server.MapPath("~/Uploads") + Path.GetFileName(commissionModel.PostedFile.FileName),
+                            path, personalData, documentsProducts.ConvertToItemModel(), false);
+                    }
+                    else
+                    {
+                        DocumentHelper.GenerateNewDocument(path,
+                            personalData, products.ConvertToItemModel());
+                    }
                     // Append headers
                     Response.AppendHeader("content-disposition", $"attachment; filename={ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx");
                     // Open/Save dialog
                     Response.ContentType = "application/octet-stream";
                     // Push it!
                     Response.TransmitFile(path);
+                    Response.End();
                 }
 
-                Response.End();
+
+
 
                 //Remove generated Files from directory
-                foreach (var file in Directory.EnumerateFiles($"{ Server.MapPath("~") }\\GeneratedDocuments"))
+                foreach (var filePath in Directory.EnumerateFiles($"{ Server.MapPath("~") }\\GeneratedDocuments"))
                 {
-                    System.IO.File.Delete(file);
+                    System.IO.File.Delete(filePath);
+                }
+                foreach (var filePath in Directory.EnumerateFiles($"{ Server.MapPath("~") }\\Uploads"))
+                {
+                    System.IO.File.Delete(filePath);
                 }
                 //Remove generated ZIP
                 System.IO.File.Delete($"{ Server.MapPath("~") }result.zip");
 
-                return RedirectToAction("Index","Home");
+
+
+                return RedirectToAction("Index", "Home");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 string msg = e.Message;
 
