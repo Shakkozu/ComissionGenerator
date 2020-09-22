@@ -103,7 +103,14 @@ namespace ClassLibrary
         {
             ItemName = name;
             ItemPrice = cost.ToString() + "PLN";
-            ItemDescription = description;
+            if (description != null)
+            {
+                ItemDescription = description;
+            }
+            else
+            {
+                ItemDescription = "";
+            }
             switch (itemunit)
             {
                 case ItemUnit.m:

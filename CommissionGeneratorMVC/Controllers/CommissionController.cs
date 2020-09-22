@@ -58,6 +58,7 @@ namespace CommissionGeneratorMVC.Controllers
                 List<ItemMVCModel> products = SQLiteDataAccess.LoadProducts();
                 List<CreatorMVCModel> creators = SQLiteDataAccess.LoadCreators();
 
+                string documentsStorageFolder = Server.MapPath("~") + "GeneratedDocuments\\";
                 // Get Company information
                 if (commissionModel.CreationCompany.CompanyName != null)
                 {
@@ -116,7 +117,7 @@ namespace CommissionGeneratorMVC.Controllers
                 if(commissionModel.PostedFile != null)
                 {
                     fileName = Path.GetFileName(commissionModel.PostedFile.FileName);
-                    commissionModel.PostedFile.SaveAs(Server.MapPath("~/Uploads") + fileName);
+                    commissionModel.PostedFile.SaveAs(Server.MapPath("~") + "Uploads\\" + fileName);
                 }
 
                 //TODO Add template selection page
@@ -127,12 +128,12 @@ namespace CommissionGeneratorMVC.Controllers
                     {
                         PersonalData personalData = new PersonalData(documentCompany.ConvertToCompanyModel(), item.ConvertToClientModel(), documentCreator.ConvertToCommissionCreatorModel());
 
-                        string path = $"{ Server.MapPath("~") }\\GeneratedDocuments\\{ documentCompany.CompanyName }_{ item.FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
+                        string path = $"{documentsStorageFolder}{ documentCompany.CompanyName }_{ item.FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
                         path.Trim();
                         if (commissionModel.PostedFile != null)
                         {
                             //TODO CHANGE FALSE TO BOOL PARAM
-                            DocumentHelper.GenerateDocumentFromTemplate(Server.MapPath("~/Uploads") + Path.GetFileName(commissionModel.PostedFile.FileName),
+                            DocumentHelper.GenerateDocumentFromTemplate($"{Server.MapPath("~")}\\Uploads\\{Path.GetFileName(commissionModel.PostedFile.FileName)}",
                                 path, personalData, documentsProducts.ConvertToItemModel(),false);
                         }
                         else
@@ -142,7 +143,7 @@ namespace CommissionGeneratorMVC.Controllers
                         }
                     }
 
-                    string zipPath = $"{ Server.MapPath("~") }result.zip";
+                    string zipPath = $"{ Server.MapPath("~") }GeneratedZips\\result.zip";
                     string folderPath = $"{ Server.MapPath("~") }\\GeneratedDocuments";
                     ZipFile.CreateFromDirectory(folderPath, zipPath);
 
@@ -158,8 +159,9 @@ namespace CommissionGeneratorMVC.Controllers
                 else
                 {
                     PersonalData personalData = new PersonalData(documentCompany.ConvertToCompanyModel(), documentClients.First().ConvertToClientModel(), documentCreator.ConvertToCommissionCreatorModel());
+                    string path = $"{documentsStorageFolder}{ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
 
-                    string path = $"{ Server.MapPath("~") }{ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
+                    //string path = $"{ Server.MapPath("~") }{ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
                     path.Trim();
                     if (commissionModel.PostedFile != null)
                     {
@@ -183,18 +185,8 @@ namespace CommissionGeneratorMVC.Controllers
 
 
 
-
-                //Remove generated Files from directory
-                foreach (var filePath in Directory.EnumerateFiles($"{ Server.MapPath("~") }\\GeneratedDocuments"))
-                {
-                    System.IO.File.Delete(filePath);
-                }
-                foreach (var filePath in Directory.EnumerateFiles($"{ Server.MapPath("~") }\\Uploads"))
-                {
-                    System.IO.File.Delete(filePath);
-                }
-                //Remove generated ZIP
-                System.IO.File.Delete($"{ Server.MapPath("~") }result.zip");
+                DeleteFiles();
+                
 
 
 
@@ -202,11 +194,29 @@ namespace CommissionGeneratorMVC.Controllers
             }
             catch (Exception e)
             {
+                DeleteFiles();
                 string msg = e.Message;
 
                 return RedirectToAction("Create", "Commission");
             }
         }
 
+        private void DeleteFiles()
+        {
+            //Remove generated Files from directory
+            foreach (var filePath in Directory.EnumerateFiles($"{ Server.MapPath("~") }GeneratedDocuments"))
+            {
+                System.IO.File.Delete(filePath);
+            }
+            foreach (var filePath in Directory.EnumerateFiles($"{ Server.MapPath("~") }Uploads"))
+            {
+                System.IO.File.Delete(filePath);
+            }
+            //Remove generated ZIP
+            foreach (var filePath in Directory.EnumerateFiles($"{ Server.MapPath("~") }GeneratedZips"))
+            {
+                System.IO.File.Delete(filePath);
+            }
+        }
     }
 }

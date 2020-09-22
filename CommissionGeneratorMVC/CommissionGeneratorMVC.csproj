@@ -390,6 +390,7 @@
     <Folder Include="App_LocalResources\" />
     <Folder Include="Assets\" />
     <Folder Include="GeneratedDocuments\" />
+    <Folder Include="GeneratedZips\" />
     <Folder Include="Uploads\" />
     <Folder Include="Validators\" />
   </ItemGroup>
