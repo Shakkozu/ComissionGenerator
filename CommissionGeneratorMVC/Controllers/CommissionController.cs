@@ -37,7 +37,7 @@ namespace CommissionGeneratorMVC.Controllers
             commission.Products = products.Select(x => new SelectListItem { Text = $"{ x.ItemName }, { x.Cost }zł / {x.ItemUnit} " , Value = x.Id.ToString() }).ToList();
 
             products.ForEach(x => commission.ProductQuantities.Add(1));
-            products.ForEach(x => commission.ProductPrices.Add(0));
+            products.ForEach(x => commission.ProductPrices.Add(x.Cost));
             
             return View(commission);
         }
@@ -92,7 +92,7 @@ namespace CommissionGeneratorMVC.Controllers
                     ItemMVCModel product = products.Where(x => x.Id == id).FirstOrDefault();
 
                     product.Quantity = commissionModel.ProductQuantities[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())];
-                    if (commissionModel.ProductPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())] != 0)
+                    if (commissionModel.ProductPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())] != products.Where(x => x.Id == id).First().Cost)
                     {
                         product.Cost = commissionModel.ProductPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())];
                     }
