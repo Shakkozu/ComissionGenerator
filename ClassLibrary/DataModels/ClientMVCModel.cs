@@ -47,7 +47,7 @@ namespace ClassLibrary.DataModels
         [StringLength(60, MinimumLength = 2)]
         public string Name { get; set; }
 
-
+        [Display(Name = "Last Name")]
         [RequiredIf("Company == false", ErrorMessage = "Pole \"Last Name\" jest wymagane, gdy pole \"Company\" Nie jest zaznaczone")]
         [StringLength(60, MinimumLength = 3)]
         public string LastName { get; set; }
