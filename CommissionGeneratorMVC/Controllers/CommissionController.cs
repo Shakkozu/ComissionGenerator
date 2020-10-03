@@ -49,6 +49,15 @@ namespace CommissionGeneratorMVC.Controllers
             try
             {
 
+                if ((commissionModel.Clients == null && commissionModel.CreationClient.PhoneNumber == null) ||
+                   (commissionModel.Companies == null && commissionModel.CreationCompany.PhoneNumber == null) ||
+                   (commissionModel.Creators == null && commissionModel.CommissionCreator.PhoneNumber == null) ||
+                   (commissionModel.Products == null && commissionModel.SelectedProducts == null))
+                {
+                    return RedirectToAction("Create", "Commission");
+                }
+
+
                 string documentsStorageFolder = Server.MapPath("~") + "GeneratedDocuments\\";
 
                 // Get Company information

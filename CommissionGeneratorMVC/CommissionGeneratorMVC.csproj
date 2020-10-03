@@ -390,6 +390,7 @@
     <Folder Include="Assets\" />
     <Folder Include="GeneratedDocuments\" />
     <Folder Include="GeneratedZips\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Uploads\" />
     <Folder Include="Validators\" />
   </ItemGroup>
