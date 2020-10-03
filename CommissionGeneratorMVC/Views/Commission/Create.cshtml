@@ -499,9 +499,6 @@
                     <br />
                     @Html.ValidationMessageFor(m => m.PostedFile, "", new { @class = "error" })
                     <hr />
-                    <input type="submit" value="Upload" />
-                    <br />
-                    <span style="color:green">@Html.Raw(ViewBag.Message)</span>
 
 
                 </div>
@@ -518,20 +515,7 @@
 
 
 }
-@*@using (Html.BeginForm("Create", "Commission", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-        <div>
-            @Html.TextBox("file", "", new { type = "file" }) <br />
 
-            <input type="submit" value="Upload" />
-
-            @ViewBag.Message
-
-        </div>
-
-
-    }*@
 <div>
     @Html.ActionLink("Back to List", "Index", "Home")
 </div>

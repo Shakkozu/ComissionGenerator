@@ -8,7 +8,6 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ClassLibrary.Helpers;
 using System.IO.Compression;
 using System.IO;
 using CommissionGeneratorMVC.Models;
@@ -49,69 +48,25 @@ namespace CommissionGeneratorMVC.Controllers
         {
             try
             {
-                CompanyMVCModel documentCompany = new CompanyMVCModel();
-                CreatorMVCModel documentCreator = new CreatorMVCModel();
-                List<ClientMVCModel> documentClients = new List<ClientMVCModel>();
-                List<ItemMVCModel> documentsProducts = new List<ItemMVCModel>();
-
-                List<ClientMVCModel> clients = SQLiteDataAccess.LoadMVCClients();
-                List<ItemMVCModel> products = SQLiteDataAccess.LoadProducts();
-                List<CreatorMVCModel> creators = SQLiteDataAccess.LoadCreators();
 
                 string documentsStorageFolder = Server.MapPath("~") + "GeneratedDocuments\\";
+
                 // Get Company information
-                if (commissionModel.CreationCompany.CompanyName != null)
-                {
-                    SQLiteDataAccess.SaveCompany(commissionModel.CreationCompany);
-                    documentCompany = commissionModel.CreationCompany;
-                }
-                else
-                {
-                    documentCompany = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == commissionModel.SelectedCompany).FirstOrDefault();
-                }
+                CompanyMVCModel documentCompany = GetCompanyInformation(commissionModel.CreationCompany, commissionModel.SelectedCompany);
 
                 //Get Clients information
-                if (commissionModel.CreationClient.PhoneNumber != null)
-                {
-                    SQLiteDataAccess.SaveClient(commissionModel.CreationClient);
-                    if (commissionModel.CreationClient.Company == false)
-                    {
-                        commissionModel.CreationClient.NIP = "";
-                        commissionModel.CreationClient.CompanyName = "";
-                    }
-                    documentClients.Add(commissionModel.CreationClient);
-                }
-                foreach (int id in commissionModel.SelectedClients)
-                {
-                    documentClients.Add(clients.Where(x => x.Id == id).FirstOrDefault());
-                }
+                List<ClientMVCModel> documentClients = GetClientsInformation(commissionModel.CreationClient, commissionModel.SelectedClients);
+
 
                 //Get Products information
-                foreach (int id in commissionModel.SelectedProducts)
-                {
-                    ItemMVCModel product = products.Where(x => x.Id == id).FirstOrDefault();
+                List<ItemMVCModel> documentProducts = GetProductsInformation(commissionModel.SelectedProducts, commissionModel.ProductPrices, commissionModel.ProductQuantities);
 
-                    product.Quantity = commissionModel.ProductQuantities[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())];
-                    if (commissionModel.ProductPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())] != products.Where(x => x.Id == id).First().Cost)
-                    {
-                        product.Cost = commissionModel.ProductPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())];
-                    }
-
-                    documentsProducts.Add(product);
-                }
 
                 //Get Creator information
-                //From form
-                if (commissionModel.CommissionCreator.Name != null && commissionModel.CommissionCreator.Name.Length > 0)
-                {
-                    SQLiteDataAccess.SaveCreator(commissionModel.CommissionCreator);
-                    documentCreator = commissionModel.CommissionCreator;
-                }
-                //From selection
-                else
-                {
-                    documentCreator = creators.Where(x => x.Id == commissionModel.SelectedCreator).FirstOrDefault();
-                }
+                CreatorMVCModel documentCreator = GetCreatorInformation(commissionModel.CommissionCreator, commissionModel.SelectedCreator);
+
+
+
                 string fileName;
                 // Saving uploaded file
                 if(commissionModel.PostedFile != null)
@@ -120,7 +75,7 @@ namespace CommissionGeneratorMVC.Controllers
                     commissionModel.PostedFile.SaveAs(Server.MapPath("~") + "Uploads\\" + fileName);
                 }
 
-                //TODO Add template selection page
+                //TODO Let user choose between creating DocX/Pdf
                 if (documentClients.Count > 1)
                 {
 
@@ -132,14 +87,13 @@ namespace CommissionGeneratorMVC.Controllers
                         path.Trim();
                         if (commissionModel.PostedFile != null)
                         {
-                            //TODO CHANGE FALSE TO BOOL PARAM
                             DocumentHelper.GenerateDocumentFromTemplate($"{Server.MapPath("~")}\\Uploads\\{Path.GetFileName(commissionModel.PostedFile.FileName)}",
-                                path, personalData, documentsProducts.ConvertToItemModel(),false);
+                                path, personalData, documentProducts.ConvertToItemModel(),true);
                         }
                         else
                         {
                             DocumentHelper.GenerateNewDocument(path,
-                                                            personalData, documentsProducts.ConvertToItemModel());
+                                                            personalData, documentProducts.ConvertToItemModel());
                         }
                     }
 
@@ -161,18 +115,16 @@ namespace CommissionGeneratorMVC.Controllers
                     PersonalData personalData = new PersonalData(documentCompany.ConvertToCompanyModel(), documentClients.First().ConvertToClientModel(), documentCreator.ConvertToCommissionCreatorModel());
                     string path = $"{documentsStorageFolder}{ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
 
-                    //string path = $"{ Server.MapPath("~") }{ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx";
-                    path.Trim();
+                     path.Trim();
                     if (commissionModel.PostedFile != null)
                     {
-                        //TODO CHANGE FALSE TO BOOL PARAM
                         DocumentHelper.GenerateDocumentFromTemplate(Server.MapPath("~/Uploads") + Path.GetFileName(commissionModel.PostedFile.FileName),
-                            path, personalData, documentsProducts.ConvertToItemModel(), false);
+                            path, personalData, documentProducts.ConvertToItemModel(), true);
                     }
                     else
                     {
                         DocumentHelper.GenerateNewDocument(path,
-                            personalData, products.ConvertToItemModel());
+                            personalData, documentProducts.ConvertToItemModel());
                     }
                     // Append headers
                     Response.AppendHeader("content-disposition", $"attachment; filename={ documentCompany.CompanyName }_{ documentClients.First().FullName.Replace("\"", "") }_{ DateTime.Today.ToShortDateString() }.docx");
@@ -199,6 +151,83 @@ namespace CommissionGeneratorMVC.Controllers
 
                 return RedirectToAction("Create", "Commission");
             }
+        }
+
+        private CreatorMVCModel GetCreatorInformation(CreatorMVCModel commissionCreator, int selectedCreator)
+        {
+            CreatorMVCModel result = new CreatorMVCModel();
+            List<CreatorMVCModel> creators = SQLiteDataAccess.LoadCreators();
+
+            // Gets created creator information, and save him to DB
+            if (commissionCreator.Name != null && commissionCreator.Name.Length > 0)
+            {
+                SQLiteDataAccess.SaveCreator(commissionCreator);
+                result = commissionCreator;
+            }
+            // Load selected creator
+            else
+            {
+                result = creators.Where(x => x.Id == selectedCreator).FirstOrDefault();
+            }
+            return result;
+        }
+
+        private List<ItemMVCModel> GetProductsInformation(List<int> selectedProducts, List<decimal> productPrices, List<int> productQuantities)
+        {
+            List<ItemMVCModel> products = SQLiteDataAccess.LoadProducts();
+            List<ItemMVCModel> result = new List<ItemMVCModel>();
+            foreach (int id in selectedProducts)
+            {
+                ItemMVCModel product = products.Where(x => x.Id == id).FirstOrDefault();
+
+                product.Quantity = productQuantities[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())];
+
+                //If product price loaded from application differs from price loaded from DB, change the price for this document
+                if (productPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())] != products.Where(x => x.Id == id).First().Cost)
+                {
+                    product.Cost = productPrices[products.IndexOf(products.Where(x => x.Id == id).FirstOrDefault())];
+                }
+
+                result.Add(product);
+            }
+            return result;
+        }
+
+        private List<ClientMVCModel> GetClientsInformation(ClientMVCModel creationClient, List<int> selectedClients)
+        {
+            List<ClientMVCModel> clients = SQLiteDataAccess.LoadMVCClients();
+            List<ClientMVCModel> result = new List<ClientMVCModel>();
+
+            if (creationClient.PhoneNumber != null)
+            {
+                SQLiteDataAccess.SaveClient(creationClient);
+                if (creationClient.Company == false)
+                {
+                    creationClient.NIP = "";
+                    creationClient.CompanyName = "";
+                }
+                result.Add(creationClient);
+            }
+            foreach (int id in selectedClients)
+            {
+                result.Add(clients.Where(x => x.Id == id).FirstOrDefault());
+            }
+            return result;
+        }
+
+        private CompanyMVCModel GetCompanyInformation(CompanyMVCModel creationCompany, int selectedCompany)
+        {
+            CompanyMVCModel result = new CompanyMVCModel();
+            if (creationCompany.CompanyName != null)
+            {
+                SQLiteDataAccess.SaveCompany(creationCompany);
+                result = creationCompany;
+            }
+            else
+            {
+                result = SQLiteDataAccess.LoadCompanies().Where(x => x.Id == selectedCompany).FirstOrDefault();
+            }
+            return result;
         }
 
         private void DeleteFiles()
