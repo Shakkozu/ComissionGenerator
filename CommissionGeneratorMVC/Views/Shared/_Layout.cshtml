@@ -36,13 +36,17 @@
 
         </nav>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr class="bg-light" />
-        <footer class="text-center">
-            <p>Comission Generator &copy; @DateTime.Now.Year Shakkozu </p>
-        </footer>
-    </div>
+
+        <div class="container body-content">
+            <div class="alert alert-info" role="alert">
+                This is sample application. Data put in database should not be real, because it's public, and can be accessed by every person. Data can be also removed from database and it's not stored locally.
+            </div>
+            @RenderBody()
+            <hr class="bg-light" />
+            <footer class="text-center">
+                <p>Comission Generator &copy; @DateTime.Now.Year Shakkozu </p>
+            </footer>
+        </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
