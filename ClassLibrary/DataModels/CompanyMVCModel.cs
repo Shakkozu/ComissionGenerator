@@ -25,20 +25,20 @@ namespace ClassLibrary.DataModels
 
         [Required]
         [Display(Name = "Postal Code")]
-        [RegularExpression(@"\d{2}[\s\-]?\d{3}$", ErrorMessage = "Nieprawidłowy kod pocztowy, prawidłowy format:\n ##-###")]
+        [RegularExpression(@"\d{2}[\s\-]?\d{3}$", ErrorMessage = "Invalid postal code, valid format:\n ##-###")]
         public string PostalCode { get; set; }
 
         [Display(Name = "Contact Number")]
         [Required]
-        [RegularExpression(@"^(\+\d{2})?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}$", ErrorMessage = "Nieprawidłowy number telefonu, prawidłowy format:\n ###-###-###")]
+        [RegularExpression(@"^(\+\d{2})?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}$", ErrorMessage = "Invalid phone number, valid format:\n ###-###-###")]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [RegularExpression(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{2}[\-\s]?\d{2}$", ErrorMessage = "Nieprawidłowy NIP, prawidłowy format:\n ###-###-##-##")]
+        [RegularExpression(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{2}[\-\s]?\d{2}$", ErrorMessage = "Invalid NIP number, valid format:\n ###-###-##-##")]
         public string NIP { get; set; }
 
         [Required]
-        [RegularExpression(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{3}$", ErrorMessage = "Nieprawidłowy REGON, prawidłowy format:\n ##########")]
+        [RegularExpression(@"^\d{3}[\-\s]?\d{3}[\-\s]?\d{3}$", ErrorMessage = "Invalid REGON number, valid format:\n ##########")]
         public string REGON { get; set; }
 
         [Display(Name = "Company Name")]

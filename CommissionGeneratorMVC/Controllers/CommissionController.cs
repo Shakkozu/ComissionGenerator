@@ -48,6 +48,7 @@ namespace CommissionGeneratorMVC.Controllers
         {
             try
             {
+               
 
                 string documentsStorageFolder = Server.MapPath("~") + "GeneratedDocuments\\";
 
@@ -65,6 +66,10 @@ namespace CommissionGeneratorMVC.Controllers
                 //Get Creator information
                 CreatorMVCModel documentCreator = GetCreatorInformation(commissionModel.CommissionCreator, commissionModel.SelectedCreator);
 
+                if(documentCompany == null || documentClients.Count == 0 || documentProducts.Count == 0 || documentCreator == null)
+                {
+                    return RedirectToAction("Create", "Commission");
+                }
 
 
                 string fileName;

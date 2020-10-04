@@ -7,7 +7,7 @@ namespace ClassLibrary
     public enum ItemUnit
     {
         m,
-        szt
+        piece,
 
     }
 

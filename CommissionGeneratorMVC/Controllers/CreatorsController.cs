@@ -38,7 +38,7 @@ namespace CommissionGeneratorMVC.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("Create");
             }
         }
 

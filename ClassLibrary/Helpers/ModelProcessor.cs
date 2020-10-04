@@ -12,15 +12,18 @@ namespace ClassLibrary.Helpers
 
         public static CompanyModel ConvertToCompanyModel(this CompanyMVCModel model)
         {
+            if (model == null) return new CompanyModel();
             return new CompanyModel(model.Id, model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.PhoneNumber, model.REGON);
         }
 
         public static ClientModel ConvertToClientModel(this ClientMVCModel model)
         {
+            if (model == null) return new ClientModel();
             return new ClientModel(model.Id, model.NIP, model.PostalCode, model.City, model.Street, model.EmailAddress, model.CompanyName, model.Name, model.LastName, model.PhoneNumber);
         }
         public static CommissionCreatorModel ConvertToCommissionCreatorModel(this CreatorMVCModel model)
         {
+            if (model == null) return new CommissionCreatorModel();
             return new CommissionCreatorModel(model.Name, model.LastName, model.PhoneNumber, model.EmailAddress);
         }
 

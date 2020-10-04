@@ -7,7 +7,7 @@ namespace ClassLibrary.Data
 {
     public class GlobalConfig
     {
-        public static string CnnString(string name = "DBFilepath")
+        public static string CnnString(string name = "DBConnectionString")
         {
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
         }

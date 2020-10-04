@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
 
@@ -21,7 +22,7 @@ namespace ClassLibrary.Data
             string sql = "select * from Clients";
 
             List<ClientModel> result = new List<ClientModel>();
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 var output = cnn.Query<ClientMVCModel>(sql, new DynamicParameters());
 
@@ -45,9 +46,9 @@ namespace ClassLibrary.Data
             string sql = "select * from Creators";
 
             List<CreatorMVCModel> result = new List<CreatorMVCModel>();
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
-                var output = cnn.Query<CreatorMVCModel>(sql, new DynamicParameters()).ToList();
+                   var output = cnn.Query<CreatorMVCModel>(sql, new DynamicParameters()).ToList();
                 if (output != null)
                 {
                     return output;
@@ -61,7 +62,7 @@ namespace ClassLibrary.Data
 
         public static void EditCreator(CreatorMVCModel model)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (model != null)
                 {
@@ -88,7 +89,7 @@ namespace ClassLibrary.Data
 
         public static void RemoveCreator(CreatorMVCModel model)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (model != null)
                 {
@@ -104,7 +105,7 @@ namespace ClassLibrary.Data
 
         public static void SaveProduct(ItemMVCModel item)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (item != null)
                 {
@@ -126,7 +127,7 @@ namespace ClassLibrary.Data
 
         public static void EditProduct(ItemMVCModel item)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (item != null)
                 {
@@ -153,7 +154,7 @@ namespace ClassLibrary.Data
 
         public static void RemoveProduct(ItemMVCModel item)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (item != null)
                 {
@@ -171,7 +172,7 @@ namespace ClassLibrary.Data
         {
             string sql = "select * from Products";
 
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 List<ItemMVCModel> output = cnn.Query<ItemMVCModel>(sql, new DynamicParameters()).ToList();
 
@@ -191,7 +192,7 @@ namespace ClassLibrary.Data
 
         public static void SaveCreator(CreatorMVCModel commissionCreator)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (commissionCreator != null)
                 {
@@ -214,11 +215,16 @@ namespace ClassLibrary.Data
         public static List<ClientMVCModel> LoadMVCClients()
         {
 
-            string sql = "select * from Clients";
-
+            string sql = "select * from [dbo].Clients";
+            
             List<ClientMVCModel> result = new List<ClientMVCModel>();
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
+
+                //}
+                // using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
+                // {
                 List<ClientMVCModel> output = cnn.Query<ClientMVCModel>(sql, new DynamicParameters()).ToList();
 
 
@@ -230,7 +236,7 @@ namespace ClassLibrary.Data
                 {
                     return new List<ClientMVCModel>();
                 }
-               
+
 
             }
 
@@ -242,9 +248,8 @@ namespace ClassLibrary.Data
 
             List<CompanyModel> result = new List<CompanyModel>();
 
-            string connstring = ConfigurationManager.ConnectionStrings["DBFilepath"].ConnectionString;
-            
-            using (IDbConnection cnn = new SQLiteConnection(connstring))
+
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString("DBConnectionString")))
             {
                 List<CompanyMVCModel> output = cnn.Query<CompanyMVCModel>(sql, new DynamicParameters()).ToList();
                 return output;
@@ -253,7 +258,7 @@ namespace ClassLibrary.Data
 
         public static void SaveCompany(CompanyMVCModel company)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (company != null)
                 {
@@ -291,7 +296,7 @@ namespace ClassLibrary.Data
 
         public static void EditClient(ClientMVCModel client)
         {
-                using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+                using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
                 {
                     if (client != null)
                     {
@@ -328,7 +333,7 @@ namespace ClassLibrary.Data
 
         public static void SaveClient(ClientModel client)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (client.IsValid)
                 {
@@ -364,7 +369,7 @@ namespace ClassLibrary.Data
 
         public static void SaveClient(ClientMVCModel client)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 
                 var output = cnn.Query<object>($"SELECT * FROM Clients WHERE " +
@@ -423,7 +428,7 @@ namespace ClassLibrary.Data
 
         public static void EditCompany(CompanyMVCModel company)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 if (company != null)
                 {
@@ -456,7 +461,7 @@ namespace ClassLibrary.Data
 
         public static void RemoveClient(ClientModel client)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 cnn.Execute($"DELETE FROM Clients WHERE FullName='{client.FullName}' AND " +
                         $"Street='{client.Address.Street}' AND City='{client.Address.City}' AND " +
@@ -468,7 +473,7 @@ namespace ClassLibrary.Data
 
         public static void RemoveClient(int id)
         {
-            using (IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using (IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 cnn.Execute($"DELETE FROM Clients WHERE Id={id}",
                         new DynamicParameters());
@@ -477,7 +482,7 @@ namespace ClassLibrary.Data
 
         public static void RemoveCompany(int id)
         {
-            using(IDbConnection cnn = new SQLiteConnection(GlobalConfig.CnnString()))
+            using(IDbConnection cnn = new SqlConnection(GlobalConfig.CnnString()))
             {
                 cnn.Execute($"DELETE FROM Companies WHERE Id = {id}");
             }

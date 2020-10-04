@@ -116,7 +116,7 @@ namespace ClassLibrary
                 case ItemUnit.m:
                     Quantity = quantity + " m";
                     break;
-                case ItemUnit.szt:
+                case ItemUnit.piece:
                     Quantity = quantity.ToString();
                     break;
                 default:
