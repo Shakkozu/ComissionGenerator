@@ -405,9 +405,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\" />
-    <Folder Include="GeneratedDocuments\" />
-    <Folder Include="GeneratedZips\" />
-    <Folder Include="Uploads\" />
     <Folder Include="Validators\" />
   </ItemGroup>
   <ItemGroup>

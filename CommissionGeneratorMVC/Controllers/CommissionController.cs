@@ -48,9 +48,31 @@ namespace CommissionGeneratorMVC.Controllers
         {
             try
             {
-               
+
+                string zipFolderPath = $"{ Server.MapPath("~") }GeneratedZips";
+                string docsFolderPath = $"{ Server.MapPath("~") }GeneratedDocuments";
 
                 string documentsStorageFolder = Server.MapPath("~") + "GeneratedDocuments\\";
+                string zipPath = $"{ Server.MapPath("~") }GeneratedZips\\result.zip";
+
+                string uploadsFolderPath = $"{ Server.MapPath("~") }Uploads";
+                string uploadsStorageFolder = $"{uploadsFolderPath}\\";
+
+                if (!Directory.Exists(uploadsFolderPath))
+                {
+                    Directory.CreateDirectory(uploadsFolderPath);
+                }
+
+
+
+                if (!Directory.Exists(docsFolderPath))
+                {
+                    Directory.CreateDirectory(docsFolderPath);
+                }
+                if (!Directory.Exists(zipFolderPath))
+                {
+                    Directory.CreateDirectory(zipFolderPath);
+                }
 
                 // Get Company information
                 CompanyMVCModel documentCompany = GetCompanyInformation(commissionModel.CreationCompany, commissionModel.SelectedCompany);
@@ -80,7 +102,6 @@ namespace CommissionGeneratorMVC.Controllers
                     commissionModel.PostedFile.SaveAs(Server.MapPath("~") + "Uploads\\" + fileName);
                 }
 
-                //TODO Let user choose between creating DocX/Pdf
                 if (documentClients.Count > 1)
                 {
 
@@ -102,9 +123,7 @@ namespace CommissionGeneratorMVC.Controllers
                         }
                     }
 
-                    string zipPath = $"{ Server.MapPath("~") }GeneratedZips\\result.zip";
-                    string folderPath = $"{ Server.MapPath("~") }\\GeneratedDocuments";
-                    ZipFile.CreateFromDirectory(folderPath, zipPath);
+                    ZipFile.CreateFromDirectory(docsFolderPath, zipPath);
 
                     // Append headers
                     Response.AppendHeader("content-disposition", $"attachment; filename={ documentCompany.CompanyName }_{ DateTime.Today.ToShortDateString() }.zip");
@@ -123,7 +142,7 @@ namespace CommissionGeneratorMVC.Controllers
                      path.Trim();
                     if (commissionModel.PostedFile != null)
                     {
-                        DocumentHelper.GenerateDocumentFromTemplate(Server.MapPath("~/Uploads") + Path.GetFileName(commissionModel.PostedFile.FileName),
+                        DocumentHelper.GenerateDocumentFromTemplate(uploadsStorageFolder + Path.GetFileName(commissionModel.PostedFile.FileName),
                             path, personalData, documentProducts.ConvertToItemModel(), true);
                     }
                     else
