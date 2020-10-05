@@ -263,9 +263,10 @@ namespace ClassLibrary.Data
                 if (company != null)
                 {
                     var o = cnn.Query<object>($"SELECT * FROM Companies WHERE " +
+                        $"(NIP='{company.NIP}' AND NIP!='') OR " +
+                        $"(REGON='{company.REGON}' AND REGON!='') OR " +
                         $"CompanyName='{company.CompanyName}' AND " +
                         $"((EmailAddress='{company.EmailAddress}' AND EmailAddress!='') OR " +
-                        $"(NIP='{company.NIP}' AND NIP!='') OR " +
                         $"(Street='{company.Street}' AND City='{company.City}') OR " +
                         $"(PhoneNumber='{company.PhoneNumber}' AND PhoneNumber!=''))",
                         new DynamicParameters());

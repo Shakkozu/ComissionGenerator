@@ -13,9 +13,10 @@ namespace CommissionGeneratorMVC
             //add link to jquery on the CDN
             var jqueryCdnPath = "https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js";
 
-            bundles.Add(new ScriptBundle("~/bundles/jquery",
-                        jqueryCdnPath).Include(
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
+
+            var bootstrapCdnPath = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css";
 
             //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
             //            "~/Scripts/jquery-{version}.js"));
@@ -34,6 +35,7 @@ namespace CommissionGeneratorMVC
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/Site.css"));
         }
     }

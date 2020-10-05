@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpressiveAnnotations.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,6 +14,7 @@ namespace ClassLibrary.DataModels
 
         [DataType(DataType.Currency)]
         [Required]
+        [Range(0.1,100000)]
         public decimal Cost { get; set; }
 
         [Display(Name = "Item Name")]

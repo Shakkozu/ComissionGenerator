@@ -77,8 +77,9 @@ namespace CommissionGeneratorMVC.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception e)
             {
+                var errur = e.Message;
                 return RedirectToAction("Create");
             }
         }
