@@ -1,6 +1,7 @@
 # ComissionGenerator
 This project purpose is to create open-source helpful Commission Generator.
 
+# WPF 
 The user will enter his company data, which will be stored locally as serialized json file, and loaded during application starts.
 Application has built-in local database which stores information about clients (user can add/remove/load client from database by using buttons).
 New entry is inserted into database, during commission generation.
@@ -11,6 +12,20 @@ After entering information about client, wares and company, user can generate ne
 If user is using template file, he can decide whether to replace values or full sentences (i.e. 'Email: example@google.com / example@google.com')
 
 My first thought was to write this application in UWP (Universal Windows Platform), however, due to problems with file permissions i decided to port this app to WPF (Windows Presentation Foundation).
+
+# ASP.NET MVC
+I decided, to port this application also to ASP.NET MVC5 project.
+
+During this port I decided to swtich from saving informations as files, to use database.
+
+I decided to use SQLite, because this task doesn't need any more advanced database engine.
+
+
+# Demo
+Demo application is available on: https://commissiongeneratorshakkozu.azurewebsites.net/
+
+During testing application please notice that database needs some time to 'wake up'. After few proceeded requests, speed database speed should bd ok.
+
 
 With project i also include prepared file template, which may be extended.
 
