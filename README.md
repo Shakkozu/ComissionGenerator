@@ -24,7 +24,7 @@ I decided to use SQLite, because this task doesn't need any more advanced databa
 # Demo
 Demo application is available on: https://commissiongeneratorshakkozu.azurewebsites.net/
 
-During testing application please notice that database needs some time to 'wake up'. After few proceeded requests, speed database speed should bd ok.
+During testing application please notice that database needs some time to 'wake up'. After few proceeded requests, database query execution time should be acceptable.
 
 
 With project i also include prepared file template, which may be extended.
