@@ -340,3 +340,14 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+#Library files
+/CommissionGeneratorMVC/Content/bootstrap*
+Scripts/
+
+
+# asax file
+*.asax
+/CommissionGeneratorMVC/libman.json
+
+
